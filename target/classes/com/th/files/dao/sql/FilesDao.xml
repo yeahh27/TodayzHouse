@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="FilesDao">
+  	<insert id="insertFile" parameterType="FilesVO">
+  		INSERT INTO FILES (
+							   FILE_ID
+							   , BOARD_ID
+							   , ARTICLE_ID
+							   , ORIGIN_FILE_NAME
+							   , FILE_NAME
+							   , CONTENT
+		) VALUES ( 
+								'FL-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(FILE_ID_SEQ.NEXTVAL, 6, '0')
+								, #{boardId}
+								, #{articleId}
+								, #{originFileName}
+								, #{fileName}
+								, #{content}
+		)
+  	</insert>
+  	
+  	<select id="selectAllFiles" parameterType="map" resultType="FilesVO">
+  		SELECT	FILE_ID
+  				, BOARD_ID
+  				, ARTICLE_ID
+  				, ORIGIN_FILE_NAME
+  				, FILE_NAME
+  				, CONTENT
+		FROM	FILES
+		WHERE	BOARD_ID = #{boardId}
+		AND		ARTICLE_ID = #{articleId}
+  	</select>
+  	
+  	<select id="selectOneFile" parameterType="map" resultType="FilesVO">
+  		SELECT	FILE_ID
+  				, BOARD_ID
+  				, ARTICLE_ID
+  				, ORIGIN_FILE_NAME
+  				, FILE_NAME
+  				, CONTENT
+		FROM	FILES
+		WHERE	BOARD_ID = #{boardId}
+		AND		ARTICLE_ID = #{articleId}
+		AND		FILE_ID = #{fileId}
+  	</select>
+  	
+  	<update id="updateArticle" parameterType="FilesVO">
+  	
+  	</update>
+  
+  	<delete id="deleteOneArticle" parameterType="map">
+  		DELETE
+  		FROM	FILES
+  		WHERE	BOARD_ID = #{boardId}
+		AND		ARTICLE_ID = #{articleId}
+		AND		FILE_ID = #{fileId}
+  	</delete>
+  
+  </mapper>

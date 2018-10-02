@@ -7,7 +7,6 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-	<!-- 공통기능 (Rollback, Commit) 빈 생성 -->
 	<bean	id="transactionManager"
 			class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />		
@@ -26,10 +25,11 @@
 
 	<!-- Transaction(Commit, Rollback) 대상 클래스 지정 -->
 	<aop:config>
-		<aop:pointcut expression="execution( * com.ktds..service.*ServiceImpl.*(..) )" id="trasactionPointcut"/>
+		<aop:pointcut expression="execution( * com.th..service.*ServiceImpl.*(..) )" id="trasactionPointcut"/>
 		<aop:advisor advice-ref="transactionAdvisor" pointcut-ref="trasactionPointcut"/>
 	</aop:config>
 	
+
 	<!-- DBCP -->
 	<bean	id="dataSource"
 			class="org.apache.commons.dbcp.BasicDataSource">
@@ -40,10 +40,10 @@
 	</bean>
 	
 	<!-- Spring JDBC 생성 -->
-	<bean	id="jdbcTemplate"
+	<!-- <bean	id="jdbcTemplate"
 			class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
-	</bean>
+	</bean> -->
 	
 	<!-- Java와 Database를 연동시켜주는 객체
 		 SqlSession == Database와 연결되어 있는 객체
@@ -51,7 +51,7 @@
 	<bean	id="sqlSessionFactory"
 			class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
- 		<property name="mapperLocations" value="classpath:com/ktds/**/dao/sql/*.xml" />
+ 		<property name="mapperLocations" value="classpath:com/th/**/dao/sql/*.xml" />
 		<property name="configLocation" value="classpath:mybatis.xml" /> 
 	</bean>
 	

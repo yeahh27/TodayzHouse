@@ -11,7 +11,7 @@
 		페이지를 찾을 수 없습니다.
 	</p>
 	<p>
-		<a href="/HelloSpring/board/list">홈으로 돌아가기</a>
+		<a href="/TodayzHouse/">홈으로 돌아가기</a>
 	</p>
 </body>
 </html>

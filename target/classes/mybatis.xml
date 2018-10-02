@@ -6,10 +6,11 @@
   <configuration>
   	
   	<typeAliases>
-  		<typeAlias type="com.ktds.member.vo.MemberVO" alias="MemberVO"/>
-  		<typeAlias type="com.ktds.board.vo.BoardVO" alias="BoardVO"/>
-  		<typeAlias type="com.ktds.board.vo.BoardSearchVO" alias="BoardSearchVO"/>
-  		<typeAlias type="com.ktds.reply.vo.ReplyVO" alias="ReplyVO"/>
+  		<typeAlias type="com.th.files.vo.FilesVO" alias="FilesVO"/>
+  		<typeAlias type="com.th.member.vo.MemberVO" alias="MemberVO"/>
+  		<typeAlias type="com.th.article.vo.ArticleVO" alias="ArticleVO"/>
+  		<typeAlias type="com.th.article.vo.ArticleSearchVO" alias="ArticleSearchVO"/>
+  		<!-- <typeAlias type="com.ktds.reply.vo.ReplyVO" alias="ReplyVO"/>  -->
   	</typeAliases>
   	
   </configuration>

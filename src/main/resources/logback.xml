@@ -53,7 +53,7 @@
     </encoder>
   </appender> -->
   
-  <logger level="debug" name="com.ktds">
+  <logger level="debug" name="com.th">
   	<appender-ref ref="param" />
   </logger>
   

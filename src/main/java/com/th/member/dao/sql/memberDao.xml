@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="MemberDao">
+  	<insert id="insertMember" parameterType="MemberVO">
+  		INSERT INTO MEMBERS (
+				    			EMAIL
+				    			, PASSWORD
+				    			, NAME
+				    			, SALT
+				    			, POINT
+				    			, CHAT_OK
+				    			, LOGIN_FAIL_COUNT
+				    			, DELETE_ART_COUNT
+		) VALUES ( 
+								#{email}
+								, #{password}
+								, #{name}
+								, #{salt}
+								, 100
+								, #{chatOk}
+								, 0
+								, #{deleteArtCount}
+		)
+  	</insert>
+  	
+  	<select id="isDuplicateEmail" parameterType="string" resultType="_int">
+  		SELECT	COUNT(1)
+  		FROM	MEMBERS
+  		WHERE	EMAIL = #{email}
+  	</select>
+  	
+  	<select id="selectOneMember" parameterType="MemberVO" resultType="MemberVO">
+  		SELECT	EMAIL
+  				, NAME
+  				, PASSWORD
+  				, POINT
+  				, CHAT_OK
+  				, DELETE_ART_COUNT
+  		FROM	MEMBERS
+  		WHERE	EMAIL = #{email}
+  		AND		PASSWORD = #{password}
+  		AND		LOGIN_FAIL_COUNT <![CDATA[<]]> 3
+  	</select>
+  	
+  	<select id="getSaltById" parameterType="string" resultType="string">
+  		SELECT	SALT
+  		FROM	MEMBERS
+  		WHERE	EMAIL = #{email}
+  	</select>
+  	
+  	<select id="isBlockUser" parameterType="string" resultType="_int">
+  		SELECT	LOGIN_FAIL_COUNT
+  		FROM	MEMBERS
+  		WHERE	EMAIL = #{email}
+  	</select>
+  	
+  	<update id="unblockUser" parameterType="string">
+  		UPDATE	MEMBERS
+  		SET		LOGIN_FAIL_COUNT = 0
+  		WHERE	EMAIL = #{email}
+  	</update>
+  	
+  	<update id="blockUser" parameterType="string">
+  		UPDATE	MEMBERS 
+  		SET		LOGIN_FAIL_COUNT = LOGIN_FAIL_COUNT + 1
+  				, LAST_LOGIN = SYSDATE
+ 		WHERE   EMAIL = #{email}
+  	</update>
+  	
+  	<update id="increaseLoginFailCount" parameterType="string">
+  		UPDATE	MEMBERS 
+  		SET		LOGIN_FAIL_COUNT = LOGIN_FAIL_COUNT + 1
+  				, LAST_LOGIN = SYSDATE 
+ 		WHERE   EMAIL = #{email}
+  	</update>
+  </mapper>

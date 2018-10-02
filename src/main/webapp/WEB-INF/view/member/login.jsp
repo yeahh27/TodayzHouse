@@ -1,39 +1,58 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="/HelloSpring/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+
+<jsp:include page="/WEB-INF/view/common/layout_header.jsp"/>
+
 <script type="text/javascript">
 	$().ready(function() {
-		$(".btnLogin").click(function() {
-			$.post("", )
+		$(".loginBtn").click(function() {
+			
+			if($("#email").val() == "") {
+				alert("이메일을 입력하세요!");
+				$("#email").focus();
+				return;
+			}
+			
+			if($("#password").val() == "") {
+				alert("비밀번호를 입력하세요!");
+				$("#password").focus();
+				return;
+			}
+			
+			$.post("/TodayzHouse/member/login"
+				   , $("#loginData").serialize()
+				   , function(response) {
+					   if(response.status) {
+							//alert("로그인되었습니다.")
+							location.href="/TodayzHouse/"
+						} else {
+							alert("로그인에 실패하였습니다.")
+							location.href="/TodayzHouse/member/login"
+						}
+					}
+			)
 		})
 	})
 </script>
-</head>
-<body>
-	<h1>회원 로그인하기</h1>
-	<form:form id="loginData" modelAttribute="memberVO" action="/HelloSpring/member/login" method="post">
-		<div class="errors">
+
+	<h1>LOGIN</h1>
+	<form:form id="loginData" modelAttribute="memberVO" >
+	<div class="errors">
 			<ul>
 				<li><form:errors path="email" /></li>
 				<li><form:errors path="password" /></li>
 			</ul>
 		</div>
-		<div>
-			<input type="email" name="email" placeholder="Email" value="${memberVO.email}"/>
-		</div>
-		<div>
-			<input type="password" name="password" placeholder="Password" value="${memberVO.password}" />	
-		</div>
-		<div>
-			<!-- <input type="submit" value="로그인" /> -->
-			<input type="button" class="btnLogin" value="로그인" />
-		</div>
+	<div>
+		<input type="email" name="email" id="email" placeholder="EMAIL" value="" />
+	</div>
+	<div>
+		<input type="password" name="password" id="password" placeholder="PASSWORD" value="" />
+	</div>
+	<div>
+		<input type="button" class="loginBtn" value="로그인" />
+	</div>
 	</form:form>
-</body>
-</html>
+
+<jsp:include page="/WEB-INF/view/common/layout_footer.jsp"/>

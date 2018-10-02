@@ -16,7 +16,7 @@
 		<a href="">고객센터 바로가기</a>
 	</p>
 	<p>
-		<a href="/HelloSpring/board/list">홈으로 돌아가기</a>
+		<a href="/TodayzHouse/">홈으로 돌아가기</a>
 	</p>
 </body>
 </html>

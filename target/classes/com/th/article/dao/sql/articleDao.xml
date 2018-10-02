@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="ArticleDao">
+  	<insert id="insertArticle" parameterType="ArticleVO">
+  		INSERT INTO ARTICLES (
+  								 BOARD_ID
+  								 , ARTICLE_ID
+							     , TITLE
+							     , CONTENT
+							     , EMAIL
+							     , ORIGIN_FILE_NAME
+							     , FILE_NAME
+							     , REG_DATE
+							     , MODIFY_DATE
+							     , VIEW_COUNT
+							     , RECOMMEND
+							     , REPORT
+		) VALUES (
+								 #{boardId}
+								 , 'AT' || #{boardId} || '-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(ARTICLE_ID_SEQ.NEXTVAL, 6, '0')
+								 , #{title}
+								 , #{content}
+								 , #{email}
+								 , #{originFileName}
+								 , #{fileName}
+								 , SYSDATE
+								 , SYSDATE
+								 , 0
+								 , 0
+								 , 0
+		)
+  	</insert>
+  	
+  	<resultMap type="ArticleVO" id="articleResultMap">
+  		<id property="articleId" column="ARTICLE_ID"/>
+  		<result property="boardId" column="BOARD_ID"/>
+  		<result property="title" column="TITLE"/>
+  		<result property="content" column="CONTENT"/>
+  		<result property="email" column="A_EMAIL"/>
+  		<result property="originFileName" column="ORIGIN_FILE_NAME"/>
+  		<result property="fileName" column="FILE_NAME"/>
+  		<result property="regDate" column="REG_DATE"/>
+  		<result property="modifyDate" column="MODIFY_DATE"/>
+  		<result property="viewCount" column="VIEW_COUNT"/>
+  		<result property="recommend" column="RECOMMEND"/>
+  		<result property="report" column="REPORT"/>
+  		<association property="memberVO" javaType="MemberVO">
+  			<id property="email" column="M_EMAIL"/>
+	  		<result property="name" column="NAME"/>
+	  		<result property="point" column="POINT"/>
+  		</association>
+  		
+  	</resultMap>
+  	
+  	<select id="selectAllArticles" parameterType="ArticleSearchVO" resultMap="articleResultMap">
+  		SELECT	*
+  		FROM	(
+  					SELECT	A.*
+  							, ROWNUM RNUM
+  					FROM	(
+  								SELECT	A.BOARD_ID
+						  				, A.ARTICLE_ID
+						  				, A.TITLE
+						  				, A.CONTENT
+						  				, A.EMAIL A_EMAIL
+						  				, A.ORIGIN_FILE_NAME
+						  				, A.FILE_NAME
+						  				, A.REG_DATE
+						  				, A.MODIFY_DATE
+						  				, A.VIEW_COUNT
+						  				, A.RECOMMEND
+						  				, A.REPORT
+						  				, M.EMAIL M_EMAIL
+						  				, M.NAME
+						  				, M.POINT
+						  		FROM	ARTICLES A
+						  				, MEMBERS M
+						  		WHERE	A.EMAIL = M.EMAIL
+						  		AND 	A.BOARD_ID = #{boardId}
+						  		<if test="searchKeyword != null and searchKeyword != ''" >
+								AND		TITLE LIKE '%' || #{searchKeyword} || '%'
+								</if>
+								ORDER	BY ARTICLE_ID DESC
+  							) A
+  					WHERE	ROWNUM <![CDATA[<=]]> #{endRow} 
+  				)
+  		WHERE	RNUM >= #{startRow}
+  	</select>
+  	
+  	<select id="selectAllArticlesCount" parameterType="ArticleSearchVO" resultType="_int">
+  		SELECT	COUNT(1)
+  		FROM	ARTICLES A
+  				, MEMBERS M
+  		WHERE	A.EMAIL = M.EMAIL
+  		AND		A.BOARD_ID = #{boardId}
+  		<if test="searchKeyword != null and searchKeyword != ''">
+  		AND		TITLE LIKE '%' || #{searchKeyword} || '%'
+  		</if>
+  	</select>
+  	
+  	<select id="selectOneArticle" parameterType="map" resultMap="articleResultMap">
+  		SELECT	A.BOARD_ID
+  				, A.ARTICLE_ID
+  				, A.TITLE
+  				, A.CONTENT
+  				, A.EMAIL A_EMAIL
+  				, A.ORIGIN_FILE_NAME
+  				, A.FILE_NAME
+  				, A.REG_DATE
+  				, A.MODIFY_DATE
+  				, A.VIEW_COUNT
+  				, A.RECOMMEND
+  				, A.REPORT
+  				, M.EMAIL M_EMAIL
+  				, M.NAME
+  				, M.POINT
+  		FROM	ARTICLES A
+  				, MEMBERS M
+  		WHERE	A.EMAIL = M.EMAIL
+  		AND 	A.BOARD_ID = #{boardId}
+  		AND		A.ARTICLE_ID = #{articleId}
+  	</select>
+  	
+  	<update id="updateArticle" parameterType="ArticleVO">
+  		UPDATE	ARTICLES
+		SET     TITLE = #{title}
+		        , CONTENT = #{content}
+		        , ORIGIN_FILE_NAME = #{originFileName}
+		        , FILE_NAME = #{fileName}
+		        , MODIFY_DATE = SYSDATE
+		WHERE   BOARD_ID = #{boardId}
+		AND		ARTICLE_ID = #{articleId}
+  	</update>
+  	
+  	<delete id="deleteOneArticle" parameterType="map">
+  		DELETE	
+  		FROM	ARTICLES
+  		WHERE	BOARD_ID = #{boardId}
+  		AND		ARTICLE_ID = #{articleId}
+  	</delete>
+  </mapper>
