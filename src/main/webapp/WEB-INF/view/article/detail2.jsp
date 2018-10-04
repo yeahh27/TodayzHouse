@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/view/common/layout_header.jsp"/>
-	<h1>DETAIL1</h1>
+	<h1>DETAIL2</h1>
 
 	<h2>${articleVO.title}
 		<span style="font-size: 10pt">${articleVO.articleId}</span>

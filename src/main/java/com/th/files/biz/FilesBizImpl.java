@@ -41,18 +41,26 @@ public class FilesBizImpl implements FilesBiz {
 	}
 
 	@Override
-	public int updateArticle(FilesVO filesVO) {
-		return this.filesDao.updateArticle(filesVO);
+	public int updateFile(FilesVO filesVO) {
+		return this.filesDao.updateFile(filesVO);
 	}
 
 	@Override
-	public int deleteOneArticle(int boardId, String articleId, String fileId) {
+	public int deleteOneFile(int boardId, String articleId, String fileId) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("boardId", boardId);
 		param.put("articleId", articleId);
 		param.put("fileId", fileId);
 		
-		return this.filesDao.deleteOneArticle(param);
+		return this.filesDao.deleteOneFile(param);
 	}
 
+	@Override
+	public int deleteFilesByArticle(int boardId, String articleId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("boardId", boardId);
+		param.put("articleId", articleId);
+		
+		return this.filesDao.deleteFilesByArticle(param);
+	}
 }

@@ -23,7 +23,7 @@ public class ArticleBizImpl implements ArticleBiz {
 	private ArticleDao articleDao;
 
 	@Override
-	public int insertArticle(ArticleVO articleVO) {
+	public Map<String, Object>  insertArticle(ArticleVO articleVO) {
 		return this.articleDao.insertArticle(articleVO);
 	}
 

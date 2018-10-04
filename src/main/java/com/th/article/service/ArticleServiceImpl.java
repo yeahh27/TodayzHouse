@@ -1,6 +1,7 @@
 package com.th.article.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.th.article.biz.ArticleBiz;
 import com.th.article.dao.ArticleDao;
 import com.th.article.vo.ArticleSearchVO;
 import com.th.article.vo.ArticleVO;
+import com.th.files.biz.FilesBiz;
 import com.th.member.vo.MemberVO;
 
 import io.github.seccoding.web.pager.explorer.PageExplorer;
@@ -18,10 +20,19 @@ public class ArticleServiceImpl implements ArticleService {
 	
 	@Autowired
 	private ArticleBiz articleBiz;
+	
+	@Autowired
+	private FilesBiz filesBiz;
 
 	@Override
 	public boolean createArticle(ArticleVO articleVO) {
-		return this.articleBiz.insertArticle(articleVO) > 0;
+		Map<String, Object> result = this.articleBiz.insertArticle(articleVO);
+		int insertArticleResult = (int) result.get("insertArticleResult");
+		if(articleVO.getFileVO().getFile() != null) {
+			articleVO.getFileVO().setArticleId(result.get("articleId").toString());
+			this.filesBiz.insertFile(articleVO.getFileVO());
+		}
+		return insertArticleResult > 0;
 	}
 	
 	@Override
@@ -46,6 +57,10 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public boolean deleteArticle(int boardId, String articleId) {
+		System.out.println("aaaaaaaaaaaaaa" +this.filesBiz.selectAllFiles(boardId, articleId)  );
+		if(this.filesBiz.selectAllFiles(boardId, articleId) != null) {
+			this.filesBiz.deleteFilesByArticle(boardId, articleId);
+		}
 		return this.articleBiz.deleteOneArticle(boardId, articleId) > 0;
 	}
 

@@ -1,5 +1,6 @@
 package com.th.article.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +27,14 @@ public class ArticleDaoImpl extends SqlSessionDaoSupport implements ArticleDao {
 	}
 	
 	@Override
-	public int insertArticle(ArticleVO articleVO) {
-		return getSqlSession().insert("ArticleDao.insertArticle", articleVO);
+	public Map<String, Object> insertArticle(ArticleVO articleVO) {
+		Map<String, Object> result = new HashMap<>();
+		int insertArticleResult = getSqlSession().insert("ArticleDao.insertArticle", articleVO);
+		
+		result.put("insertArticleResult", insertArticleResult);
+		result.put("articleId", articleVO.getArticleId());
+		
+		return result;
 	}
 	
 	@Override
@@ -47,7 +54,8 @@ public class ArticleDaoImpl extends SqlSessionDaoSupport implements ArticleDao {
 	
 	@Override
 	public int updateArticle(ArticleVO articleVO) {
-		return getSqlSession().update("ArticleDao.updateArticle", articleVO);
+		//return getSqlSession().update("ArticleDao.updateArticle", articleVO);
+		return 0;
 	}
 
 	@Override

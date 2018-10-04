@@ -31,6 +31,7 @@ import com.th.article.vo.ArticleSearchVO;
 import com.th.article.vo.ArticleVO;
 import com.th.common.session.Session;
 import com.th.common.web.DownloadUtil;
+import com.th.files.vo.FilesVO;
 import com.th.member.vo.MemberVO;
 
 import io.github.seccoding.web.pager.explorer.PageExplorer;
@@ -53,7 +54,7 @@ public class ArticleController {
 	
 	@PostMapping("/board/{boardId}/articleWrite")
 	public ModelAndView doArticleWriteAction(@PathVariable int boardId, @Valid @ModelAttribute ArticleVO articleVO, Errors errors
-													, HttpSession session, HttpServletRequest request) {
+											,@ModelAttribute FilesVO filesVO, HttpSession session, HttpServletRequest request) {
 		
 		String sessionToken = (String) session.getAttribute(Session.CSRF_TOKEN);
 		if(!articleVO.getToken().equals(sessionToken)) {
@@ -62,36 +63,37 @@ public class ArticleController {
 		
 		ModelAndView view = new ModelAndView("redirect:/board/" + boardId);
 
-		/*// Validation Annotation이 실패했는지 체크
+		// Validation Annotation이 실패했는지 체크
 		if (errors.hasErrors()) {
 			view.setViewName("article/" + boardId);		// view path 지정
 			view.addObject("articleVO", articleVO);
 			return view;
 		}
-		
+		articleVO.setFileVO(filesVO);
 		fileUpload(articleVO);
 		
 		MemberVO loginMemberVO = (MemberVO) session.getAttribute(Session.MEMBER);
 		articleVO.setEmail(loginMemberVO.getEmail());
+		articleVO.getFileVO().setContent(articleVO.getFileVO().getContent());
 
 		// XSS
 		XssFilter filter = XssFilter.getInstance("lucy-xss-superset.xml");
 		articleVO.setTitle(filter.doFilter(articleVO.getTitle()));
-		articleVO.setContent(filter.doFilter(articleVO.getContent()));
+		articleVO.getFileVO().setContent(filter.doFilter(articleVO.getFileVO().getContent()));
 		
 		boolean isSuccess = this.articleService.createArticle(articleVO);
 
 		String paramFormat = "IP:%s, Param:%s, Result:%s";
 		logger.debug( String.format(paramFormat, request.getRemoteAddr()
-				, articleVO.getTitle() + ", " + articleVO.getContent() + ", " + articleVO.getEmail() + ", " 
-						+ articleVO.getFileName() + ", " + articleVO.getOriginFileName()
-				, view.getViewName()) );	*/
+				, articleVO.getTitle() + ", " + articleVO.getEmail() + ", " + articleVO.getFileVO().getContent() + ", " 
+						+ articleVO.getFileVO().getFileName() + ", " + articleVO.getFileVO().getOriginFileName()
+				, view.getViewName()) );	
 		
 		return view;
 	}
 	
 	private void fileUpload(ArticleVO articleVO) {
-		/*MultipartFile uploadFile = articleVO.getFile();
+		MultipartFile uploadFile = articleVO.getFileVO().getFile();
 		
 		if(!uploadFile.isEmpty()) {
 			// 실제 파일 이름
@@ -112,12 +114,12 @@ public class ArticleController {
 				// 업로드
 				uploadFile.transferTo(destFile);
 				// DB에 File 정보 저장하기 위한 정보 셋팅
-				articleVO.setOriginFileName(originFileName);
-				articleVO.setFileName(fileName);
+				articleVO.getFileVO().setOriginFileName(originFileName);
+				articleVO.getFileVO().setFileName(fileName);
 			} catch (IllegalStateException | IOException e) {
 				throw new RuntimeException(e.getMessage(), e);
 			}
-		}*/
+		}
 	}
 	
 	@RequestMapping("/board/{boardId}")
@@ -133,19 +135,18 @@ public class ArticleController {
 		
 		articleSearchVO.setBoardId(boardId);
 		PageExplorer pageExplorer = this.articleService.readAllArticles(articleSearchVO);
-
 		session.setAttribute(Session.SEARCH, articleSearchVO);
 
 		ModelAndView view = new ModelAndView("article/list" + boardId);
 		
-		/*if(pageExplorer != null) {
+		if(pageExplorer != null) {
 			logger.info("URL : /board/" + boardId + ", IP : " + request.getRemoteAddr() + ", List Size : " + pageExplorer.getList().size());
 			
 			XssFilter filter = XssFilter.getInstance("lucy-xss-superset.xml");
 			for(Object articleVO : pageExplorer.getList()) {
 				ArticleVO article = (ArticleVO) articleVO;
 				article.setTitle(filter.doFilter(article.getTitle()));
-				article.setContent(filter.doFilter(article.getContent()));
+				article.getFileVO().setContent(filter.doFilter(article.getFileVO().getContent()));
 			}
 			
 			view.addObject("boardId", boardId);
@@ -153,7 +154,7 @@ public class ArticleController {
 			view.addObject("pagenation", pageExplorer.make());
 			view.addObject("size", pageExplorer.getTotalCount());
 			view.addObject("articleSearchVO", articleSearchVO);
-		}*/
+		}
 		
 		return view;
 	}
@@ -170,50 +171,51 @@ public class ArticleController {
 		PageExplorer pageExplorer = this.articleService.readAllArticles(articleSearchVO);
 		
 		ModelAndView view = new ModelAndView("article/detail" + boardId);
-/*
+
 		if(pageExplorer != null) {
 			
 			XssFilter filter = XssFilter.getInstance("lucy-xss-superset.xml");
 			for(Object articleVO : pageExplorer.getList()) {
 				ArticleVO article = (ArticleVO) articleVO;
 				article.setTitle(filter.doFilter(article.getTitle()));
-				article.setContent(filter.doFilter(article.getContent()));
+				article.getFileVO().setContent(filter.doFilter(article.getFileVO().getContent()));
 			}
 			
 			ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
 			view.addObject("articleVO", articleVO);
-		}*/
+		}
 
 		return view;
 	}
 	
 	@RequestMapping("/board/{boardId}/download/{articleId}")
-	public void fileDownload(@PathVariable int boardId, @PathVariable String articleId, HttpServletRequest request, HttpServletResponse response) {
+	public void fileDownload(@PathVariable int boardId, @PathVariable String articleId
+							 , HttpServletRequest request, HttpServletResponse response) {
 		
-	/*	ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
-		String originFileName = articleVO.getOriginFileName();
-		String fileName = articleVO.getFileName();
+		ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
+		String originFileName = articleVO.getFileVO().getOriginFileName();
+		String fileName = articleVO.getFileVO().getFileName();
 		
 		try {
 			new DownloadUtil(this.uploadPath + File.separator + fileName).download(request, response, originFileName);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e.getMessage(), e);
-		}*/
+		}
 	}
 	
 	@GetMapping("/board/{boardId}/articleModify/{articleId}")
 	public ModelAndView viewArticleModifyPage(@PathVariable int boardId, @PathVariable String articleId, HttpSession session) {
 		
-		/*MemberVO sessionUser = (MemberVO) session.getAttribute(Session.MEMBER);
+		MemberVO sessionUser = (MemberVO) session.getAttribute(Session.MEMBER);
 		
 		ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
 		String articleUser = articleVO.getEmail();
 		if(!sessionUser.getEmail().equals(articleUser)) {
 			return new ModelAndView("redirect:/board/" + boardId);
-		}*/
+		}
 		
 		ModelAndView view = new ModelAndView("article/write" + boardId);
-		//view.addObject("articleVO", articleVO);
+		view.addObject("articleVO", articleVO);
 		
 		return view;
 	}
@@ -243,7 +245,7 @@ public class ArticleController {
 	@GetMapping("/board/{boardId}/articleDelete/{articleId}")
 	public String doArticleDeleteAction(@PathVariable int boardId, @PathVariable String articleId, HttpSession session) {
 		
-		/*MemberVO sessionUser = (MemberVO) session.getAttribute(Session.MEMBER);
+		MemberVO sessionUser = (MemberVO) session.getAttribute(Session.MEMBER);
 		
 		ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
 		String articleUser = articleVO.getEmail();
@@ -251,7 +253,7 @@ public class ArticleController {
 			return "redirect:/board/" + boardId;
 		}
 		
-		boolean isDeleteSuccess = this.articleService.deleteArticle(boardId, articleId);*/
+		boolean isDeleteSuccess = this.articleService.deleteArticle(boardId, articleId);
 		
 		return "redirect:/board/" + boardId;
 	}

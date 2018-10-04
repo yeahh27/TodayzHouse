@@ -40,12 +40,17 @@ public class FilesDaoImpl extends SqlSessionDaoSupport implements FilesDao {
 	}
 
 	@Override
-	public int updateArticle(FilesVO filesVO) {
-		return getSqlSession().update("FilesDao.updateArticle", filesVO);
+	public int updateFile(FilesVO filesVO) {
+		return getSqlSession().update("FilesDao.updateFile", filesVO);
 	}
 
 	@Override
-	public int deleteOneArticle(Map<String, Object> param) {
-		return getSqlSession().delete("FilesDao.deleteOneArticle", param);
+	public int deleteOneFile(Map<String, Object> param) {
+		return getSqlSession().delete("FilesDao.deleteOneFile", param);
+	}
+	
+	@Override
+	public int deleteFilesByArticle(Map<String, Object> param) {
+		return getSqlSession().delete("FilesDao.deleteFilesByArticle", param);
 	}
 }

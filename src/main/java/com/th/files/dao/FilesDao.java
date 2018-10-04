@@ -13,7 +13,9 @@ public interface FilesDao {
 	
 	public FilesVO selectOneFile(Map<String, Object> param);	//boardId, articleId, fileId
 
-	public int updateArticle(FilesVO filesVO);
+	public int updateFile(FilesVO filesVO);
 	
-	public int deleteOneArticle(Map<String, Object> param);		//boardId, articleId, fileId
+	public int deleteOneFile(Map<String, Object> param);		//boardId, articleId, fileId
+	
+	public int deleteFilesByArticle(Map<String, Object> param);
 }

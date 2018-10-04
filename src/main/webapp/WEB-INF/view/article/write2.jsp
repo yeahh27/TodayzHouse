@@ -34,6 +34,27 @@
 	            enctype: "multipart/form-data"
 			} ).submit()
 		})
+		
+		$(".plusBtn").click(function() {
+			var shadow = $(".fileContent").html()
+			console.log(shadow)
+		})
+		
+		$("#file").change(function() {
+			if(this.files && this.files[0]) {
+				var reader = new FileReader();
+				
+				reader.onload = function(e) {
+					$("#img_section").attr({
+												'src': e.target.result,
+												'width' : 200
+											}
+					);
+				}
+				
+				reader.readAsDataURL(this.files[0]);
+			}
+		})
 	})
 </script>
 
@@ -49,14 +70,13 @@
 			<form:errors path="title" />
 		</div>
 	</div>
+
 	<div>
-		<textarea name="content" id="content" placeholder="CONTENT">${articleVO.content}</textarea>
-		<div class="errors">
-			<form:errors path="content" />
+		<div class="fileContent">
+			<textarea name="content" id="content" placeholder="CONTENT">${articleVO.fileVO.content}</textarea>
+			<img id="img_section"/>
+			<input type="file" id="file" name="file" placeholder="Choose File"  />
 		</div>
-	</div>
-	<div>
-		<input type="file" id="file" name="file" multiple="multiple" placeholder="Choose File"  />
 		<input type="button" class="plusBtn" value="+" />
 	</div>
 	<div>

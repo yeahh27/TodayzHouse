@@ -13,7 +13,9 @@ public interface FilesBiz {
 	
 	public FilesVO selectOneFile(int boardId, String articleId, String fileId);	//boardId, articleId, fileId
 
-	public int updateArticle(FilesVO filesVO);
+	public int updateFile(FilesVO filesVO);
 	
-	public int deleteOneArticle(int boardId, String articleId, String fileId);		//boardId, articleId, fileId
+	public int deleteOneFile(int boardId, String articleId, String fileId);		//boardId, articleId, fileId
+	
+	public int deleteFilesByArticle(int boardId, String articleId);
 }

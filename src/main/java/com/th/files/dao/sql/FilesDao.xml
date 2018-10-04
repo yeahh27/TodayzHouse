@@ -13,7 +13,7 @@
 							   , FILE_NAME
 							   , CONTENT
 		) VALUES ( 
-								'FL-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(FILE_ID_SEQ.NEXTVAL, 6, '0')
+								'FL' || #{boardId} || '-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(FILE_ID_SEQ.NEXTVAL, 6, '0')
 								, #{boardId}
 								, #{articleId}
 								, #{originFileName}
@@ -47,11 +47,11 @@
 		AND		FILE_ID = #{fileId}
   	</select>
   	
-  	<update id="updateArticle" parameterType="FilesVO">
+  	<update id="updateFile" parameterType="FilesVO">
   	
   	</update>
   
-  	<delete id="deleteOneArticle" parameterType="map">
+  	<delete id="deleteOneFile" parameterType="map">
   		DELETE
   		FROM	FILES
   		WHERE	BOARD_ID = #{boardId}
@@ -59,4 +59,10 @@
 		AND		FILE_ID = #{fileId}
   	</delete>
   
+  	<delete id="deleteFilesByArticle" parameterType="map">
+  		DELETE
+  		FROM	FILES
+  		WHERE	BOARD_ID = #{boardId}
+		AND		ARTICLE_ID = #{articleId}
+  	</delete>
   </mapper>

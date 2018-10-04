@@ -3,14 +3,15 @@ package com.th.article.vo;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.th.files.vo.FilesVO;
 import com.th.member.vo.MemberVO;
 
 public class ArticleVO {
 
+	@Value("A_ARTICLE_ID")
 	private String articleId;
+	@Value("A_BOARD_ID")
 	private int boardId;
 	@NotEmpty(message = "제목은 필수 입력 값입니다.")
 	private String title;
@@ -22,8 +23,6 @@ public class ArticleVO {
 	private int viewCount;
 	private int recommend;
 	private int report;
-
-	private MultipartFile file;
 
 	private MemberVO memberVO;
 	private FilesVO fileVO;
@@ -102,14 +101,6 @@ public class ArticleVO {
 		this.report = report;
 	}
 
-	public MultipartFile getFile() {
-		return file;
-	}
-
-	public void setFile(MultipartFile file) {
-		this.file = file;
-	}
-
 	public MemberVO getMemberVO() {
 		return memberVO;
 	}
@@ -138,7 +129,7 @@ public class ArticleVO {
 	public String toString() {
 		return "ArticleVO [articleId=" + articleId + ", boardId=" + boardId + ", title=" + title + ", email=" + email
 				+ ", regDate=" + regDate + ", modifyDate=" + modifyDate + ", viewCount=" + viewCount + ", recommend="
-				+ recommend + ", report=" + report + ", file=" + file + ", memberVO=" + memberVO + ", fileVO=" + fileVO
+				+ recommend + ", report=" + report + ", memberVO=" + memberVO + ", fileVO=" + fileVO
 				+ ", token=" + token + "]";
 	}
 

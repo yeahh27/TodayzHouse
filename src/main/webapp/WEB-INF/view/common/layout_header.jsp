@@ -59,6 +59,7 @@ nav a:hover {
 			<ul>
 				<li><a href="/TodayzHouse/">Home</a></li>
 				<li><a href="/TodayzHouse/board/1/">List1</a></li>
+				<li><a href="/TodayzHouse/board/2/">List2</a></li>
 				<c:choose>
 					<c:when test="${empty sessionScope._MEMBER_.name}">
 						<li><a href="/TodayzHouse/member/login">Login</a></li>
@@ -66,7 +67,7 @@ nav a:hover {
 					</c:when>
 					<c:otherwise>
 						<li><a href="/TodayzHouse/member/logout">Logout</a></li>
-						<li class="point">point : ${sessionScope._MEMBER_.point}</li>
+						<li class="point">${sessionScope._MEMBER_.name} (${sessionScope._MEMBER_.point})</li>
 					</c:otherwise>
 				</c:choose>
 			</ul>

@@ -10,7 +10,7 @@ import io.github.seccoding.web.pager.explorer.PageExplorer;
 
 public interface ArticleDao {
 	
-	public int insertArticle(ArticleVO articleVO);
+	public Map<String, Object> insertArticle(ArticleVO articleVO);
 	
 	//public List<ArticleVO> selectAllArticles(int boardId);
 	public List<ArticleVO> selectAllArticles(ArticleSearchVO articleSearchVO);

@@ -45,7 +45,7 @@ a:hover {
 		 --><div class="writer header box">작성자</div><!-- 
 		 --><div class="create-date header box">작성일</div>
 	</div>
-	
+
 	<c:choose>
 		<c:when test="${not empty articleList}">
 			<c:forEach items="${articleList}" var="article">

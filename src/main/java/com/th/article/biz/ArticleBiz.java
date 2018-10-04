@@ -1,6 +1,7 @@
 package com.th.article.biz;
 
 import java.util.List;
+import java.util.Map;
 
 import com.th.article.vo.ArticleSearchVO;
 import com.th.article.vo.ArticleVO;
@@ -9,7 +10,7 @@ import io.github.seccoding.web.pager.explorer.PageExplorer;
 
 public interface ArticleBiz {
 
-	public int insertArticle(ArticleVO articleVO);
+	public Map<String, Object> insertArticle(ArticleVO articleVO);
 	
 	//public List<ArticleVO> selectAllArticles(int boardId);
 	public PageExplorer selectAllArticles(ArticleSearchVO articleSearchVO);
