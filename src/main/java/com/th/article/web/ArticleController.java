@@ -3,6 +3,8 @@ package com.th.article.web;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,7 +46,7 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 	
-	@Value("${C:/uploadFiles}")
+	@Value("${C:/Users/YEAH/Documents/uploadFiles}")
 	private String uploadPath;
 	
 	@GetMapping("/board/{boardId}/articleWrite")
@@ -69,57 +71,93 @@ public class ArticleController {
 			view.addObject("articleVO", articleVO);
 			return view;
 		}
-		articleVO.setFileVO(filesVO);
-		fileUpload(articleVO);
+		List<FilesVO> fileList = new ArrayList<>();
+		for(int i=0; i<filesVO.getFileList().size(); i++) {
+			FilesVO addFileVO = new FilesVO();
+			addFileVO.setBoardId(boardId);
+			addFileVO.setContent(filesVO.getContent());
+			addFileVO.setFile(filesVO.getFileList().get(i));
+			fileList.add(addFileVO);
+		}
+		
+		System.out.println("asasdasdasdasdasd" + fileList.toString());
+		
+		articleVO.setFileVOList(fileList);
+		fileUpload(fileList);
 		
 		MemberVO loginMemberVO = (MemberVO) session.getAttribute(Session.MEMBER);
 		articleVO.setEmail(loginMemberVO.getEmail());
-		articleVO.getFileVO().setContent(articleVO.getFileVO().getContent());
 
 		// XSS
 		XssFilter filter = XssFilter.getInstance("lucy-xss-superset.xml");
 		articleVO.setTitle(filter.doFilter(articleVO.getTitle()));
-		articleVO.getFileVO().setContent(filter.doFilter(articleVO.getFileVO().getContent()));
-		
+		for(int i=0; i<fileList.size(); i++) {
+			articleVO.getFileVOList().get(i).setContent(filter.doFilter(articleVO.getFileVOList().get(i).getContent()));
+		}
+
 		boolean isSuccess = this.articleService.createArticle(articleVO);
 
 		String paramFormat = "IP:%s, Param:%s, Result:%s";
 		logger.debug( String.format(paramFormat, request.getRemoteAddr()
-				, articleVO.getTitle() + ", " + articleVO.getEmail() + ", " + articleVO.getFileVO().getContent() + ", " 
-						+ articleVO.getFileVO().getFileName() + ", " + articleVO.getFileVO().getOriginFileName()
+				, articleVO.getTitle() + ", " + articleVO.getEmail() + ", " + articleVO.getFileVOList().toString()
 				, view.getViewName()) );	
 		
 		return view;
 	}
 	
-	private void fileUpload(ArticleVO articleVO) {
-		MultipartFile uploadFile = articleVO.getFileVO().getFile();
+	private void fileUpload(List<FilesVO> fileList) {
 		
-		if(!uploadFile.isEmpty()) {
-			// 실제 파일 이름
-			String originFileName = uploadFile.getOriginalFilename();
-			// 파일 시스템에 저장될 파일의 이름(난수)
-			String fileName = UUID.randomUUID().toString();
+		int size = fileList.size();
+		
+		for(int i=0; i<size;i++) {
+			MultipartFile uploadFile = fileList.get(i).getFile();
 			
-			// 폴더가 존재하지 않는다면, 생성
-			File uploadDir = new File(this.uploadPath);
-			if(!uploadDir.exists()) {
-				uploadDir.mkdirs();
+			if(!uploadFile.isEmpty()) {
+				// 실제 파일 이름
+				String originFileName = uploadFile.getOriginalFilename();
+				// 파일 시스템에 저장될 파일의 이름(난수)
+				String fileName = UUID.randomUUID().toString();
+				
+				// 폴더가 존재하지 않는다면, 생성
+				File uploadDir = new File(this.uploadPath);
+				if(!uploadDir.exists()) {
+					uploadDir.mkdirs();
+				}
+				
+				// 파일이 업로드될 경로 지정
+				File destFile = new File(this.uploadPath, fileName);
+				
+				try {
+					// 업로드
+					uploadFile.transferTo(destFile);
+					// DB에 File 정보 저장하기 위한 정보 셋팅
+					fileList.get(i).setOriginFileName(originFileName);
+					fileList.get(i).setFileName(fileName);
+				} catch (IllegalStateException | IOException e) {
+					throw new RuntimeException(e.getMessage(), e);
+				}
 			}
 			
-			// 파일이 업로드될 경로 지정
-			File destFile = new File(this.uploadPath, fileName);
-			
-			try {
-				// 업로드
-				uploadFile.transferTo(destFile);
-				// DB에 File 정보 저장하기 위한 정보 셋팅
-				articleVO.getFileVO().setOriginFileName(originFileName);
-				articleVO.getFileVO().setFileName(fileName);
-			} catch (IllegalStateException | IOException e) {
-				throw new RuntimeException(e.getMessage(), e);
-			}
 		}
+		
+	}
+	
+	@RequestMapping("/board/{boardId}/{articleId}/download/{fileId}")
+	public void fileDownload(@PathVariable int boardId, @PathVariable String articleId, @PathVariable String fileId
+							 , HttpServletRequest request, HttpServletResponse response) {
+		
+		//FilesVO fileVO = this.filesService.readOneFile(boardId, articleId, fileId);
+		
+		FilesVO fileVO = this.articleService.readOneFile(boardId, articleId, fileId);
+		
+		String originFileName = fileVO.getOriginFileName();
+		String fileName = fileVO.getFileName();
+		try {
+			new DownloadUtil(this.uploadPath + File.separator + fileName).download(request, response, originFileName);
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
+
 	}
 	
 	@RequestMapping("/board/{boardId}")
@@ -146,7 +184,9 @@ public class ArticleController {
 			for(Object articleVO : pageExplorer.getList()) {
 				ArticleVO article = (ArticleVO) articleVO;
 				article.setTitle(filter.doFilter(article.getTitle()));
-				article.getFileVO().setContent(filter.doFilter(article.getFileVO().getContent()));
+				for(int i=0; i<article.getFileVOList().size(); i++) {
+					article.getFileVOList().get(i).setContent(filter.doFilter(article.getFileVOList().get(i).getContent()));
+				}
 			}
 			
 			view.addObject("boardId", boardId);
@@ -178,29 +218,15 @@ public class ArticleController {
 			for(Object articleVO : pageExplorer.getList()) {
 				ArticleVO article = (ArticleVO) articleVO;
 				article.setTitle(filter.doFilter(article.getTitle()));
-				article.getFileVO().setContent(filter.doFilter(article.getFileVO().getContent()));
-			}
+				for(int i=0; i<article.getFileVOList().size(); i++) {
+					article.getFileVOList().get(i).setContent(filter.doFilter(article.getFileVOList().get(i).getContent()));
+				}			}
 			
 			ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
 			view.addObject("articleVO", articleVO);
 		}
 
 		return view;
-	}
-	
-	@RequestMapping("/board/{boardId}/download/{articleId}")
-	public void fileDownload(@PathVariable int boardId, @PathVariable String articleId
-							 , HttpServletRequest request, HttpServletResponse response) {
-		
-		ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
-		String originFileName = articleVO.getFileVO().getOriginFileName();
-		String fileName = articleVO.getFileVO().getFileName();
-		
-		try {
-			new DownloadUtil(this.uploadPath + File.separator + fileName).download(request, response, originFileName);
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		}
 	}
 	
 	@GetMapping("/board/{boardId}/articleModify/{articleId}")

@@ -1,5 +1,7 @@
 package com.th.article.vo;
 
+import java.util.List;
+
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +27,7 @@ public class ArticleVO {
 	private int report;
 
 	private MemberVO memberVO;
-	private FilesVO fileVO;
+	private List<FilesVO> fileVOList;
 
 	private String token;
 
@@ -109,12 +111,12 @@ public class ArticleVO {
 		this.memberVO = memberVO;
 	}
 
-	public FilesVO getFileVO() {
-		return fileVO;
+	public List<FilesVO> getFileVOList() {
+		return fileVOList;
 	}
 
-	public void setFileVO(FilesVO fileVO) {
-		this.fileVO = fileVO;
+	public void setFileVOList(List<FilesVO> fileVOList) {
+		this.fileVOList = fileVOList;
 	}
 
 	public String getToken() {
@@ -129,7 +131,7 @@ public class ArticleVO {
 	public String toString() {
 		return "ArticleVO [articleId=" + articleId + ", boardId=" + boardId + ", title=" + title + ", email=" + email
 				+ ", regDate=" + regDate + ", modifyDate=" + modifyDate + ", viewCount=" + viewCount + ", recommend="
-				+ recommend + ", report=" + report + ", memberVO=" + memberVO + ", fileVO=" + fileVO
+				+ recommend + ", report=" + report + ", memberVO=" + memberVO + ", fileVOList=" + fileVOList
 				+ ", token=" + token + "]";
 	}
 

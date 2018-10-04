@@ -1,5 +1,8 @@
 package com.th.files.vo;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,8 +16,9 @@ public class FilesVO {
 	private String originFileName;
 	private String fileName;
 	private String content;
-	
+
 	private MultipartFile file;
+	private List<MultipartFile> fileList;
 
 	public FilesVO() {
 		this.fileName = "";
@@ -68,7 +72,7 @@ public class FilesVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
+
 	public MultipartFile getFile() {
 		return file;
 	}
@@ -77,10 +81,19 @@ public class FilesVO {
 		this.file = file;
 	}
 
+	public List<MultipartFile> getFileList() {
+		return fileList;
+	}
+
+	public void setFileList(List<MultipartFile> fileList) {
+		this.fileList = fileList;
+	}
+
 	@Override
 	public String toString() {
 		return "FilesVO [fileId=" + fileId + ", boardId=" + boardId + ", articleId=" + articleId + ", originFileName="
-				+ originFileName + ", fileName=" + fileName + ", content=" + content + ", file=" + file + "]";
+				+ originFileName + ", fileName=" + fileName + ", content=" + content + ", file=" + file + ", fileList="
+				+ fileList + "]";
 	}
 
 }

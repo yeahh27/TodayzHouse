@@ -15,16 +15,14 @@
 		}
 		
 		$(".sendBtn").click(function() {
-			
 			if($("#title").val() == "") {
 				alert("제목을 입력하세요!");
 				$("#title").focus();
 				return;
 			}
 			
-			if($("#content").val() == "") {
-				alert("내용을 입력하세요!");
-				$("#content").focus();
+			if($("#file").val() == "" && $("#content").val() == "") {
+				alert("파일이나 내용을 입력하세요!");
 				return;
 			}
 			
@@ -35,21 +33,25 @@
 			} ).submit()
 		})
 		
-		$("#file").change(function() {
-			if(this.files && this.files[0]) {
+		var ck_files = [];
+		$("#file").change(function(e) {
+			ck_files = [];
+			$(".imgWrapper").empty();
+			
+			var files = e.target.files;
+			var filesArr = Array.prototype.slice.call(files);
+			
+			filesArr.forEach(function(f) {
+				ck_files.push(f);
+				
 				var reader = new FileReader();
-				
 				reader.onload = function(e) {
-					$("#img_section").attr({
-												'src': e.target.result,
-												'width' : 200
-											}
-					);
+					var img_html = "<img src=\"" + e.target.result + "\" width='200'/>";
+					$(".imgWrapper").append(img_html);
 				}
-				
-				reader.readAsDataURL(this.files[0]);
-			}
-		})
+				reader.readAsDataURL(f);
+			})
+		}) 
 	
 	})
 </script>
@@ -67,11 +69,16 @@
 		</div>
 	</div>
 	<div>
-		<textarea name="content" id="content" placeholder="CONTENT">${articleVO.fileVO.content}</textarea>
+		<c:if test="${not empty articleVO.fileVO.orginFileName}">
+		<img src="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download" width="120">
+		</c:if>
+		<div class="imgWrapper">
+			<img id="img_section" />
+		</div>
+		<input type="file" id="file" name="fileList" multiple="multiple" placeholder="Choose File" />
 	</div>
-	<div>
-		<img id="img_section" src="/TodayzHouse/board/${articleVO.boardId}/download/${articleVO.articleId}" width="120">
-		<input type="file" id="file" name="file" multiple="multiple" placeholder="Choose File" />
+		<div>
+		<textarea name="content" id="content" placeholder="CONTENT">${articleVO.fileVO.content}</textarea>
 	</div>
 	<div>
 		<input type="button" class="sendBtn" value="Send" />

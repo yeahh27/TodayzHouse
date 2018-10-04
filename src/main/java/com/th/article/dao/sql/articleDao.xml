@@ -57,14 +57,22 @@
 	  		<result property="name" column="NAME"/>
 	  		<result property="point" column="POINT"/>
   		</association>
-  		<association property="fileVO" javaType="FilesVO">
+  		<!-- <association property="fileVOList" javaType="List">
   			<id property="fileId" column="FILE_ID"/>
 	  		<result property="boardId" column="F_BOARD_ID"/>
 	  		<result property="articleId" column="F_ARTICLE_ID"/>
 	  		<result property="originFileName" column="ORIGIN_FILE_NAME"/>
 	  		<result property="fileName" column="FILE_NAME"/>
 	  		<result property="content" column="CONTENT"/>
-  		</association>
+  		</association> -->
+  		<collection property="fileVOList" javaType="ArrayList" ofType="FilesVO" >
+  			<id property="fileId" column="FILE_ID"/>
+	  		<result property="boardId" column="F_BOARD_ID"/>
+	  		<result property="articleId" column="F_ARTICLE_ID"/>
+	  		<result property="originFileName" column="ORIGIN_FILE_NAME"/>
+	  		<result property="fileName" column="FILE_NAME"/>
+	  		<result property="content" column="CONTENT"/>
+  		</collection>
   	</resultMap>
   	
   	<select id="selectAllArticles" parameterType="ArticleSearchVO" resultMap="articleResultMap">

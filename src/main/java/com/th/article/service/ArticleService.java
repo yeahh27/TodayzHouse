@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.th.article.vo.ArticleSearchVO;
 import com.th.article.vo.ArticleVO;
+import com.th.files.vo.FilesVO;
 import com.th.member.vo.MemberVO;
 
 import io.github.seccoding.web.pager.explorer.PageExplorer;
@@ -22,4 +23,6 @@ public interface ArticleService {
 	public ArticleVO readOneArticle(int boardId, String articleId);
 	
 	public boolean deleteArticle(int boardId, String articleId);
+	
+	public FilesVO readOneFile(int boardId, String articleId, String fileId);
 }

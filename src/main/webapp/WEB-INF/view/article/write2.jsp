@@ -40,21 +40,25 @@
 			console.log(shadow)
 		})
 		
-		$("#file").change(function() {
-			if(this.files && this.files[0]) {
+		var ck_files = [];
+		$("#file").change(function(e) {
+			ck_files = [];
+			$(".imgWrapper").empty();
+			
+			var files = e.target.files;
+			var filesArr = Array.prototype.slice.call(files);
+			
+			filesArr.forEach(function(f) {
+				ck_files.push(f);
+				
 				var reader = new FileReader();
-				
 				reader.onload = function(e) {
-					$("#img_section").attr({
-												'src': e.target.result,
-												'width' : 200
-											}
-					);
+					var img_html = "<img src=\"" + e.target.result + "\" width='200'/>";
+					$(".imgWrapper").append(img_html);
 				}
-				
-				reader.readAsDataURL(this.files[0]);
-			}
-		})
+				reader.readAsDataURL(f);
+			})
+		}) 
 	})
 </script>
 
@@ -70,12 +74,18 @@
 			<form:errors path="title" />
 		</div>
 	</div>
-
 	<div>
+		<c:if test="${not empty articleVO.fileVO.orginFileName}">
+		<img src="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download" width="120">
+		</c:if>
 		<div class="fileContent">
+			<div>
+				<div class="imgWrapper">
+					<img id="img_section" />
+				</div>
+				<input type="file" id="file" name="fileList" multiple="multiple" placeholder="Choose File" />
+			</div>
 			<textarea name="content" id="content" placeholder="CONTENT">${articleVO.fileVO.content}</textarea>
-			<img id="img_section"/>
-			<input type="file" id="file" name="file" placeholder="Choose File"  />
 		</div>
 		<input type="button" class="plusBtn" value="+" />
 	</div>
