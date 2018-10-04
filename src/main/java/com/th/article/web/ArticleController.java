@@ -46,8 +46,8 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 	
-	@Value("${C:/Users/YEAH/Documents/uploadFiles}")
-	private String uploadPath;
+	//@Value("${D:/uploadFiles}")
+	private String uploadPath = "C:/Users/YEAH/Documents/uploadFiles";
 	
 	@GetMapping("/board/{boardId}/articleWrite")
 	public String viewArticleWritePage(@PathVariable int boardId) {
@@ -57,6 +57,9 @@ public class ArticleController {
 	@PostMapping("/board/{boardId}/articleWrite")
 	public ModelAndView doArticleWriteAction(@PathVariable int boardId, @Valid @ModelAttribute ArticleVO articleVO, Errors errors
 											,@ModelAttribute FilesVO filesVO, HttpSession session, HttpServletRequest request) {
+		
+		System.out.println("sasdfasdfzdfasdfdfasd" + articleVO.toString());
+		System.out.println("asdasdasdasdasdasdasd" + filesVO.toString());
 		
 		String sessionToken = (String) session.getAttribute(Session.CSRF_TOKEN);
 		if(!articleVO.getToken().equals(sessionToken)) {
@@ -79,8 +82,6 @@ public class ArticleController {
 			addFileVO.setFile(filesVO.getFileList().get(i));
 			fileList.add(addFileVO);
 		}
-		
-		System.out.println("asasdasdasdasdasd" + fileList.toString());
 		
 		articleVO.setFileVOList(fileList);
 		fileUpload(fileList);

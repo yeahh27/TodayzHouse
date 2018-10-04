@@ -35,9 +35,15 @@
 			} ).submit()
 		})
 		
+		//var count = 1
 		$(".plusBtn").click(function() {
-			var shadow = $(".fileContent").html()
-			console.log(shadow)
+			/* var file_html = "<input type='file' id='file" + count + "' name='fileList" + count + "' multiple='multiple' />"
+			var content_html = "<textarea name='content" + count + "' id='content" + count + "' placeholder='CONTENT'></textarea>"
+
+			var shadow = "<div class='fileContent'>" + file_html + content_html + "</div>" */
+			var shadow = "<div class='fileContent'>" + $(".fileContent").html() + "</div>"
+			$(this).before(shadow)
+			//count++
 		})
 		
 		var ck_files = [];
@@ -75,18 +81,25 @@
 		</div>
 	</div>
 	<div>
-		<c:if test="${not empty articleVO.fileVO.orginFileName}">
-		<img src="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download" width="120">
-		</c:if>
-		<div class="fileContent">
-			<div>
-				<div class="imgWrapper">
-					<img id="img_section" />
-				</div>
-				<input type="file" id="file" name="fileList" multiple="multiple" placeholder="Choose File" />
+		<c:forEach items="${articleVO.fileVOList}" var="files">
+			<c:if test="${not empty files.originFileName}">
+				<p>
+					<a href="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}">
+						<img src="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}" width="120">
+					</a>
+				</p>
+			</c:if>	
+		</c:forEach>
+		
+		<div class="imgWrapper">
+				<img id="img_section" />
 			</div>
-			<textarea name="content" id="content" placeholder="CONTENT">${articleVO.fileVO.content}</textarea>
+		<div class="fileContent" >
+			
+			<input type="file" id="file" name="fileList" multiple="multiple" placeholder="Choose File" />
+			<textarea name="content" id="content" placeholder="CONTENT"></textarea>
 		</div>
+		
 		<input type="button" class="plusBtn" value="+" />
 	</div>
 	<div>

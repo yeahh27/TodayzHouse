@@ -69,15 +69,22 @@
 		</div>
 	</div>
 	<div>
-		<c:if test="${not empty articleVO.fileVO.orginFileName}">
-		<img src="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download" width="120">
-		</c:if>
+		<c:forEach items="${articleVO.fileVOList}" var="files">
+			<c:if test="${not empty files.originFileName}">
+				<p>
+					<a href="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}">
+						<img src="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}" width="120">
+					</a>
+				</p>
+			</c:if>	
+		</c:forEach>
+		
 		<div class="imgWrapper">
 			<img id="img_section" />
 		</div>
 		<input type="file" id="file" name="fileList" multiple="multiple" placeholder="Choose File" />
 	</div>
-		<div>
+	<div>
 		<textarea name="content" id="content" placeholder="CONTENT">${articleVO.fileVO.content}</textarea>
 	</div>
 	<div>

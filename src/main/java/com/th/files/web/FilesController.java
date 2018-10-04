@@ -23,7 +23,7 @@ public class FilesController {
 	private FilesService filesService;
 	
 	//@Value("${C:/Users/YEAH/Documents/uploadFiles}")
-	private String uploadPath = "C:Users/YEAH/Documents/uploadFiles";
+	//private String uploadPath = "C:Users/YEAH/Documents/uploadFiles";
 	
 	/*@RequestMapping("/board/{boardId}/{articleId}/download/{fileId}")
 	public void fileDownload(@PathVariable int boardId, @PathVariable String articleId, @PathVariable String fileId
