@@ -42,21 +42,19 @@ public class MemberBizImpl implements MemberBiz {
 	@Override
 	public boolean loginMember(MemberVO memberVO, HttpSession session) {
 		String salt = this.memberDao.getSaltById(memberVO.getEmail());
-		if(salt != null) {
-			String password = this.getHashedPassword(salt, memberVO.getPassword());
-			
-			memberVO.setPassword(password);
-			
-			MemberVO loginMemberVO = this.memberDao.selectOneMember(memberVO);
-	
-			if(loginMemberVO != null) {
-				session.setAttribute(Session.MEMBER, loginMemberVO);
-			}
-			return loginMemberVO != null;
-		}
-		else {
+		if(salt == null) {
 			return false;
 		}
+		String password = this.getHashedPassword(salt, memberVO.getPassword());
+
+		memberVO.setPassword(password);
+
+		MemberVO loginMemberVO = this.memberDao.selectOneMember(memberVO);
+
+		if (loginMemberVO != null) {
+			session.setAttribute(Session.MEMBER, loginMemberVO);
+		}
+		return loginMemberVO != null;
 	}
 	
 	@Override

@@ -57,14 +57,6 @@
 	  		<result property="name" column="NAME"/>
 	  		<result property="point" column="POINT"/>
   		</association>
-  		<!-- <association property="fileVOList" javaType="List">
-  			<id property="fileId" column="FILE_ID"/>
-	  		<result property="boardId" column="F_BOARD_ID"/>
-	  		<result property="articleId" column="F_ARTICLE_ID"/>
-	  		<result property="originFileName" column="ORIGIN_FILE_NAME"/>
-	  		<result property="fileName" column="FILE_NAME"/>
-	  		<result property="content" column="CONTENT"/>
-  		</association> -->
   		<collection property="fileVOList" javaType="ArrayList" ofType="FilesVO" >
   			<id property="fileId" column="FILE_ID"/>
 	  		<result property="boardId" column="F_BOARD_ID"/>
@@ -72,6 +64,7 @@
 	  		<result property="originFileName" column="ORIGIN_FILE_NAME"/>
 	  		<result property="fileName" column="FILE_NAME"/>
 	  		<result property="content" column="CONTENT"/>
+	  		<result property="idx" column="IDX" />
   		</collection>
   	</resultMap>
   	
@@ -99,6 +92,7 @@
 						  				, F.ORIGIN_FILE_NAME
 						  				, F.FILE_NAME
 						  				, F.CONTENT
+						  				, F.IDX
 						  		FROM	ARTICLES A
 						  				, MEMBERS M
 						  				, FILES	F
@@ -145,6 +139,7 @@
 				, F.ORIGIN_FILE_NAME
 				, F.FILE_NAME
 				, F.CONTENT
+				, F.IDX
 		FROM	ARTICLES A
 				, MEMBERS M
 				, FILES	F

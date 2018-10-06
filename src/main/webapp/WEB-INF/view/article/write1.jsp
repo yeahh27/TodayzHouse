@@ -82,10 +82,11 @@
 		<div class="imgWrapper">
 			<img id="img_section" />
 		</div>
-		<input type="file" id="file" name="fileList" multiple="multiple" placeholder="Choose File" />
+		<input type="hidden" id="index" name="fileMap['0'].idx" value="0"/>
+		<input type="file" id="file" name="fileMap['0'].fileList" name="file" multiple="multiple" accept="image"/>
 	</div>
 	<div>
-		<textarea name="content" id="content" placeholder="CONTENT">${articleVO.fileVO.content}</textarea>
+		<textarea name="fileMap['0'].content" id="content" name="content" placeholder="CONTENT">${articleVO.fileVOList[0].content}</textarea>	
 	</div>
 	<div>
 		<input type="button" class="sendBtn" value="Send" />

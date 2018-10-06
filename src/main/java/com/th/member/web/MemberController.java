@@ -42,8 +42,13 @@ public class MemberController {
 	@ResponseBody
 	public Map<String, Object> doMemberRegistAction(@Validated({MemberValidator.Regist.class}) @ModelAttribute MemberVO memberVO, Errors errors) {
 		Map<String, Object> result = new HashMap<>();
-		if(errors.hasErrors()) {
-			result.put("message", errors);
+		if (errors.hasErrors()) {
+			StringBuilder errorMessage = new StringBuilder();
+			for (FieldError fieldError : errors.getFieldErrors()) {
+				errorMessage.append(fieldError.getDefaultMessage());
+				errorMessage.append("\n");
+				result.put("message", errorMessage);
+			}
 			result.put("status", false);
 			return result;
 		}
@@ -77,8 +82,13 @@ public class MemberController {
 													, Errors errors, HttpSession session) {
 		Map<String, Object> result = new HashMap<>();
 		
-		if(errors.hasErrors()) {
-			result.put("message", errors);
+		if (errors.hasErrors()) {
+			StringBuilder errorMessage = new StringBuilder();
+			for (FieldError fieldError : errors.getFieldErrors()) {
+				errorMessage.append(fieldError.getDefaultMessage());
+				errorMessage.append("\n");
+				result.put("message", errorMessage);
+			}
 			result.put("status", false);
 			return result;
 		}

@@ -28,6 +28,7 @@
 							location.href="/TodayzHouse/"
 						} else {
 							alert("로그인에 실패하였습니다.")
+							alert(response.message)
 							location.href="/TodayzHouse/member/login"
 						}
 					}

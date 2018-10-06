@@ -12,6 +12,7 @@
 							   , ORIGIN_FILE_NAME
 							   , FILE_NAME
 							   , CONTENT
+							   , IDX
 		) VALUES ( 
 								'FL' || #{boardId} || '-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(FILE_ID_SEQ.NEXTVAL, 6, '0')
 								, #{boardId}
@@ -19,6 +20,7 @@
 								, #{originFileName}
 								, #{fileName}
 								, #{content}
+								, #{idx}
 		)
   	</insert>
   	
@@ -29,6 +31,7 @@
   				, ORIGIN_FILE_NAME
   				, FILE_NAME
   				, CONTENT
+  				, IDX
 		FROM	FILES
 		WHERE	BOARD_ID = #{boardId}
 		AND		ARTICLE_ID = #{articleId}
@@ -41,6 +44,7 @@
   				, ORIGIN_FILE_NAME
   				, FILE_NAME
   				, CONTENT
+  				, IDX
 		FROM	FILES
 		WHERE	BOARD_ID = #{boardId}
 		AND		ARTICLE_ID = #{articleId}

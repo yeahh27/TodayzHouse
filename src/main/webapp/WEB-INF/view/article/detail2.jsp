@@ -19,11 +19,8 @@
 				</a>
 			</p>
 		</c:if>	
+		${files.content }
 	</c:forEach>
-
-	<div>
-		${articleVO.fileVOList["1"].content }
-	</div>
 	
 	<hr/>
 	<div>

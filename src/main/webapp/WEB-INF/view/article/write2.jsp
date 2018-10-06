@@ -14,6 +14,8 @@
 			actionPath = "/TodayzHouse/board/${boardId}/articleModify/${articleVO.articleId}"
 		}
 		
+		var count = 1
+		
 		$(".sendBtn").click(function() {
 			
 			if($("#title").val() == "") {
@@ -31,19 +33,19 @@
 			$("#writeData").attr( {
 				action: actionPath,
 	            method: "post",
-	            enctype: "multipart/form-data"
-			} ).submit()
+	            enctype: "multipart/form-data",
+			} ).submit()   
 		})
 		
-		//var count = 1
 		$(".plusBtn").click(function() {
-			/* var file_html = "<input type='file' id='file" + count + "' name='fileList" + count + "' multiple='multiple' />"
-			var content_html = "<textarea name='content" + count + "' id='content" + count + "' placeholder='CONTENT'></textarea>"
-
-			var shadow = "<div class='fileContent'>" + file_html + content_html + "</div>" */
-			var shadow = "<div class='fileContent'>" + $(".fileContent").html() + "</div>"
+			var index_html = '<input type="hidden" id="index" name="fileMap[' + count + '].idx" value="' + count + '"/>';
+			var file_html = '<input type="file" id="file" name="fileMap[' + count + '].fileList" name="file" multiple="multiple" accept="image"/>';
+			var content_html = '<textarea name="fileMap['+ count +'].content" id="content" name="content" placeholder="CONTENT"></textarea>';
+			
+			var file_duo = '<div class="fileDuo">' + file_html + content_html + '</div>'
+			var shadow = '<div class="fileContent">' + index_html + file_duo + '</div>'
 			$(this).before(shadow)
-			//count++
+			count++
 		})
 		
 		var ck_files = [];
@@ -70,7 +72,7 @@
 
 	<h1>WRITE2</h1>
 	<form:form id="writeData" modelAttribute="articleVO" enctype="multipart/form-data">
-	<input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
+	<input type="hidden" name="token" id="token" value="${sessionScope._CSRF_TOKEN_}" />
 	<div>
 		<input type="hidden" name="boardId" id="boardId" value="${boardId}" />
 	</div>
@@ -95,9 +97,11 @@
 				<img id="img_section" />
 			</div>
 		<div class="fileContent" >
-			
-			<input type="file" id="file" name="fileList" multiple="multiple" placeholder="Choose File" />
-			<textarea name="content" id="content" placeholder="CONTENT"></textarea>
+			<input type="hidden" id="index" name="fileMap['0'].idx" value="0"/>
+			<div class="fileDuo">
+				<input type="file" id="file" name="fileMap['0'].fileList" name="file" multiple="multiple" accept="image"/>
+				<textarea name="fileMap['0'].content" id="content" name="content" placeholder="CONTENT"></textarea>
+			</div>
 		</div>
 		
 		<input type="button" class="plusBtn" value="+" />

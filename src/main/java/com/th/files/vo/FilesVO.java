@@ -1,6 +1,5 @@
 package com.th.files.vo;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +13,7 @@ public class FilesVO {
 	private int boardId;
 	@Value("F_ARTICLE_ID")
 	private String articleId;
+	private String idx;
 	private String originFileName;
 	private String fileName;
 	private String content;
@@ -24,6 +24,7 @@ public class FilesVO {
 	public FilesVO() {
 		this.fileName = "";
 		this.originFileName = "";
+		this.fileList = null;
 	}
 
 	public String getFileId() {
@@ -48,6 +49,14 @@ public class FilesVO {
 
 	public void setArticleId(String articleId) {
 		this.articleId = articleId;
+	}
+
+	public String getIdx() {
+		return idx;
+	}
+
+	public void setIdx(String idx) {
+		this.idx = idx;
 	}
 
 	public String getOriginFileName() {
@@ -92,9 +101,9 @@ public class FilesVO {
 
 	@Override
 	public String toString() {
-		return "FilesVO [fileId=" + fileId + ", boardId=" + boardId + ", articleId=" + articleId + ", originFileName="
-				+ originFileName + ", fileName=" + fileName + ", content=" + content + ", file=" + file + ", fileList="
-				+ fileList + "]";
+		return "FilesVO [fileId=" + fileId + ", boardId=" + boardId + ", articleId=" + articleId + ", idx=" + idx
+				+ ", originFileName=" + originFileName + ", fileName=" + fileName + ", content=" + content + ", file="
+				+ file + ", fileList=" + fileList + "]";
 	}
 
 }

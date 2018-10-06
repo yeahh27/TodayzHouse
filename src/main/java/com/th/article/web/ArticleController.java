@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +32,7 @@ import com.th.article.vo.ArticleSearchVO;
 import com.th.article.vo.ArticleVO;
 import com.th.common.session.Session;
 import com.th.common.web.DownloadUtil;
+import com.th.files.vo.FileMapVO;
 import com.th.files.vo.FilesVO;
 import com.th.member.vo.MemberVO;
 
@@ -46,20 +46,20 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 	
-	//@Value("${D:/uploadFiles}")
-	private String uploadPath = "C:/Users/YEAH/Documents/uploadFiles";
+	//@Value("${C:/uploadFiles}")
+	//private String uploadPath;
+	
+	private String uploadPath = " ";
 	
 	@GetMapping("/board/{boardId}/articleWrite")
 	public String viewArticleWritePage(@PathVariable int boardId) {
 		return "article/write" + boardId;
 	}
 	
+ 	
 	@PostMapping("/board/{boardId}/articleWrite")
 	public ModelAndView doArticleWriteAction(@PathVariable int boardId, @Valid @ModelAttribute ArticleVO articleVO, Errors errors
-											,@ModelAttribute FilesVO filesVO, HttpSession session, HttpServletRequest request) {
-		
-		System.out.println("sasdfasdfzdfasdfdfasd" + articleVO.toString());
-		System.out.println("asdasdasdasdasdasdasd" + filesVO.toString());
+											,@ModelAttribute FileMapVO fileMapVO, HttpSession session, HttpServletRequest request) {
 		
 		String sessionToken = (String) session.getAttribute(Session.CSRF_TOKEN);
 		if(!articleVO.getToken().equals(sessionToken)) {
@@ -67,35 +67,36 @@ public class ArticleController {
 		}
 		
 		ModelAndView view = new ModelAndView("redirect:/board/" + boardId);
-
-		// Validation Annotation이 실패했는지 체크
-		if (errors.hasErrors()) {
-			view.setViewName("article/" + boardId);		// view path 지정
-			view.addObject("articleVO", articleVO);
-			return view;
-		}
 		List<FilesVO> fileList = new ArrayList<>();
-		for(int i=0; i<filesVO.getFileList().size(); i++) {
-			FilesVO addFileVO = new FilesVO();
-			addFileVO.setBoardId(boardId);
-			addFileVO.setContent(filesVO.getContent());
-			addFileVO.setFile(filesVO.getFileList().get(i));
-			fileList.add(addFileVO);
+		System.out.println("articleVO : " + articleVO.toString());
+		for(String index : fileMapVO.getFileMap().keySet()) {
+			FilesVO filesVO = fileMapVO.getFileMap().get(index);
+			filesVO.setBoardId(articleVO.getBoardId());
+			System.out.println(index + " : " + fileMapVO.getFileMap().get(index));
+			
+			for(int i=0; i<filesVO.getFileList().size(); i++) {
+				FilesVO addFileVO = new FilesVO();
+				addFileVO.setBoardId(boardId);
+				addFileVO.setContent(filesVO.getContent());
+				addFileVO.setFile(filesVO.getFileList().get(i));
+				addFileVO.setIdx(filesVO.getIdx());
+				fileList.add(addFileVO);
+			}
+			
+			articleVO.setFileVOList(fileList);
+			
+			// XSS
+			XssFilter filter = XssFilter.getInstance("lucy-xss-superset.xml");
+			articleVO.setTitle(filter.doFilter(articleVO.getTitle()));
+			for(int i=0; i<fileList.size(); i++) {
+				articleVO.getFileVOList().get(i).setContent(filter.doFilter(articleVO.getFileVOList().get(i).getContent()));
+			}
+			
 		}
-		
-		articleVO.setFileVOList(fileList);
 		fileUpload(fileList);
-		
 		MemberVO loginMemberVO = (MemberVO) session.getAttribute(Session.MEMBER);
 		articleVO.setEmail(loginMemberVO.getEmail());
-
-		// XSS
-		XssFilter filter = XssFilter.getInstance("lucy-xss-superset.xml");
-		articleVO.setTitle(filter.doFilter(articleVO.getTitle()));
-		for(int i=0; i<fileList.size(); i++) {
-			articleVO.getFileVOList().get(i).setContent(filter.doFilter(articleVO.getFileVOList().get(i).getContent()));
-		}
-
+	
 		boolean isSuccess = this.articleService.createArticle(articleVO);
 
 		String paramFormat = "IP:%s, Param:%s, Result:%s";
