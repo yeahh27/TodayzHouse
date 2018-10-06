@@ -23,11 +23,14 @@
 			$.post("/TodayzHouse/member/login"
 				   , $("#loginData").serialize()
 				   , function(response) {
-					   if(response.status) {
+						console.log(response.status)
+					   if(response.status == 'ok') {
 							//alert("로그인되었습니다.")
 							location.href="/TodayzHouse/"
+						} else if (response.status == 'block') {
+							alert(response.message)
+							location.href="/TodayzHouse/member/login"
 						} else {
-							alert("로그인에 실패하였습니다.")
 							alert(response.message)
 							location.href="/TodayzHouse/member/login"
 						}

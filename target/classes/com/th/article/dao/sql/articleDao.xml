@@ -149,7 +149,7 @@
    		AND		A.ARTICLE_ID = #{articleId}
   	</select>
   	
-  	<!-- <update id="updateArticle" parameterType="ArticleVO">
+  	<update id="updateArticle" parameterType="ArticleVO">
   		UPDATE	ARTICLES
 		SET     TITLE = #{title}
 		        , CONTENT = #{content}
@@ -158,7 +158,7 @@
 		        , MODIFY_DATE = SYSDATE
 		WHERE   BOARD_ID = #{boardId}
 		AND		ARTICLE_ID = #{articleId}
-  	</update> -->
+  	</update>
   	
   	<delete id="deleteOneArticle" parameterType="map">
   		DELETE	

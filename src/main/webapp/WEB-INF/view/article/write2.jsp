@@ -38,20 +38,21 @@
 		})
 		
 		$(".plusBtn").click(function() {
+			var imgbox_html = '<div class="imgWrapper"> </div>';
 			var index_html = '<input type="hidden" id="index" name="fileMap[' + count + '].idx" value="' + count + '"/>';
-			var file_html = '<input type="file" id="file" name="fileMap[' + count + '].fileList" name="file" multiple="multiple" accept="image"/>';
+			var file_html = '<input type="file" id="file" name="fileMap[' + count + '].fileList" multiple="multiple" accept="image"/>';
 			var content_html = '<textarea name="fileMap['+ count +'].content" id="content" name="content" placeholder="CONTENT"></textarea>';
 			
 			var file_duo = '<div class="fileDuo">' + file_html + content_html + '</div>'
-			var shadow = '<div class="fileContent">' + index_html + file_duo + '</div>'
+			var shadow = '<div class="fileContent">' + imgbox_html + index_html + file_duo + '</div>'
 			$(this).before(shadow)
 			count++
 		})
 		
 		var ck_files = [];
 		$("#file").change(function(e) {
+			alert($(this).parent().parent(".fileContent").find("#index").val())
 			ck_files = [];
-			$(".imgWrapper").empty();
 			
 			var files = e.target.files;
 			var filesArr = Array.prototype.slice.call(files);
@@ -93,13 +94,12 @@
 			</c:if>	
 		</c:forEach>
 		
-		<div class="imgWrapper">
-				<img id="img_section" />
-			</div>
 		<div class="fileContent" >
+			<div class="imgWrapper">
+			</div>
 			<input type="hidden" id="index" name="fileMap['0'].idx" value="0"/>
 			<div class="fileDuo">
-				<input type="file" id="file" name="fileMap['0'].fileList" name="file" multiple="multiple" accept="image"/>
+				<input type="file" id="file" name="fileMap['0'].fileList" multiple="multiple" accept="image"/>
 				<textarea name="fileMap['0'].content" id="content" name="content" placeholder="CONTENT"></textarea>
 			</div>
 		</div>

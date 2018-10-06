@@ -89,7 +89,7 @@ public class MemberController {
 				errorMessage.append("\n");
 				result.put("message", errorMessage);
 			}
-			result.put("status", false);
+			result.put("status", "fail");
 			return result;
 		}
 		
@@ -100,13 +100,15 @@ public class MemberController {
 			
 			if(!isLoginSuccess) {
 				this.memberService.increaseLoginFailCount(memberVO.getEmail());
-				result.put("status", false);
+				result.put("message", "이메일이나 비밀번호를 다시 확인하세요!");
+				result.put("status", "fail");
 			} else {
 				this.memberService.unblockUser(memberVO.getEmail());
-				result.put("status", true);
+				result.put("status", "ok");
 			}
 		} else {
-			result.put("status", false);
+			result.put("message", "30분 뒤에 다시 도전하세요!");
+			result.put("status", "block");
 		}
 		
 		if(isLoginSuccess) {

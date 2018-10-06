@@ -49,7 +49,8 @@ public class ArticleController {
 	//@Value("${C:/uploadFiles}")
 	//private String uploadPath;
 	
-	private String uploadPath = " ";
+	private String uploadPath = "C:\\Users\\YEAH\\Documents\\uploadFiles";
+	//private String uploadPath = "D:/uploadFiles";
 	
 	@GetMapping("/board/{boardId}/articleWrite")
 	public String viewArticleWritePage(@PathVariable int boardId) {
@@ -68,11 +69,10 @@ public class ArticleController {
 		
 		ModelAndView view = new ModelAndView("redirect:/board/" + boardId);
 		List<FilesVO> fileList = new ArrayList<>();
-		System.out.println("articleVO : " + articleVO.toString());
+		
 		for(String index : fileMapVO.getFileMap().keySet()) {
 			FilesVO filesVO = fileMapVO.getFileMap().get(index);
 			filesVO.setBoardId(articleVO.getBoardId());
-			System.out.println(index + " : " + fileMapVO.getFileMap().get(index));
 			
 			for(int i=0; i<filesVO.getFileList().size(); i++) {
 				FilesVO addFileVO = new FilesVO();
@@ -250,22 +250,42 @@ public class ArticleController {
 	
 	@PostMapping("/board/{boardId}/articleModify/{articleId}")
 	public ModelAndView doArticleModifyAction(@PathVariable int boardId, @PathVariable String articleId
-												, @Valid @ModelAttribute ArticleVO articleVO, Errors errors) {
+												, @Valid @ModelAttribute ArticleVO articleVO, Errors errors, @ModelAttribute FileMapVO fileMapVO) {
 		ModelAndView view = new ModelAndView("redirect:/board/" + boardId + "/" + articleId);
-		/*
 		if (errors.hasErrors()) {
 			view.setViewName("article/detail" + boardId);		// view path 지정
 			view.addObject("articleVO", articleVO);
 			return view;
 		}
 		
-		fileUpload(articleVO);
+		List<FilesVO> fileList = new ArrayList<>();
 		
-		XssFilter filter = XssFilter.getInstance("lucy-xss-superset.xml");
-		articleVO.setTitle(filter.doFilter(articleVO.getTitle()));
-		articleVO.setContent(filter.doFilter(articleVO.getContent()));
+		for(String index : fileMapVO.getFileMap().keySet()) {
+			FilesVO filesVO = fileMapVO.getFileMap().get(index);
+			filesVO.setBoardId(articleVO.getBoardId());
+			
+			for(int i=0; i<filesVO.getFileList().size(); i++) {
+				FilesVO addFileVO = new FilesVO();
+				addFileVO.setBoardId(boardId);
+				addFileVO.setContent(filesVO.getContent());
+				addFileVO.setFile(filesVO.getFileList().get(i));
+				addFileVO.setIdx(filesVO.getIdx());
+				fileList.add(addFileVO);
+			}
+			
+			articleVO.setFileVOList(fileList);
+			
+			// XSS
+			XssFilter filter = XssFilter.getInstance("lucy-xss-superset.xml");
+			articleVO.setTitle(filter.doFilter(articleVO.getTitle()));
+			for(int i=0; i<fileList.size(); i++) {
+				articleVO.getFileVOList().get(i).setContent(filter.doFilter(articleVO.getFileVOList().get(i).getContent()));
+			}
+			
+		}
+		fileUpload(fileList);
 		
-		boolean isModifySuccess = this.articleService.updateArticle(articleVO);*/
+		boolean isModifySuccess = this.articleService.updateArticle(articleVO);
 		
 		return view;
 	}

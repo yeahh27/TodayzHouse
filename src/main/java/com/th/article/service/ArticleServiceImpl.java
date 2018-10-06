@@ -50,12 +50,12 @@ public class ArticleServiceImpl implements ArticleService {
 	
 	@Override
 	public boolean updateArticle(ArticleVO articleVO) {
+		if(articleVO.getFileVOList() != null) {
+			for(int i=0; i<articleVO.getFileVOList().size(); i++) {
+				this.filesBiz.insertFile(articleVO.getFileVOList().get(i));
+			}
+		}
 		return this.articleBiz.updateArticle(articleVO) > 0;
-	}
-	
-	@Override
-	public ArticleVO readOneArticle(String articleId, MemberVO memberVO) {
-		return null;
 	}
 
 	@Override

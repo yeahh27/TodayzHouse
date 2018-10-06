@@ -54,8 +54,7 @@ public class ArticleDaoImpl extends SqlSessionDaoSupport implements ArticleDao {
 	
 	@Override
 	public int updateArticle(ArticleVO articleVO) {
-		//return getSqlSession().update("ArticleDao.updateArticle", articleVO);
-		return 0;
+		return getSqlSession().update("ArticleDao.updateArticle", articleVO);
 	}
 
 	@Override

@@ -22,7 +22,7 @@
 	</c:forEach>
 
 	<div>
-		${articleVO.fileVOList["1"].content }
+		${articleVO.fileVOList["0"].content }
 	</div>
 	
 	<hr/>

@@ -10,7 +10,7 @@
   		<typeAlias type="com.th.member.vo.MemberVO" alias="MemberVO"/>
   		<typeAlias type="com.th.article.vo.ArticleVO" alias="ArticleVO"/>
   		<typeAlias type="com.th.article.vo.ArticleSearchVO" alias="ArticleSearchVO"/>
-  		<!-- <typeAlias type="com.ktds.reply.vo.ReplyVO" alias="ReplyVO"/>  -->
+  		<typeAlias type="com.th.reply.vo.ReplyVO" alias="ReplyVO"/>
   	</typeAliases>
   	
   </configuration>

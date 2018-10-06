@@ -19,7 +19,7 @@
 				</a>
 			</p>
 		</c:if>	
-		${files.content }
+		${files.idx} : ${files.content}
 	</c:forEach>
 	
 	<hr/>

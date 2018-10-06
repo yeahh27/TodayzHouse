@@ -18,8 +18,6 @@ public interface ArticleService {
 	
 	public boolean updateArticle(ArticleVO articleVO);
 	
-	public ArticleVO readOneArticle(String articleId, MemberVO memberVO);
-	
 	public ArticleVO readOneArticle(int boardId, String articleId);
 	
 	public boolean deleteArticle(int boardId, String articleId);

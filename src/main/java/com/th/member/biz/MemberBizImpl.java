@@ -80,7 +80,7 @@ public class MemberBizImpl implements MemberBiz {
 
 	@Override
 	public boolean isBlockUser(String email) {
-		return this.memberDao.isBlockUser(email) > 3;
+		return this.memberDao.isBlockUser(email) > 0;
 	}
 
 	@Override

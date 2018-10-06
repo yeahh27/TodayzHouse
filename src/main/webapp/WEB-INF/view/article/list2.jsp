@@ -50,7 +50,11 @@ a:hover {
 		<c:when test="${not empty articleList}">
 			<c:forEach items="${articleList}" var="article">
 			<div>
-				<div class="number box">${article.articleId}</div><!-- 
+				<div class="number box">
+					<a href="/TodayzHouse/board/${boardId}/${article.articleId}">
+						${article.articleId}
+					</a>
+				</div><!--  
 				 --><div class="subject box">
 				 	<a href="/TodayzHouse/board/${boardId}/${article.articleId}">${article.title}</a>
 				 </div><!-- 

@@ -42,7 +42,6 @@
   		FROM	MEMBERS
   		WHERE	EMAIL = #{email}
   		AND		PASSWORD = #{password}
-  		AND		LOGIN_FAIL_COUNT <![CDATA[<]]> 3
   	</select>
   	
   	<select id="getSaltById" parameterType="string" resultType="string">
@@ -52,9 +51,11 @@
   	</select>
   	
   	<select id="isBlockUser" parameterType="string" resultType="_int">
-  		SELECT	LOGIN_FAIL_COUNT
-  		FROM	MEMBERS
-  		WHERE	EMAIL = #{email}
+  		SELECT	COUNT(1)
+		FROM	MEMBERS
+		WHERE	EMAIL = #{email}
+		AND     SYSDATE <![CDATA[<]]> LAST_LOGIN + (1/24/60) 
+		AND     LOGIN_FAIL_COUNT >= 3
   	</select>
   	
   	<update id="unblockUser" parameterType="string">
