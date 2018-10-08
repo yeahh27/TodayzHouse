@@ -1,6 +1,8 @@
 package com.th.reply.biz;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,13 +18,15 @@ public class ReplyBizImpl implements ReplyBiz {
 
 	@Override
 	public int insertOneReply(ReplyVO replyVO) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.replyDao.insertOneReply(replyVO);
 	}
 
 	@Override
-	public List<ReplyVO> selectAllReplies(int boardId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ReplyVO> selectAllReplies(int boardId, String articleId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("boardId", boardId);
+		param.put("articleId", articleId);
+		
+		return this.replyDao.selectAllReplies(param);
 	}
 }

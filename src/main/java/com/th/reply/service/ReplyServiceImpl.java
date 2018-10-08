@@ -14,7 +14,6 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public boolean createOneReply(ReplyVO replyVO) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.replyBiz.insertOneReply(replyVO) > 0;
 	}
 }

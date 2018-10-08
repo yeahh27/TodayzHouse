@@ -8,5 +8,5 @@ public interface ReplyBiz {
 
 	public int insertOneReply(ReplyVO replyVO);
 	
-	public List<ReplyVO> selectAllReplies(int boardId);
+	public List<ReplyVO> selectAllReplies(int boardId, String articleId);
 }

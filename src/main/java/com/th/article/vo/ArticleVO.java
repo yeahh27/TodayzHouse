@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.th.files.vo.FilesVO;
 import com.th.member.vo.MemberVO;
+import com.th.reply.vo.ReplyVO;
 
 public class ArticleVO {
 
@@ -18,7 +19,6 @@ public class ArticleVO {
 	private int boardId;
 	@NotEmpty(message = "제목은 필수 입력 값입니다.")
 	private String title;
-
 	@Value("A_EMAIL")
 	private String email;
 	private String regDate;
@@ -31,6 +31,8 @@ public class ArticleVO {
 	private List<FilesVO> fileVOList;
 
 	private String token;
+	
+	private List<ReplyVO> replyList;
 
 	public String getArticleId() {
 		return articleId;
@@ -128,12 +130,20 @@ public class ArticleVO {
 		this.token = token;
 	}
 
+	public List<ReplyVO> getReplyList() {
+		return replyList;
+	}
+
+	public void setReplyList(List<ReplyVO> replyList) {
+		this.replyList = replyList;
+	}
+
 	@Override
 	public String toString() {
 		return "ArticleVO [articleId=" + articleId + ", boardId=" + boardId + ", title=" + title + ", email=" + email
 				+ ", regDate=" + regDate + ", modifyDate=" + modifyDate + ", viewCount=" + viewCount + ", recommend="
 				+ recommend + ", report=" + report + ", memberVO=" + memberVO + ", fileVOList=" + fileVOList
-				+ ", token=" + token + "]";
+				+ ", token=" + token + ", replyList=" + replyList + "]";
 	}
 
 }

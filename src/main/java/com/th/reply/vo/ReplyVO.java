@@ -1,17 +1,27 @@
 package com.th.reply.vo;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.springframework.beans.factory.annotation.Value;
+
+import com.th.member.vo.MemberVO;
+
 public class ReplyVO {
 
 	private int level;
 	private String replyId;
 	private int boardId;
 	private String articleId;
+	@Value("R_EMAIL")
 	private String email;
+	@NotEmpty(message="내용을 입력하세요.")
 	private String content;
 	private int recommend;
 	private String regDate;
 	private String parentId;
 
+	private MemberVO memberVO;
+	
 	public int getLevel() {
 		return level;
 	}
@@ -84,11 +94,19 @@ public class ReplyVO {
 		this.parentId = parentId;
 	}
 
+	public MemberVO getMemberVO() {
+		return memberVO;
+	}
+
+	public void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
+	}
+
 	@Override
 	public String toString() {
 		return "ReplyVO [level=" + level + ", replyId=" + replyId + ", boardId=" + boardId + ", articleId=" + articleId
 				+ ", email=" + email + ", content=" + content + ", recommend=" + recommend + ", regDate=" + regDate
-				+ ", parentId=" + parentId + "]";
+				+ ", parentId=" + parentId + ", memberVO=" + memberVO + "]";
 	}
 
 }

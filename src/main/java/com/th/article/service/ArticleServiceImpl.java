@@ -13,6 +13,7 @@ import com.th.article.vo.ArticleVO;
 import com.th.files.biz.FilesBiz;
 import com.th.files.vo.FilesVO;
 import com.th.member.vo.MemberVO;
+import com.th.reply.biz.ReplyBiz;
 
 import io.github.seccoding.web.pager.explorer.PageExplorer;
 
@@ -25,6 +26,9 @@ public class ArticleServiceImpl implements ArticleService {
 	@Autowired
 	private FilesBiz filesBiz;
 
+	@Autowired
+	private ReplyBiz replyBiz;
+	
 	@Override
 	public boolean createArticle(ArticleVO articleVO) {
 		Map<String, Object> result = this.articleBiz.insertArticle(articleVO);
@@ -45,7 +49,9 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public ArticleVO readOneArticle(int boardId, String articleId) {
-		return this.articleBiz.selectOneArticle(boardId, articleId);
+		ArticleVO articleVO = this.articleBiz.selectOneArticle(boardId, articleId);
+		articleVO.setReplyList(this.replyBiz.selectAllReplies(boardId, articleId));
+		return articleVO;
 	}
 	
 	@Override

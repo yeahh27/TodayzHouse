@@ -44,7 +44,7 @@
   	
   	<resultMap type="ArticleVO" id="articleResultMap">
   		<id property="articleId" column="A_ARTICLE_ID"/>
-  		<result property="boardId" column="A_BOARD_ID"/>
+  		<result property="boardId" column="a_BOARD_ID"/>
   		<result property="title" column="TITLE"/>
   		<result property="email" column="A_EMAIL"/>
   		<result property="regDate" column="REG_DATE"/>

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -60,9 +61,9 @@ public class ArticleController {
  	
 	@PostMapping("/board/{boardId}/articleWrite")
 	public ModelAndView doArticleWriteAction(@PathVariable int boardId, @Valid @ModelAttribute ArticleVO articleVO, Errors errors
-											,@ModelAttribute FileMapVO fileMapVO, HttpSession session, HttpServletRequest request) {
+											,@ModelAttribute FileMapVO fileMapVO, HttpSession session, HttpServletRequest request
+											,@SessionAttribute(Session.CSRF_TOKEN) String sessionToken) {
 		
-		String sessionToken = (String) session.getAttribute(Session.CSRF_TOKEN);
 		if(!articleVO.getToken().equals(sessionToken)) {
 			throw new RuntimeException("잘못된 접근입니다.");
 		}
@@ -148,8 +149,6 @@ public class ArticleController {
 	public void fileDownload(@PathVariable int boardId, @PathVariable String articleId, @PathVariable String fileId
 							 , HttpServletRequest request, HttpServletResponse response) {
 		
-		//FilesVO fileVO = this.filesService.readOneFile(boardId, articleId, fileId);
-		
 		FilesVO fileVO = this.articleService.readOneFile(boardId, articleId, fileId);
 		
 		String originFileName = fileVO.getOriginFileName();
@@ -208,8 +207,8 @@ public class ArticleController {
 	}
 	
 	@GetMapping("/board/{boardId}/{articleId}")
-	public ModelAndView viewArticlePage(@PathVariable int boardId, @PathVariable String articleId, HttpSession session) {
-		ArticleSearchVO articleSearchVO = (ArticleSearchVO) session.getAttribute(Session.SEARCH); 
+	public ModelAndView viewArticlePage(@PathVariable int boardId, @PathVariable String articleId, HttpSession session
+										, @SessionAttribute(Session.SEARCH) ArticleSearchVO articleSearchVO) {
 		PageExplorer pageExplorer = this.articleService.readAllArticles(articleSearchVO);
 		
 		ModelAndView view = new ModelAndView("article/detail" + boardId);
@@ -222,7 +221,8 @@ public class ArticleController {
 				article.setTitle(filter.doFilter(article.getTitle()));
 				for(int i=0; i<article.getFileVOList().size(); i++) {
 					article.getFileVOList().get(i).setContent(filter.doFilter(article.getFileVOList().get(i).getContent()));
-				}			}
+				}			
+			}
 			
 			ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
 			view.addObject("articleVO", articleVO);
@@ -232,11 +232,18 @@ public class ArticleController {
 	}
 	
 	@GetMapping("/board/{boardId}/articleModify/{articleId}")
-	public ModelAndView viewArticleModifyPage(@PathVariable int boardId, @PathVariable String articleId, HttpSession session) {
+	public ModelAndView viewArticleModifyPage(@PathVariable int boardId, @PathVariable String articleId
+											  , HttpSession session) {
 		
 		MemberVO sessionUser = (MemberVO) session.getAttribute(Session.MEMBER);
 		
 		ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
+
+		String sessionToken = (String) session.getAttribute(Session.CSRF_TOKEN);
+		if(!articleVO.getToken().equals(sessionToken)) {
+			throw new RuntimeException("잘못된 접근입니다.");
+		}
+		
 		String articleUser = articleVO.getEmail();
 		if(!sessionUser.getEmail().equals(articleUser)) {
 			return new ModelAndView("redirect:/board/" + boardId);
@@ -250,7 +257,13 @@ public class ArticleController {
 	
 	@PostMapping("/board/{boardId}/articleModify/{articleId}")
 	public ModelAndView doArticleModifyAction(@PathVariable int boardId, @PathVariable String articleId
-												, @Valid @ModelAttribute ArticleVO articleVO, Errors errors, @ModelAttribute FileMapVO fileMapVO) {
+											  , @Valid @ModelAttribute ArticleVO articleVO, Errors errors, @ModelAttribute FileMapVO fileMapVO
+											  , @SessionAttribute(Session.CSRF_TOKEN) String sessionToken) {
+		
+		if(!articleVO.getToken().equals(sessionToken)) {
+			throw new RuntimeException("잘못된 접근입니다.");
+		}
+		
 		ModelAndView view = new ModelAndView("redirect:/board/" + boardId + "/" + articleId);
 		if (errors.hasErrors()) {
 			view.setViewName("article/detail" + boardId);		// view path 지정
@@ -296,6 +309,12 @@ public class ArticleController {
 		MemberVO sessionUser = (MemberVO) session.getAttribute(Session.MEMBER);
 		
 		ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
+		
+		String sessionToken = (String) session.getAttribute(Session.CSRF_TOKEN);
+		if(!articleVO.getToken().equals(sessionToken)) {
+			throw new RuntimeException("잘못된 접근입니다.");
+		}
+		
 		String articleUser = articleVO.getEmail();
 		if(!sessionUser.getEmail().equals(articleUser)) {
 			return "redirect:/board/" + boardId;

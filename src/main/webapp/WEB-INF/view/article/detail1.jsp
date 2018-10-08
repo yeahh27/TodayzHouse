@@ -22,17 +22,7 @@
 	</c:forEach>
 
 	<div>
-		${articleVO.fileVOList["0"].content }
+		<h4>${articleVO.fileVOList["0"].content }</h4>
 	</div>
 	
-	<hr/>
-	
-	<div>
-		<c:if test="${articleVO.email eq sessionScope._MEMBER_.email }">
-			<a href="/TodayzHouse/board/${articleVO.boardId}/articleModify/${articleVO.articleId}">수정</a>
-			<a href="/TodayzHouse/board/${articleVO.boardId}/articleDelete/${articleVO.articleId}">삭제</a>
-		</c:if>
-		<a href="/TodayzHouse/board/${articleVO.boardId}">목록</a>
-	</div>
-	
-<jsp:include page="/WEB-INF/view/common/layout_footer.jsp"/>
+<jsp:include page="/WEB-INF/view/common/detail_footer.jsp"/>

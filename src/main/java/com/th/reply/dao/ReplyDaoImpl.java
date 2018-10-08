@@ -1,6 +1,7 @@
 package com.th.reply.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -26,13 +27,11 @@ public class ReplyDaoImpl extends SqlSessionDaoSupport implements ReplyDao {
 
 	@Override
 	public int insertOneReply(ReplyVO replyVO) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.getSqlSession().insert("ReplyDao.insertOneReply", replyVO);
 	}
 
 	@Override
-	public List<ReplyVO> selectAllReplies(int boardId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ReplyVO> selectAllReplies(Map<String, Object> param) {
+		return this.getSqlSession().selectList("ReplyDao.selectAllReplies", param);
 	}
 }

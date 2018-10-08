@@ -19,16 +19,7 @@
 				</a>
 			</p>
 		</c:if>	
-		${files.idx} : ${files.content}
+		<h5>${files.idx} : ${files.content}</h5>
 	</c:forEach>
 	
-	<hr/>
-	<div>
-		<c:if test="${articleVO.email eq sessionScope._MEMBER_.email }">
-			<a href="/TodayzHouse/board/${articleVO.boardId}/articleModify/${articleVO.articleId}">수정</a>
-			<a href="/TodayzHouse/board/${articleVO.boardId}/articleDelete/${articleVO.articleId}">삭제</a>
-		</c:if>
-		<a href="/TodayzHouse/board/${articleVO.boardId}">목록</a>
-	</div>
-	
-<jsp:include page="/WEB-INF/view/common/layout_footer.jsp"/>
+<jsp:include page="/WEB-INF/view/common/detail_footer.jsp"/>
