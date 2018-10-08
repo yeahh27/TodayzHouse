@@ -5,42 +5,29 @@
 
 <script type="text/javascript">
 	$().ready(function() {
-		/* $(".replyBtn").click(function() {
-			if($("#content").val() == "") {
-				alert("내용을 입력하세요!");
-				$("#content").focus();
-				return;
-			}
-			
-			$(".replyData").attr( {
-				action: "/TodayzHouse/reply/write",
-	            method: "post",
-	            enctype: "multipart/form-data"
-			} ).submit()
-		}) */
 		
 		$(".replyPlus").click(function() {
 			var parentID = $(this).closest(".replyHead").children(".replyId").val();
-			var parent_html = '<form:form class="replyData" modelAttribute="replyVO"> <input type="hidden" id="parentId" name="parentId" value="' + parentID + '" />';
+			var parent_html = '<form:form class="replyData" modelAttribute="replyVO"> <input type="hidden" id="parentId" class="parentId" name="parentId" value="' + parentID + '" />';
 			
 			var plus_html = parent_html + '<div id="replyWrapper">' + $("#replyWrapper").html() + '</div> </form:form>';
 			$(this).after(plus_html)
 		})
 		
 		$(".replyHead").on("click", ".replyBtn", function() {
-			if($("#content").val() == "") {
+			if($(this).closest("#replyWrapper").find(".content").val() == "") {
 				alert("내용을 입력하세요!");
-				$("#content").focus();
+				$(".content").focus();
 				return;
 			}
 			
-			$(".replyData").attr( {
+			$(this).closest("#replyWrapper").closest(".replyData").attr( {
 				action: "/TodayzHouse/reply/write",
 	            method: "post",
 	            enctype: "multipart/form-data"
 			} ).submit()
 		})
-		 
+		
 	})
 </script>
 
@@ -48,8 +35,9 @@
 		<c:forEach items="${articleVO.replyList}" var="reply">
 		<div style="margin-left: ${(reply.level - 1) * 30}px" class="replyHead" >
 			<input type="hidden" class="replyId" value="${reply.replyId}" />
+			<input type="hidden" class="parentId" value="${reply.parentId}" />
 			<div>${reply.memberVO.name}   ${reply.regDate}</div>
-			<div>${reply.content}</div>
+			<div>${reply.content} <a>수정</a> <a href="/TodayzHouse/reply/delete/${reply.boardId}/${reply.articleId}/${reply.replyId}">삭제</a></div>
 			<input type="button" value="+" class="replyPlus" />
 		</div>
 		</c:forEach>
@@ -57,11 +45,12 @@
 	
 	<form:form class="replyData" modelAttribute="replyVO">
 		<div class="replyHead">
-			<input type="hidden" id="parentId" name="parentId" value="0" />
+			<input type="hidden" id="parentId" class="parentId" name="parentId" value="0" />
 			<div id="replyWrapper">
+				<input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
 				<input type="hidden" name="boardId" value="${articleVO.boardId}"/>
 				<input type="hidden" name="articleId" value="${articleVO.articleId}"/>
-				<textarea id="content" name="content"></textarea>
+				<textarea id="content" name="content" class="content"></textarea>
 				<input type="button" class="replyBtn" value="등록" />
 			</div>
 		</div>

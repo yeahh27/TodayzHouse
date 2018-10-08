@@ -34,4 +34,14 @@ public class ReplyDaoImpl extends SqlSessionDaoSupport implements ReplyDao {
 	public List<ReplyVO> selectAllReplies(Map<String, Object> param) {
 		return this.getSqlSession().selectList("ReplyDao.selectAllReplies", param);
 	}
+
+	@Override
+	public int deleteAllReplies(Map<String, Object> param) {
+		return this.getSqlSession().delete("ReplyDao.deleteAllReplies", param);
+	}
+
+	@Override
+	public int deleteOneReply(Map<String, Object> param) {
+		return this.getSqlSession().delete("ReplyDao.deleteOneReply", param);
+	}
 }

@@ -69,6 +69,10 @@ public class ArticleServiceImpl implements ArticleService {
 		if(this.filesBiz.selectAllFiles(boardId, articleId) != null) {
 			this.filesBiz.deleteFilesByArticle(boardId, articleId);
 		}
+		
+		if(this.replyBiz.selectAllReplies(boardId, articleId) != null) {
+			this.replyBiz.deleteAllReplies(boardId, articleId);
+		}
 		return this.articleBiz.deleteOneArticle(boardId, articleId) > 0;
 	}
 

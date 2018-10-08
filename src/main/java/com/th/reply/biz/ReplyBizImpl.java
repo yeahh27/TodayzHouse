@@ -29,4 +29,25 @@ public class ReplyBizImpl implements ReplyBiz {
 		
 		return this.replyDao.selectAllReplies(param);
 	}
+
+	@Override
+	public int deleteAllReplies(int boardId, String articleId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("boardId", boardId);
+		param.put("articleId", articleId);
+
+		return this.replyDao.deleteAllReplies(param);
+	}
+
+	@Override
+	public int deleteOneReply(int boardId, String articleId, String replyId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("boardId", boardId);
+		param.put("articleId", articleId);
+		param.put("replyId", replyId);
+		
+		return this.replyDao.deleteOneReply(param);
+	}
+	
+	
 }

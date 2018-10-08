@@ -22,6 +22,8 @@ public class ReplyVO {
 
 	private MemberVO memberVO;
 	
+	private String token;
+	
 	public int getLevel() {
 		return level;
 	}
@@ -101,12 +103,20 @@ public class ReplyVO {
 	public void setMemberVO(MemberVO memberVO) {
 		this.memberVO = memberVO;
 	}
+	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	@Override
 	public String toString() {
 		return "ReplyVO [level=" + level + ", replyId=" + replyId + ", boardId=" + boardId + ", articleId=" + articleId
 				+ ", email=" + email + ", content=" + content + ", recommend=" + recommend + ", regDate=" + regDate
-				+ ", parentId=" + parentId + ", memberVO=" + memberVO + "]";
+				+ ", parentId=" + parentId + ", memberVO=" + memberVO + ", token=" + token + "]";
 	}
 
 }

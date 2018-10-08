@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/view/common/layout_header.jsp"/>
+<input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
 	<h1>DETAIL1</h1>
 
 	<h2>${articleVO.title}

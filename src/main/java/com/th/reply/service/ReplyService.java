@@ -5,4 +5,6 @@ import com.th.reply.vo.ReplyVO;
 public interface ReplyService {
 
 	public boolean createOneReply(ReplyVO replyVO);
+	
+	public boolean deleteOneReply(int boardId, String articleId, String replyId);
 }

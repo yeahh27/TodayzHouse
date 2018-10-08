@@ -42,7 +42,7 @@
   		<result property="content" column="CONTENT" />
   		<result property="regDate" column="REG_DATE" />
   		<result property="recommend" column="RECOMMEND" />
-  		<result property="parentId" column="PAREND_ID" />
+  		<result property="parentId" column="PARENT_ID" />
   		<association property="memberVO" javaType="MemberVO">
   			<id property="email" column="M_EMAIL"/>
 	  		<result property="name" column="NAME"/>
@@ -70,5 +70,23 @@
   		START	WITH R.PARENT_ID = '0'
   		CONNECT	BY PRIOR R.REPLY_ID = R.PARENT_ID
   	</select>
+
+  	<delete id="deleteAllReplies" parameterType="map">
+  		DELETE
+  		FROM	REPLY
+  		WHERE	BOARD_ID = #{boardId}
+  		AND		ARTICLE_ID = #{articleId}
+  	</delete>
+  	
+  	<delete id="deleteOneReply" parameterType="map">
+  		DELETE
+		FROM    REPLY
+		WHERE   REPLY_ID IN (SELECT		REPLY_ID
+		                     FROM		REPLY 
+		                     WHERE		BOARD_ID = #{boardId}
+		                     AND		ARTICLE_ID = #{articleId}
+		                     START		WITH REPLY_ID = #{replyId}
+		                     CONNECT	BY PRIOR REPLY_ID = PARENT_ID)
+  	</delete>
   </mapper>
   

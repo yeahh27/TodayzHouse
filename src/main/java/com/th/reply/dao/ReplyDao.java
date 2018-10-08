@@ -10,4 +10,8 @@ public interface ReplyDao {
 	public int insertOneReply(ReplyVO replyVO);
 	
 	public List<ReplyVO> selectAllReplies(Map<String, Object> param);
+	
+	public int deleteAllReplies(Map<String, Object> param);
+	
+	public int deleteOneReply(Map<String, Object> param);
 }

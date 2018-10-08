@@ -310,10 +310,10 @@ public class ArticleController {
 		
 		ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
 		
-		String sessionToken = (String) session.getAttribute(Session.CSRF_TOKEN);
+		/*String sessionToken = (String) session.getAttribute(Session.CSRF_TOKEN);
 		if(!articleVO.getToken().equals(sessionToken)) {
 			throw new RuntimeException("잘못된 접근입니다.");
-		}
+		}*/
 		
 		String articleUser = articleVO.getEmail();
 		if(!sessionUser.getEmail().equals(articleUser)) {

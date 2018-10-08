@@ -35,7 +35,7 @@ a:hover {
     color: #00e6ac;
 }
 </style>
-
+<input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
 	<h1>LIST2</h1>
 	<div style="text-align: center;">
 	
