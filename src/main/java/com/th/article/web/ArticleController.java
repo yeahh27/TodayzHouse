@@ -68,6 +68,8 @@ public class ArticleController {
 			throw new RuntimeException("잘못된 접근입니다.");
 		}
 		
+		System.out.println("FileMapVO : " + fileMapVO.toString());
+		
 		ModelAndView view = new ModelAndView("redirect:/board/" + boardId);
 		List<FilesVO> fileList = new ArrayList<>();
 		
@@ -309,11 +311,6 @@ public class ArticleController {
 		MemberVO sessionUser = (MemberVO) session.getAttribute(Session.MEMBER);
 		
 		ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
-		
-		/*String sessionToken = (String) session.getAttribute(Session.CSRF_TOKEN);
-		if(!articleVO.getToken().equals(sessionToken)) {
-			throw new RuntimeException("잘못된 접근입니다.");
-		}*/
 		
 		String articleUser = articleVO.getEmail();
 		if(!sessionUser.getEmail().equals(articleUser)) {

@@ -51,7 +51,7 @@
 		
 		var ck_files = [];
 		$("#file").change(function(e) {
-			alert($(this).parent().parent(".fileContent").find("#index").val())
+			//alert($(this).parent().parent(".fileContent").find("#index").val())
 			ck_files = [];
 			
 			var files = e.target.files;

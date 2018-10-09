@@ -22,14 +22,7 @@
 							, #{content}
 							, SYSDATE
 							, 0
-							<choose>
-								<when test="parentId != null and parentId != ''">
-								, #{parentId}
-								</when>
-								<otherwise>
-								, ' '
-								</otherwise>
-							</choose>
+							, #{parentId}
 		)
   	</insert>
   	

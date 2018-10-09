@@ -18,7 +18,4 @@ public class FileMapVO {
 	public String toString() {
 		return "FileMapVO [fileMap=" + fileMap + "]";
 	}
-	
-	
-
 }

@@ -9,10 +9,10 @@
   		 <selectKey keyProperty="articleId" resultType="string" order="BEFORE">
 			SELECT	<choose>
 						<when test="boardId == 1">
-						'AT' || #{boardId} || '-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(ARTICLE1_ID_SEQ.NEXTVAL, 6, '0') articleId	
+						'AT1-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(ARTICLE1_ID_SEQ.NEXTVAL, 6, '0') articleId	
 						</when>
 						<otherwise>
-						'AT' || #{boardId} || '-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(ARTICLE2_ID_SEQ.NEXTVAL, 6, '0') articleId	
+						'AT2-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(ARTICLE2_ID_SEQ.NEXTVAL, 6, '0') articleId	
 						</otherwise>
 					</choose>
 			FROM	DUAL
@@ -38,8 +38,6 @@
 								 , 0
 								 , 0
 		)
-
-		 
   	</insert>
   	
   	<resultMap type="ArticleVO" id="articleResultMap">

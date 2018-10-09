@@ -28,6 +28,28 @@
 			} ).submit()
 		})
 		
+		$(".replyHead").on("click", ".replyModify", function() {
+			var content_data = $(this).closest(".replyMoDe").closest(".replyHead").find(".content").data("con")
+			var modify_content = $('<textarea id="content" name="content" class="content">' + content_data + '</textarea> <input type="button" class="replyModifyBtn" value="수정" />')
+			$(this).closest(".replyMoDe").closest(".replyHead").find(".content").hide()
+			$(this).closest(".replyMoDe").closest(".replyHead").find(".content").after(modify_content)
+		})
+		
+		$(".replyHead").on("click", ".replyModifyBtn", function() {
+			alert($(this).find(".content").val())
+			/* if($(this).closest(".replyHead").find(".content").val() == "") {
+				alert("수정할 내용을 입력하세요!");
+				$(".content").focus();
+				return;
+			} */
+			
+			/* $(this).closest("#replyWrapper").closest(".replyData").attr( {
+				action: "/TodayzHouse/reply/write",
+	            method: "post",
+	            enctype: "multipart/form-data"
+			} ).submit() */
+		})
+		
 	})
 </script>
 
@@ -37,7 +59,11 @@
 			<input type="hidden" class="replyId" value="${reply.replyId}" />
 			<input type="hidden" class="parentId" value="${reply.parentId}" />
 			<div>${reply.memberVO.name}   ${reply.regDate}</div>
-			<div>${reply.content} <a>수정</a> <a href="/TodayzHouse/reply/delete/${reply.boardId}/${reply.articleId}/${reply.replyId}">삭제</a></div>
+			<div class="content" data-con="${reply.content}">${reply.content}</div>
+			<div class="replyMoDe">
+				<a class="replyModify">수정</a>
+				<a href="/TodayzHouse/reply/delete/${reply.boardId}/${reply.articleId}/${reply.replyId}">삭제</a>
+			</div>
 			<input type="button" value="+" class="replyPlus" />
 		</div>
 		</c:forEach>
