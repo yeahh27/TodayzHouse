@@ -21,4 +21,9 @@ public class ReplyServiceImpl implements ReplyService {
 	public boolean deleteOneReply(int boardId, String articleId, String replyId) {
 		return this.replyBiz.deleteOneReply(boardId, articleId, replyId) > 0;
 	}
+
+	@Override
+	public boolean modifyOneReply(ReplyVO replyVO) {
+		return this.replyBiz.updateOneReply(replyVO) > 0;
+	}
 }

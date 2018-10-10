@@ -48,6 +48,11 @@ public class ReplyBizImpl implements ReplyBiz {
 		
 		return this.replyDao.deleteOneReply(param);
 	}
+
+	@Override
+	public int updateOneReply(ReplyVO replyVO) {
+		return this.replyDao.updateOneReply(replyVO);
+	}
 	
 	
 }

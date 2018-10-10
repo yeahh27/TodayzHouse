@@ -31,24 +31,28 @@
 		$(".replyHead").on("click", ".replyModify", function() {
 			var content_data = $(this).closest(".replyMoDe").closest(".replyHead").find(".content").data("con")
 			var modify_content = $('<textarea id="content" name="content" class="content">' + content_data + '</textarea> <input type="button" class="replyModifyBtn" value="수정" />')
-			$(this).closest(".replyMoDe").closest(".replyHead").find(".content").hide()
-			$(this).closest(".replyMoDe").closest(".replyHead").find(".content").after(modify_content)
+			$(this).closest(".replyMoDe").closest(".replyHead").find(".content").remove()
+			$(this).closest(".replyMoDe").before(modify_content)
+			
+			$(this).closest(".replyMoDe").closest(".replyHead").wrap('<form:form class="replyData" modelAttribute="replyVO"></form:form>');
 		})
 		
 		$(".replyHead").on("click", ".replyModifyBtn", function() {
-			alert($(this).find(".content").val())
-			/* if($(this).closest(".replyHead").find(".content").val() == "") {
+			if($(this).parent(".replyHead").find(".content").val() == "") {
 				alert("수정할 내용을 입력하세요!");
 				$(".content").focus();
 				return;
-			} */
+			}
 			
-			/* $(this).closest("#replyWrapper").closest(".replyData").attr( {
-				action: "/TodayzHouse/reply/write",
-	            method: "post",
-	            enctype: "multipart/form-data"
-			} ).submit() */
-		})
+			$.post($(this).parent(".replyHead").find(".replyModify").data("modi")
+				   , $(this).parent(".replyHead").closest(".replyData").serialize()
+				   , function(response) {
+						if(response.status == 'ok') {
+							window.location.reload()
+						} 
+					}
+			) 
+		}) 
 		
 	})
 </script>
@@ -58,12 +62,15 @@
 		<div style="margin-left: ${(reply.level - 1) * 30}px" class="replyHead" >
 			<input type="hidden" class="replyId" value="${reply.replyId}" />
 			<input type="hidden" class="parentId" value="${reply.parentId}" />
+			<input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
 			<div>${reply.memberVO.name}   ${reply.regDate}</div>
 			<div class="content" data-con="${reply.content}">${reply.content}</div>
-			<div class="replyMoDe">
-				<a class="replyModify">수정</a>
-				<a href="/TodayzHouse/reply/delete/${reply.boardId}/${reply.articleId}/${reply.replyId}">삭제</a>
-			</div>
+			<c:if test="${reply.email eq sessionScope._MEMBER_.email }">
+				<div class="replyMoDe">
+					<a class="replyModify" >수정</a>
+					<a href="/TodayzHouse/reply/delete/${reply.boardId}/${reply.articleId}/${reply.replyId}">삭제</a>
+				</div>
+			</c:if>
 			<input type="button" value="+" class="replyPlus" />
 		</div>
 		</c:forEach>

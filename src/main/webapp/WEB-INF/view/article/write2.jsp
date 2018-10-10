@@ -40,7 +40,7 @@
 		$(".plusBtn").click(function() {
 			var imgbox_html = '<div class="imgWrapper"> </div>';
 			var index_html = '<input type="hidden" id="index" name="fileMap[' + count + '].idx" value="' + count + '"/>';
-			var file_html = '<input type="file" id="file" name="fileMap[' + count + '].fileList" multiple="multiple" accept="image"/>';
+			var file_html = '<input type="file" id="file" class="file" name="fileMap[' + count + '].fileList" multiple="multiple" accept="image"/>';
 			var content_html = '<textarea name="fileMap['+ count +'].content" id="content" name="content" placeholder="CONTENT"></textarea>';
 			
 			var file_duo = '<div class="fileDuo">' + file_html + content_html + '</div>'
@@ -50,8 +50,8 @@
 		})
 		
 		var ck_files = [];
-		$("#file").change(function(e) {
-			//alert($(this).parent().parent(".fileContent").find("#index").val())
+		$(".contentWrapper").on("change", ".fileContent .file", function(e) {
+			var where = $(this).closest(".fileContent").find(".imgWrapper")
 			ck_files = [];
 			
 			var files = e.target.files;
@@ -63,11 +63,11 @@
 				var reader = new FileReader();
 				reader.onload = function(e) {
 					var img_html = "<img src=\"" + e.target.result + "\" width='200'/>";
-					$(".imgWrapper").append(img_html);
+					where.append(img_html);
 				}
 				reader.readAsDataURL(f);
 			})
-		}) 
+		})
 	})
 </script>
 
@@ -83,7 +83,7 @@
 			<form:errors path="title" />
 		</div>
 	</div>
-	<div>
+	<div class="contentWrapper">
 		<c:forEach items="${articleVO.fileVOList}" var="files">
 			<c:if test="${not empty files.originFileName}">
 				<p>
@@ -99,7 +99,7 @@
 			</div>
 			<input type="hidden" id="index" name="fileMap['0'].idx" value="0"/>
 			<div class="fileDuo">
-				<input type="file" id="file" name="fileMap['0'].fileList" multiple="multiple" accept="image"/>
+				<input type="file" id="file" class="file" name="fileMap['0'].fileList" multiple="multiple" accept="image"/>
 				<textarea name="fileMap['0'].content" id="content" name="content" placeholder="CONTENT"></textarea>
 			</div>
 		</div>

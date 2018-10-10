@@ -24,31 +24,41 @@
 		)
   	</insert>
   	
-  	<select id="selectAllFiles" parameterType="map" resultType="FilesVO">
-  		SELECT	FILE_ID
-  				, BOARD_ID
-  				, ARTICLE_ID
-  				, ORIGIN_FILE_NAME
-  				, FILE_NAME
-  				, CONTENT
-  				, IDX
+  	<resultMap type="FilesVO" id="filesResultMap">
+  		<id property="fileId" column="FILE_ID" />
+  		<result property="boardId" column="BOARD_ID"/>
+  		<result property="articleId" column="ARTICLE_ID"/>
+  		<result property="originFileName" column="ORIGIN_FILE_NAME"/>
+  		<result property="fileName" column="FILE_NAME"/>
+  		<result property="content" column="CONTENT"/>
+  		<result property="idx" column="IDX"/>
+  	</resultMap>
+  	
+  	<select id="selectAllFiles" parameterType="map" resultMap="filesResultMap">
+  		SELECT	FILE_ID 
+  				, BOARD_ID 
+  				, ARTICLE_ID 
+  				, ORIGIN_FILE_NAME 
+  				, FILE_NAME 
+  				, CONTENT 
+  				, IDX 
 		FROM	FILES
 		WHERE	BOARD_ID = #{boardId}
 		AND		ARTICLE_ID = #{articleId}
   	</select>
   	
-  	<select id="selectOneFile" parameterType="map" resultType="FilesVO">
-  		SELECT	FILE_ID
-  				, BOARD_ID
-  				, ARTICLE_ID
-  				, ORIGIN_FILE_NAME
-  				, FILE_NAME
-  				, CONTENT
-  				, IDX
-		FROM	FILES
-		WHERE	BOARD_ID = #{boardId}
-		AND		ARTICLE_ID = #{articleId}
-		AND		FILE_ID = #{fileId}
+  	<select id="selectOneFile" parameterType="map" resultMap="filesResultMap">
+  		SELECT	FILE_ID 
+  				, BOARD_ID 
+  				, ARTICLE_ID 
+  				, ORIGIN_FILE_NAME 
+  				, FILE_NAME 
+  				, CONTENT 
+  				, IDX 
+  		FROM	FILES
+  		WHERE	BOARD_ID = #{boardId}
+  		AND		ARTICLE_ID = #{articleId}
+  		AND 	FILE_ID = #{fileId}
   	</select>
   	
   	<update id="updateFile" parameterType="FilesVO">

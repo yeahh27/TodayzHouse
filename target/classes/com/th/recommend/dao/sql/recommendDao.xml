@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="RecommendDao">
+  
+  	<insert id="insertRecommend" parameterType="RecommendVO">
+  		INSERT	INTO RECOMMEND (
+  									RECOMMEND_ID
+  									, BOARD_ID
+  									, ARTICLE_ID
+  									, EMAIL
+  		) VALUES (
+  									'RC' || #{boardId} || '-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(RECOMMEND_ID_SEQ.NEXTVAL, 6, '0')
+									, #{boardId}
+									, #{articleId}
+									, #{email}
+  		)
+  	</insert>
+  	
+  	<select id="selectRecommendByArticle" parameterType="map" resultType="_int">
+  		SELECT	COUNT(1)
+  		FROM	RECOMMEND
+  		WHERE	BOARD_ID = #{boardId} 
+  		AND 	ARTICLE_ID = #{articleId}
+  		AND		EMAIL = #{email}
+  	</select>
+  	
+  	<delete id="deleteRecommend" parameterType="RecommendVO">
+  		DELETE
+  		FROM	RECOMMEND
+  		WHERE	BOARD_ID = #{boardId} 
+  		AND 	ARTICLE_ID = #{articleId}
+  		AND		EMAIL = #{email}
+  	</delete>
+  	
+  	<delete id="deleteAllRecommendsByArticle" parameterType="map">
+  		DELETE
+  		FROM	RECOMMEND
+  		WHERE	BOARD_ID = #{boardId} 
+  		AND 	ARTICLE_ID = #{articleId}
+  	</delete>
+  	
+  	<select id="selectRecommendCountByArticle" parameterType="map" resultType="_int">
+  		SELECT	COUNT(1)
+  		FROM	RECOMMEND
+  		WHERE	BOARD_ID = #{boardId} 
+  		AND 	ARTICLE_ID = #{articleId}
+  	</select>
+  </mapper>

@@ -14,4 +14,6 @@ public interface ReplyDao {
 	public int deleteAllReplies(Map<String, Object> param);
 	
 	public int deleteOneReply(Map<String, Object> param);
+	
+	public int updateOneReply(ReplyVO replyVO);
 }

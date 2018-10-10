@@ -12,7 +12,6 @@ public class ReplyVO {
 	private String replyId;
 	private int boardId;
 	private String articleId;
-	@Value("R_EMAIL")
 	private String email;
 	@NotEmpty(message="내용을 입력하세요.")
 	private String content;

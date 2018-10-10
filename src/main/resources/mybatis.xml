@@ -11,6 +11,7 @@
   		<typeAlias type="com.th.article.vo.ArticleVO" alias="ArticleVO"/>
   		<typeAlias type="com.th.article.vo.ArticleSearchVO" alias="ArticleSearchVO"/>
   		<typeAlias type="com.th.reply.vo.ReplyVO" alias="ReplyVO"/>
+  		<typeAlias type="com.th.recommend.vo.RecommendVO" alias="RecommendVO"/>
   	</typeAliases>
   	
   </configuration>

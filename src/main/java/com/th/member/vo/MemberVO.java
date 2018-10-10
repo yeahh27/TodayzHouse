@@ -11,7 +11,6 @@ import com.th.member.validator.MemberValidator;
 
 public class MemberVO {
 
-	@Value("M_EMAIL")
 	@NotEmpty(message="이메일은 필수 입력 값입니다."
 			  , groups={MemberValidator.Regist.class, MemberValidator.Login.class})
 	@Email(message="이메일형식으로 작성해주세요."

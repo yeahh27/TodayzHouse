@@ -1,18 +1,15 @@
 package com.th.article.service;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.th.article.biz.ArticleBiz;
-import com.th.article.dao.ArticleDao;
 import com.th.article.vo.ArticleSearchVO;
 import com.th.article.vo.ArticleVO;
 import com.th.files.biz.FilesBiz;
-import com.th.files.vo.FilesVO;
-import com.th.member.vo.MemberVO;
+import com.th.recommend.biz.RecommendBiz;
 import com.th.reply.biz.ReplyBiz;
 
 import io.github.seccoding.web.pager.explorer.PageExplorer;
@@ -28,6 +25,9 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Autowired
 	private ReplyBiz replyBiz;
+	
+	@Autowired
+	private RecommendBiz recommendBiz;
 	
 	@Override
 	public boolean createArticle(ArticleVO articleVO) {
@@ -49,8 +49,10 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public ArticleVO readOneArticle(int boardId, String articleId) {
+		this.articleBiz.updateViewCount(boardId, articleId);
 		ArticleVO articleVO = this.articleBiz.selectOneArticle(boardId, articleId);
 		articleVO.setReplyList(this.replyBiz.selectAllReplies(boardId, articleId));
+		articleVO.setRecommend(this.recommendBiz.selectRecommendCountByArticle(boardId, articleId));
 		return articleVO;
 	}
 	
@@ -73,12 +75,15 @@ public class ArticleServiceImpl implements ArticleService {
 		if(this.replyBiz.selectAllReplies(boardId, articleId) != null) {
 			this.replyBiz.deleteAllReplies(boardId, articleId);
 		}
+		
+		this.recommendBiz.deleteAllRecommendsByArticle(boardId, articleId);
+		
 		return this.articleBiz.deleteOneArticle(boardId, articleId) > 0;
 	}
 
 	@Override
-	public FilesVO readOneFile(int boardId, String articleId, String fileId) {
-		return this.filesBiz.selectOneFile(boardId, articleId, fileId);
+	public boolean isRecommend(int boardId, String articleId, String email) {
+		return this.recommendBiz.selectRecommendByArticle(boardId, articleId, email) > 0;
 	}
 
 }

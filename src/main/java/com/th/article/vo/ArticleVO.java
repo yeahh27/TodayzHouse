@@ -13,13 +13,10 @@ import com.th.reply.vo.ReplyVO;
 
 public class ArticleVO {
 
-	@Value("A_ARTICLE_ID")
 	private String articleId;
-	@Value("A_BOARD_ID")
 	private int boardId;
 	@NotEmpty(message = "제목은 필수 입력 값입니다.")
 	private String title;
-	@Value("A_EMAIL")
 	private String email;
 	private String regDate;
 	private String modifyDate;

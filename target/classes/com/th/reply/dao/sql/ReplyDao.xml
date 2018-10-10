@@ -81,5 +81,14 @@
 		                     START		WITH REPLY_ID = #{replyId}
 		                     CONNECT	BY PRIOR REPLY_ID = PARENT_ID)
   	</delete>
+
+  	<update id="updateOneReply" parameterType="ReplyVO">
+  		UPDATE	REPLY
+  		SET		CONTENT = #{content}
+  				, REG_DATE = SYSDATE
+  		WHERE	BOARD_ID = #{boardId}
+  		AND		ARTICLE_ID = #{articleId}
+  		AND		REPLY_ID = #{replyId}
+  	</update>
   </mapper>
   

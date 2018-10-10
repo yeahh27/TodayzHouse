@@ -20,4 +20,6 @@ public interface ArticleBiz {
 	public int updateArticle(ArticleVO articleVO);
 	
 	public int deleteOneArticle(int boardId, String articleId);
+	
+	public int updateViewCount(int boardId, String articleId);
 }

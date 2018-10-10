@@ -64,4 +64,13 @@ public class ArticleBizImpl implements ArticleBiz {
 		return this.articleDao.deleteOneArticle(param);
 	}
 
+	@Override
+	public int updateViewCount(int boardId, String articleId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("boardId", boardId);
+		param.put("articleId", articleId);
+		
+		return this.articleDao.updateViewCount(param);
+	}
+
 }

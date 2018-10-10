@@ -9,9 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FilesVO {
 
 	private String fileId;
-	@Value("F_BOARD_ID")
 	private int boardId;
-	@Value("F_ARTICLE_ID")
 	private String articleId;
 	private String idx;
 	private String originFileName;

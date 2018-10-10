@@ -13,4 +13,6 @@ public interface ReplyBiz {
 	public int deleteAllReplies(int boardId, String articleId);
 	
 	public int deleteOneReply(int boardId, String articleId, String replyId);
+	
+	public int updateOneReply(ReplyVO replyVO);
 }

@@ -42,7 +42,7 @@
   	
   	<resultMap type="ArticleVO" id="articleResultMap">
   		<id property="articleId" column="A_ARTICLE_ID"/>
-  		<result property="boardId" column="a_BOARD_ID"/>
+  		<result property="boardId" column="A_BOARD_ID"/>
   		<result property="title" column="TITLE"/>
   		<result property="email" column="A_EMAIL"/>
   		<result property="regDate" column="REG_DATE"/>
@@ -164,4 +164,11 @@
   		WHERE	BOARD_ID = #{boardId}
   		AND		ARTICLE_ID = #{articleId}
   	</delete>
+  	
+  	<update id="updateViewCount" parameterType="map">
+  		UPDATE	ARTICLES
+  		SET		VIEW_COUNT = VIEW_COUNT + 1
+		WHERE   BOARD_ID = #{boardId}
+		AND		ARTICLE_ID = #{articleId}
+  	</update>
   </mapper>

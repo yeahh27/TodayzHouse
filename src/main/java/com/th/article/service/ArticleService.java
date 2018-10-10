@@ -22,5 +22,6 @@ public interface ArticleService {
 	
 	public boolean deleteArticle(int boardId, String articleId);
 	
-	public FilesVO readOneFile(int boardId, String articleId, String fileId);
+	public boolean isRecommend(int boardId, String articleId, String email);
+	
 }

@@ -62,4 +62,9 @@ public class ArticleDaoImpl extends SqlSessionDaoSupport implements ArticleDao {
 		return getSqlSession().delete("ArticleDao.deleteOneArticle", param);
 	}
 
+	@Override
+	public int updateViewCount(Map<String, Object> param) {
+		return this.getSqlSession().update("ArticleDao.updateViewCount", param);
+	}
+
 }

@@ -47,11 +47,8 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 	
-	//@Value("${C:/uploadFiles}")
-	//private String uploadPath;
-	
-	private String uploadPath = "C:\\Users\\YEAH\\Documents\\uploadFiles";
-	//private String uploadPath = "D:/uploadFiles";
+	//@Value("${upload.path}")
+	private String uploadPath = "C:/Users/YEAH/Documents/uploadFiles";
 	
 	@GetMapping("/board/{boardId}/articleWrite")
 	public String viewArticleWritePage(@PathVariable int boardId) {
@@ -147,21 +144,6 @@ public class ArticleController {
 		
 	}
 	
-	@RequestMapping("/board/{boardId}/{articleId}/download/{fileId}")
-	public void fileDownload(@PathVariable int boardId, @PathVariable String articleId, @PathVariable String fileId
-							 , HttpServletRequest request, HttpServletResponse response) {
-		
-		FilesVO fileVO = this.articleService.readOneFile(boardId, articleId, fileId);
-		
-		String originFileName = fileVO.getOriginFileName();
-		String fileName = fileVO.getFileName();
-		try {
-			new DownloadUtil(this.uploadPath + File.separator + fileName).download(request, response, originFileName);
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		}
-
-	}
 	
 	@RequestMapping("/board/{boardId}")
 	public ModelAndView viewBoardPage(@PathVariable int boardId, @ModelAttribute ArticleSearchVO articleSearchVO, HttpSession session, HttpServletRequest request) {
@@ -214,7 +196,9 @@ public class ArticleController {
 		PageExplorer pageExplorer = this.articleService.readAllArticles(articleSearchVO);
 		
 		ModelAndView view = new ModelAndView("article/detail" + boardId);
-
+		
+		MemberVO memberVO = (MemberVO) session.getAttribute(Session.MEMBER);
+		
 		if(pageExplorer != null) {
 			
 			XssFilter filter = XssFilter.getInstance("lucy-xss-superset.xml");
@@ -228,6 +212,9 @@ public class ArticleController {
 			
 			ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
 			view.addObject("articleVO", articleVO);
+			
+			boolean isRecommend = this.articleService.isRecommend(boardId, articleId, memberVO.getEmail());		// 로그인한 사용자가 추천했는지
+			view.addObject("isRecommend", isRecommend);
 		}
 
 		return view;
