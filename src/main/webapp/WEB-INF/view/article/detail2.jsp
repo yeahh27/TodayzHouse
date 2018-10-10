@@ -12,15 +12,7 @@
 			$("#recommend").show();
 		}
 		
-		function doRecommendCount() {
-			$.post("/TodayzHouse/recommend/count/${articleVO.boardId}/${articleVO.articleId}"
-					, $(".token").val()
-					, function(response) {
-						$(".recommendCount").text(response.recommendCount);
-					}		
-			)	
-		}
-		
+		var recommendCount = $(".recommendCount").text();
 		$("#recommend").click(function() {
 			$.post("/TodayzHouse/recommend/${articleVO.boardId}/${articleVO.articleId}"
 					, $(".token").val()
@@ -28,7 +20,7 @@
 						if(response.status == "ok") {
 							$("#recommend").hide();
 							$("#unrecommend").show();
-							doRecommendCount();
+							$(".recommendCount").text(++recommendCount);
 						}
 					}
 			)
@@ -41,14 +33,13 @@
 						if(response.status == "ok") {
 							$("#unrecommend").hide();
 							$("#recommend").show();
-							doRecommendCount();
+							$(".recommendCount").text(--recommendCount);
 						}
 					}
 			)
 		})
 	})
 </script>
-
 <input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
 	<h1>DETAIL2</h1>
 
@@ -56,10 +47,12 @@
 		<span style="font-size: 10pt">${articleVO.articleId}</span>
 	</h2>	
 	
+	<h3>작성자 : ${articleVO.memberVO.name} (${articleVO.email})</h3>
+
 	<a href="#" id="recommend" style="display: none;" >좋아요:)</a>
 	<a href="#" id="unrecommend" style="display: none;">좋아요취소:(</a>
 	
-	<h3>작성자 : ${articleVO.memberVO.name} (${articleVO.email})</h3>
+	<h3>조회수 : ${articleVO.viewCount}</h3>
 	<h3>추천수 : <span class="recommendCount">${articleVO.recommend}</span></h3>
 	
 	<c:forEach items="${articleVO.fileVOList}" var="files" varStatus="fileStatus" >

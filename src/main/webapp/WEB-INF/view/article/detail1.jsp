@@ -12,15 +12,7 @@
 			$("#recommend").show();
 		}
 		
-		function doRecommendCount() {
-			$.post("/TodayzHouse/recommend/count/${articleVO.boardId}/${articleVO.articleId}"
-					, $(".token").val()
-					, function(response) {
-						$(".recommendCount").text(response.recommendCount);
-					}		
-			)	
-		}
-		
+		var recommendCount = $(".recommendCount").text();
 		$("#recommend").click(function() {
 			$.post("/TodayzHouse/recommend/${articleVO.boardId}/${articleVO.articleId}"
 					, $(".token").val()
@@ -28,7 +20,7 @@
 						if(response.status == "ok") {
 							$("#recommend").hide();
 							$("#unrecommend").show();
-							doRecommendCount();
+							$(".recommendCount").text(++recommendCount);
 						}
 					}
 			)
@@ -41,7 +33,7 @@
 						if(response.status == "ok") {
 							$("#unrecommend").hide();
 							$("#recommend").show();
-							doRecommendCount();
+							$(".recommendCount").text(--recommendCount);
 						}
 					}
 			)
@@ -63,6 +55,9 @@
 	
 	<h3>조회수 : ${articleVO.viewCount}</h3>
 	<h3>추천수 : <span class="recommendCount">${articleVO.recommend}</span></h3>
+	
+	<a href="#" id="report" style="display: none;" >신고:(</a>
+	<a href="#" id="unreport" style="display: none;">신고 취소:|</a>
 	
 	<c:forEach items="${articleVO.fileVOList}" var="files">
 		<c:if test="${not empty files.originFileName}">

@@ -28,6 +28,17 @@
 			} ).submit()
 		})
 		
+		$(".replyHead").on("click", ".replyDelete", function() {
+			var replyId = $(this).closest(".replyHead").children(".replyId").val();
+			$.get("/TodayzHouse/reply/delete/${articleVO.boardId}/${articleVO.articleId}/"+replyId
+					,function(response) {
+						if(response.status == 'ok') {
+							window.location.reload()
+						} 
+					}
+			)
+		})
+		
 		$(".replyHead").on("click", ".replyModify", function() {
 			var content_data = $(this).closest(".replyMoDe").closest(".replyHead").find(".content").data("con")
 			var modify_content = $('<textarea id="content" name="content" class="content">' + content_data + '</textarea> <input type="button" class="replyModifyBtn" value="수정" />')
@@ -44,7 +55,8 @@
 				return;
 			}
 			
-			$.post($(this).parent(".replyHead").find(".replyModify").data("modi")
+			var replyId = $(this).parent(".replyHead").children(".replyId").val();
+			$.post("/TodayzHouse/reply/modify/${articleVO.boardId}/${articleVO.articleId}/"+replyId
 				   , $(this).parent(".replyHead").closest(".replyData").serialize()
 				   , function(response) {
 						if(response.status == 'ok') {
@@ -68,7 +80,7 @@
 			<c:if test="${reply.email eq sessionScope._MEMBER_.email }">
 				<div class="replyMoDe">
 					<a class="replyModify" >수정</a>
-					<a href="/TodayzHouse/reply/delete/${reply.boardId}/${reply.articleId}/${reply.replyId}">삭제</a>
+					<a class="replyDelete" >삭제</a>
 				</div>
 			</c:if>
 			<input type="button" value="+" class="replyPlus" />

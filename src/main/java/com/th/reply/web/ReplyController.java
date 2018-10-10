@@ -45,13 +45,22 @@ public class ReplyController {
 	}
 	
 	@GetMapping("/reply/delete/{boardId}/{articleId}/{replyId}")
-	public String doReplyDeleteAction (@PathVariable int boardId, @PathVariable String articleId
+	@ResponseBody
+	public Map<String, Object> doReplyDeleteAction (@PathVariable int boardId, @PathVariable String articleId
 									   , @PathVariable String replyId, @ModelAttribute ReplyVO reply) {
+		Map<String, Object> result = new HashMap<>();
+		
 		boolean isSuccess = this.replyService.deleteOneReply(boardId, articleId, replyId);
-		return "redirect:/board/" + boardId + "/" + articleId;
+		if(isSuccess) {
+			result.put("status", "ok");
+		} else {
+			result.put("status", "fail");
+		}
+		
+		return result;
 	}
 	
-	@RequestMapping("/reply/modify/{boardId}/{articleId}/{replyId}")
+	@PostMapping("/reply/modify/{boardId}/{articleId}/{replyId}")
 	@ResponseBody
 	public Map<String, Object> doReplyModifyAction (@PathVariable int boardId, @PathVariable String articleId
 									   , @PathVariable String replyId, @ModelAttribute ReplyVO replyVO
