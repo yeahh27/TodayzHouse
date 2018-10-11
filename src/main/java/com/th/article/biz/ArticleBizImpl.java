@@ -73,4 +73,24 @@ public class ArticleBizImpl implements ArticleBiz {
 		return this.articleDao.updateViewCount(param);
 	}
 
+	@Override
+	public int updateRecommend(int boardId, String articleId, int upDown) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("boardId", boardId);
+		param.put("articleId", articleId);
+		param.put("upDown", upDown);
+		
+		return this.articleDao.updateRecommed(param);
+	}
+
+	@Override
+	public int updateReport(int boardId, String articleId, int upDown) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("boardId", boardId);
+		param.put("articleId", articleId);
+		param.put("upDown", upDown);
+		
+		return this.articleDao.updateReport(param);
+	}
+
 }

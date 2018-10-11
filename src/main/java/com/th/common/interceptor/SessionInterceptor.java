@@ -27,7 +27,6 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 			response.sendRedirect("/TodayzHouse/member/login");
 			return false;
 		}
-
 		
 		return true;
 	}

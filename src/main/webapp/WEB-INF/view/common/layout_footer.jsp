@@ -3,11 +3,12 @@
 
     			
 			</section>
-			<footer>	<!-- 밑에다가 -->
-				<hr/>
-			    Footer
-		    </footer>
+			
 		</section>
+		<footer>	<!-- 밑에다가 -->
+			<hr/>
+			 Footer
+		</footer>
 	</div>
 
 </body>

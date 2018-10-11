@@ -51,7 +51,7 @@
 		$(".replyHead").on("click", ".replyModifyBtn", function() {
 			if($(this).parent(".replyHead").find(".content").val() == "") {
 				alert("수정할 내용을 입력하세요!");
-				$(".content").focus();
+				$(this).parent(".replyHead").find(".content").focus();
 				return;
 			}
 			

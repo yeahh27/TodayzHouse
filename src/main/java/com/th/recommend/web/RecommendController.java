@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.th.common.session.Session;
 import com.th.member.vo.MemberVO;
@@ -23,11 +25,15 @@ public class RecommendController {
 	@Autowired
 	private RecommendService recommendService;
 	
-	@PostMapping("recommend/{boardId}/{articleId}")
+	@PostMapping("/recommend/{boardId}/{articleId}")
 	@ResponseBody
 	public Map<String, Object> doRecommendAction (@PathVariable int boardId, @PathVariable String articleId
-												  , @ModelAttribute String token, HttpSession session) {
-		System.out.println("asdasdasd" + token);
+												  , @RequestBody String token, HttpSession session, @SessionAttribute(Session.CSRF_TOKEN) String sessionToken) {
+		token = token.substring(6);
+		if(!token.equals(sessionToken)) {
+			throw new RuntimeException("잘못된 접근입니다.");
+		}
+		
 		Map<String, Object> result = new HashMap<>();
 		
 		MemberVO memberVO = (MemberVO) session.getAttribute(Session.MEMBER);
@@ -48,11 +54,15 @@ public class RecommendController {
 		return result;
 	}
 	
-	@PostMapping("unrecommend/{boardId}/{articleId}")
+	@PostMapping("/unrecommend/{boardId}/{articleId}")
 	@ResponseBody
 	public Map<String, Object> doUnRecommendAction (@PathVariable int boardId, @PathVariable String articleId
-												    , @ModelAttribute String token, HttpSession session) {
-		System.out.println("asdasdasd" + token);
+												    , @RequestBody String token, HttpSession session, @SessionAttribute(Session.CSRF_TOKEN) String sessionToken) {
+		token = token.substring(6);
+		if(!token.equals(sessionToken)) {
+			throw new RuntimeException("잘못된 접근입니다.");
+		}
+		
 		Map<String, Object> result = new HashMap<>();
 		
 		MemberVO memberVO = (MemberVO) session.getAttribute(Session.MEMBER);
@@ -73,16 +83,10 @@ public class RecommendController {
 		return result;
 	}
 	
-	@PostMapping("recommend/count/{boardId}/{articleId}")
+	@PostMapping("/recommend/count/{boardId}/{articleId}")
 	@ResponseBody
-	public Map<String, Object> doRecommendCountAction (@PathVariable int boardId, @PathVariable String articleId
-													, @ModelAttribute String token, HttpSession session) {
-		System.out.println("asdasdasd" + token);
+	public Map<String, Object> doRecommendCountAction (@PathVariable int boardId, @PathVariable String articleId, HttpSession session) {
 		Map<String, Object> result = new HashMap<>();
-
-		RecommendVO recommendVO = new RecommendVO();
-		recommendVO.setBoardId(boardId);
-		recommendVO.setArticleId(articleId);
 
 		int recommendCount = this.recommendService.readRecommendCount(boardId, articleId);
 		result.put("recommendCount", recommendCount);

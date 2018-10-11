@@ -23,5 +23,9 @@ public interface ArticleDao {
 	public int deleteOneArticle(Map<String, Object> param);
 	
 	public int updateViewCount(Map<String, Object> param);
+	
+	public int updateRecommed(Map<String, Object> param);
+	
+	public int updateReport(Map<String, Object> param);
 
 }

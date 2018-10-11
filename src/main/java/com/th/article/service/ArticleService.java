@@ -24,4 +24,6 @@ public interface ArticleService {
 	
 	public boolean isRecommend(int boardId, String articleId, String email);
 	
+	public boolean isReport(int boardId, String articleId, String email);
+	
 }

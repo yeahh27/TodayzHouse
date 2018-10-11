@@ -6,16 +6,23 @@
 
 <script type="text/javascript">
 	$().ready(function() {
+		
 		if(${isRecommend}) {
 			$("#unrecommend").show();
 		} else {
 			$("#recommend").show();
 		}
 		
+		if(${isReport}) {
+			$("#unreport").show();
+		} else {
+			$("#report").show();
+		}
+		
 		var recommendCount = $(".recommendCount").text();
 		$("#recommend").click(function() {
 			$.post("/TodayzHouse/recommend/${articleVO.boardId}/${articleVO.articleId}"
-					, $(".token").val()
+					, { token:$(".token").val() }
 					, function(response) {
 						if(response.status == "ok") {
 							$("#recommend").hide();
@@ -25,15 +32,42 @@
 					}
 			)
 		})
-		
+
 		$("#unrecommend").click(function() {
 			$.post("/TodayzHouse/unrecommend/${articleVO.boardId}/${articleVO.articleId}"
-					, $(".token").val()
+					, { token:$(".token").val() }
 					, function(response) {
 						if(response.status == "ok") {
 							$("#unrecommend").hide();
 							$("#recommend").show();
 							$(".recommendCount").text(--recommendCount);
+						}
+					}
+			)
+		})
+		
+		var reportCount = $(".reportCount").text();
+		$("#report").click(function() {
+			$.post("/TodayzHouse/report/${articleVO.boardId}/${articleVO.articleId}"
+					, { token:$(".token").val() }
+					, function(response) {
+						if(response.status == "ok") {
+							$("#report").hide();
+							$("#unreport").show();
+							$(".reportCount").text(++reportCount);
+						}
+					}
+			)
+		})
+
+		$("#unreport").click(function() {
+			$.post("/TodayzHouse/unreport/${articleVO.boardId}/${articleVO.articleId}"
+					, { token:$(".token").val() }
+					, function(response) {
+						if(response.status == "ok") {
+							$("#unreport").hide();
+							$("#report").show();
+							$(".reportCount").text(--reportCount);
 						}
 					}
 			)
@@ -50,21 +84,22 @@
 	
 	<h3>작성자 : ${articleVO.memberVO.name} (${articleVO.email})</h3>
 	
-	<a href="#" id="recommend" style="display: none;" >좋아요:)</a>
-	<a href="#" id="unrecommend" style="display: none;">좋아요취소:(</a>
+	<a href="#" id="recommend" style="display: none;" ><img src="/TodayzHouse/img/unrecommend2.png" width="25"></a>
+	<a href="#" id="unrecommend" style="display: none;"><img src="/TodayzHouse/img/recommend2.png" width="25"></a>
 	
-	<h3>조회수 : ${articleVO.viewCount}</h3>
-	<h3>추천수 : <span class="recommendCount">${articleVO.recommend}</span></h3>
-	
-	<a href="#" id="report" style="display: none;" >신고:(</a>
-	<a href="#" id="unreport" style="display: none;">신고 취소:|</a>
+	<a href="#" id="report" style="display: none;" ><img src="/TodayzHouse/img/report.png" width="30"></a>
+	<a href="#" id="unreport" style="display: none;"><img src="/TodayzHouse/img/unreport.png" width="30"></a>
+
+	조회수 : ${articleVO.viewCount}
+	추천수 : <span class="recommendCount">${articleVO.recommend}</span>
+	신고수 : <span class="reportCount">${articleVO.report}</span>
 	
 	<c:forEach items="${articleVO.fileVOList}" var="files">
 		<c:if test="${not empty files.originFileName}">
 			<p>
-				<%-- <a href="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}"> --%>
+				<a href="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}">
 					<img src="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}" width="120">
-				<!-- </a> -->
+				</a>
 			</p>
 		</c:if>	
 	</c:forEach>

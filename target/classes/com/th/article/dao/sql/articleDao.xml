@@ -145,6 +145,7 @@
 		AND		A.ARTICLE_ID = F.ARTICLE_ID
 		AND 	A.BOARD_ID = #{boardId}
    		AND		A.ARTICLE_ID = #{articleId}
+   		ORDER	BY F.FILE_ID ASC
   	</select>
   	
   	<update id="updateArticle" parameterType="ArticleVO">
@@ -171,4 +172,18 @@
 		WHERE   BOARD_ID = #{boardId}
 		AND		ARTICLE_ID = #{articleId}
   	</update>
+  	
+  	<update id="updateRecommed" parameterType="map">
+  		UPDATE	ARTICLES
+  		SET		RECOMMEND = RECOMMEND + #{upDown}
+  		WHERE   BOARD_ID = #{boardId}
+		AND		ARTICLE_ID = #{articleId}
+  	</update>
+  	
+  	<update id="updateReport" parameterType="map" >
+  		UPDATE	ARTICLES
+  		SET		REPORT = REPORT + #{upDown}
+  		WHERE   BOARD_ID = #{boardId}
+		AND		ARTICLE_ID = #{articleId}
+  	</update>  	
   </mapper>

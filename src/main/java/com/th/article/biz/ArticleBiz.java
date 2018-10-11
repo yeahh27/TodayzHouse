@@ -22,4 +22,9 @@ public interface ArticleBiz {
 	public int deleteOneArticle(int boardId, String articleId);
 	
 	public int updateViewCount(int boardId, String articleId);
+	
+	public int updateRecommend(int boardId, String articleId, int upDown);
+	
+	public int updateReport(int boardId, String articleId, int upDown);
+	
 }

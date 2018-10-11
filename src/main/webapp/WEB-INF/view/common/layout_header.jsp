@@ -5,13 +5,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>TODAYZHOUSE</title>
+<!-- <link href="/TodayzHouse/css/layout.css" rel="stylesheet" type="text/css"> -->
 <script src="/TodayzHouse/js/jquery-3.3.1.min.js" type="text/javascript"></script>
 <style type="text/css">
 body {
   padding: 0px;
   margin: 0px;
   font-size: 9pt;
+  text-align: center;
 }
 
 nav {

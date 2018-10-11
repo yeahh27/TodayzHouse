@@ -10,6 +10,7 @@
 		<config>src/main/java/com/th/reply/dao/sql/replyDao.xml</config>
 		<config>src/main/java/com/th/recommend/dao/sql/recommendDao.xml</config>
 		<config>src/main/java/com/th/files/dao/sql/fileDao.xml</config>
+		<config>src/main/java/com/th/report/dao/sql/reportDao.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/commonContext.xml</config>

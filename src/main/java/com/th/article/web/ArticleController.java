@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -213,8 +215,25 @@ public class ArticleController {
 			ArticleVO articleVO = this.articleService.readOneArticle(boardId, articleId);
 			view.addObject("articleVO", articleVO);
 			
+			List<FilesVO> filesVOList = articleVO.getFileVOList();
+			Map<String, List<FilesVO>> filesVOMap = new HashMap<>();
+			for(int i=0; i<filesVOList.size(); i++) {
+				String idx = filesVOList.get(i).getIdx();
+				if(filesVOMap.get(idx)==null) {
+					List<FilesVO> fileLists = new ArrayList<>();
+					fileLists.add(filesVOList.get(i));
+					filesVOMap.put(idx, fileLists);
+				} else {
+					filesVOMap.get(idx).add(filesVOList.get(i));
+				}
+			}
+			view.addObject("filesVOMap", filesVOMap);
+			
 			boolean isRecommend = this.articleService.isRecommend(boardId, articleId, memberVO.getEmail());		// 로그인한 사용자가 추천했는지
 			view.addObject("isRecommend", isRecommend);
+			
+			boolean isReport = this.articleService.isReport(boardId, articleId, memberVO.getEmail());
+			view.addObject("isReport", isReport);
 		}
 
 		return view;

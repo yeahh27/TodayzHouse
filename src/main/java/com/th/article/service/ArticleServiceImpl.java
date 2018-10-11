@@ -11,6 +11,7 @@ import com.th.article.vo.ArticleVO;
 import com.th.files.biz.FilesBiz;
 import com.th.recommend.biz.RecommendBiz;
 import com.th.reply.biz.ReplyBiz;
+import com.th.report.biz.ReportBiz;
 
 import io.github.seccoding.web.pager.explorer.PageExplorer;
 
@@ -28,6 +29,9 @@ public class ArticleServiceImpl implements ArticleService {
 	
 	@Autowired
 	private RecommendBiz recommendBiz;
+	
+	@Autowired
+	private ReportBiz reportBiz;
 	
 	@Override
 	public boolean createArticle(ArticleVO articleVO) {
@@ -77,6 +81,7 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		
 		this.recommendBiz.deleteAllRecommendsByArticle(boardId, articleId);
+		this.reportBiz.deleteAllReportsByArticle(boardId, articleId);
 		
 		return this.articleBiz.deleteOneArticle(boardId, articleId) > 0;
 	}
@@ -84,6 +89,11 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public boolean isRecommend(int boardId, String articleId, String email) {
 		return this.recommendBiz.selectRecommendByArticle(boardId, articleId, email) > 0;
+	}
+
+	@Override
+	public boolean isReport(int boardId, String articleId, String email) {
+		return this.reportBiz.selectReportByArticle(boardId, articleId, email) > 0;
 	}
 
 }

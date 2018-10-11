@@ -67,4 +67,14 @@ public class ArticleDaoImpl extends SqlSessionDaoSupport implements ArticleDao {
 		return this.getSqlSession().update("ArticleDao.updateViewCount", param);
 	}
 
+	@Override
+	public int updateRecommed(Map<String, Object> param) {
+		return this.getSqlSession().update("ArticleDao.updateRecommed", param);
+	}
+
+	@Override
+	public int updateReport(Map<String, Object> param) {
+		return this.getSqlSession().update("ArticleDao.updateReport", param);
+	}
+
 }
