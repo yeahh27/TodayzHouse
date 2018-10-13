@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="LinkDao">
+  
+  	<insert id="insertLink" parameterType="LinkVO">
+  		INSERT INTO LINK (
+							   LINK_ID
+							   , FILE_ID
+							   , PRODUCT
+							   , ADDRESS
+							   , LINK_X
+							   , LINK_Y
+		) VALUES (
+								'LK-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') ||'-' || LPAD(LINK_ID_SEQ.NEXTVAL, 6, '0')
+								, #{fileId}
+								, #{product}
+								, #{address}
+								, #{linkX}
+								, #{linkY}
+		)
+  	</insert>
+  	
+  	<resultMap type="LinkVO" id="linkResultMap">
+  		<id property="linkId" column="LINK_ID"/>
+  		<result property="fileId" column="FILE_ID" />
+  		<result property="product" column="PRODUCT" />
+  		<result property="address" column="ADDRESS" />
+  		<result property="linkX" column="LINK_X" />
+  		<result property="linkY" column="LINK_Y" />
+  	</resultMap>
+  	
+  	<select id="selectAllLinksByArticle" parameterType="string" resultMap="linkResultMap" >
+  		SELECT	LINK_ID
+  				, FILE_ID
+  				, PRODUCT
+  				, ADDRESS
+  				, LINK_X
+  				, LINK_Y
+  		FROM	LINK
+  		WHERE	FILE_ID = #{fileId}
+  	</select>
+  	
+  	<select id="selectOneLink" parameterType="map" resultMap="linkResultMap">
+  		SELECT	LINK_ID
+  				, FILE_ID
+  				, PRODUCT
+  				, ADDRESS
+  				, LINK_X
+  				, LINK_Y
+  		FROM	LINK
+  		WHERE	FILE_ID = #{fileId}
+  		AND		LINK_ID = #{linkId}
+  	</select>
+  </mapper>

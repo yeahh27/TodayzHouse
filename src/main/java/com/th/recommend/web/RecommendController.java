@@ -7,10 +7,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -28,8 +27,7 @@ public class RecommendController {
 	@PostMapping("/recommend/{boardId}/{articleId}")
 	@ResponseBody
 	public Map<String, Object> doRecommendAction (@PathVariable int boardId, @PathVariable String articleId
-												  , @RequestBody String token, HttpSession session, @SessionAttribute(Session.CSRF_TOKEN) String sessionToken) {
-		token = token.substring(6);
+												  , @RequestParam String token, HttpSession session, @SessionAttribute(Session.CSRF_TOKEN) String sessionToken) {
 		if(!token.equals(sessionToken)) {
 			throw new RuntimeException("잘못된 접근입니다.");
 		}
@@ -47,6 +45,8 @@ public class RecommendController {
 		
 		if(isSuccess) {
 			result.put("status", "ok");
+			int recommendCount = this.recommendService.readRecommendCount(boardId, articleId);
+			result.put("recommendCount", recommendCount);
 		} else {
 			result.put("status", "fail");
 		}
@@ -57,8 +57,7 @@ public class RecommendController {
 	@PostMapping("/unrecommend/{boardId}/{articleId}")
 	@ResponseBody
 	public Map<String, Object> doUnRecommendAction (@PathVariable int boardId, @PathVariable String articleId
-												    , @RequestBody String token, HttpSession session, @SessionAttribute(Session.CSRF_TOKEN) String sessionToken) {
-		token = token.substring(6);
+												    , @RequestParam String token, HttpSession session, @SessionAttribute(Session.CSRF_TOKEN) String sessionToken) {
 		if(!token.equals(sessionToken)) {
 			throw new RuntimeException("잘못된 접근입니다.");
 		}
@@ -76,21 +75,13 @@ public class RecommendController {
 		
 		if(isSuccess) {
 			result.put("status", "ok");
+			int recommendCount = this.recommendService.readRecommendCount(boardId, articleId);
+			result.put("recommendCount", recommendCount);
 		} else {
 			result.put("status", "fail");
 		}
 		
 		return result;
 	}
-	
-	@PostMapping("/recommend/count/{boardId}/{articleId}")
-	@ResponseBody
-	public Map<String, Object> doRecommendCountAction (@PathVariable int boardId, @PathVariable String articleId, HttpSession session) {
-		Map<String, Object> result = new HashMap<>();
 
-		int recommendCount = this.recommendService.readRecommendCount(boardId, articleId);
-		result.put("recommendCount", recommendCount);
-		
-		return result;
-	}
 }

@@ -20,7 +20,7 @@ public class ReportServiceImpl implements ReportService {
 	public boolean createReport(ReportVO reportVO) {
 		boolean isSuccess = this.reportBiz.insertReport(reportVO) > 0;
 		if(isSuccess) {
-			this.articleBiz.updateReport(reportVO.getBoardId(), reportVO.getArticleId(), 1);
+			this.articleBiz.updateReport(reportVO.getBoardId(), reportVO.getArticleId(), this.reportBiz.selectReportCountByArticle(reportVO.getBoardId(), reportVO.getArticleId()));
 		}
 		return isSuccess;
 	}
@@ -29,7 +29,7 @@ public class ReportServiceImpl implements ReportService {
 	public boolean deleteReport(ReportVO reportVO) {
 		boolean isSuccess = this.reportBiz.deleteReport(reportVO) > 0;
 		if(isSuccess) {
-			this.articleBiz.updateReport(reportVO.getBoardId(), reportVO.getArticleId(), -1);
+			this.articleBiz.updateReport(reportVO.getBoardId(), reportVO.getArticleId(), this.reportBiz.selectReportCountByArticle(reportVO.getBoardId(), reportVO.getArticleId()));this.articleBiz.updateReport(reportVO.getBoardId(), reportVO.getArticleId(), -1);
 		}
 		return isSuccess;
 	}

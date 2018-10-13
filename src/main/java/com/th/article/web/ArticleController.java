@@ -37,6 +37,7 @@ import com.th.common.session.Session;
 import com.th.common.web.DownloadUtil;
 import com.th.files.vo.FileMapVO;
 import com.th.files.vo.FilesVO;
+import com.th.link.vo.LinkVO;
 import com.th.member.vo.MemberVO;
 
 import io.github.seccoding.web.pager.explorer.PageExplorer;
@@ -67,11 +68,9 @@ public class ArticleController {
 			throw new RuntimeException("잘못된 접근입니다.");
 		}
 		
-		System.out.println("FileMapVO : " + fileMapVO.toString());
-		
 		ModelAndView view = new ModelAndView("redirect:/board/" + boardId);
 		List<FilesVO> fileList = new ArrayList<>();
-		
+
 		for(String index : fileMapVO.getFileMap().keySet()) {
 			FilesVO filesVO = fileMapVO.getFileMap().get(index);
 			filesVO.setBoardId(articleVO.getBoardId());
@@ -83,6 +82,7 @@ public class ArticleController {
 				addFileVO.setFile(filesVO.getFileList().get(i));
 				addFileVO.setIdx(filesVO.getIdx());
 				fileList.add(addFileVO);
+	
 			}
 			
 			articleVO.setFileVOList(fileList);
@@ -217,8 +217,14 @@ public class ArticleController {
 			
 			List<FilesVO> filesVOList = articleVO.getFileVOList();
 			Map<String, List<FilesVO>> filesVOMap = new HashMap<>();
+
 			for(int i=0; i<filesVOList.size(); i++) {
 				String idx = filesVOList.get(i).getIdx();
+				
+				String fileId = filesVOList.get(i).getFileId();
+				List<LinkVO> linkList = this.articleService.readLinkList(fileId);
+				filesVOList.get(i).setLinkList(linkList);
+				
 				if(filesVOMap.get(idx)==null) {
 					List<FilesVO> fileLists = new ArrayList<>();
 					fileLists.add(filesVOList.get(i));

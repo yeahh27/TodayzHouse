@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.th.link.vo.LinkVO;
+
 public class FilesVO {
 
 	private String fileId;
@@ -18,6 +20,8 @@ public class FilesVO {
 
 	private MultipartFile file;
 	private List<MultipartFile> fileList;
+
+	private List<LinkVO> linkList;
 
 	public FilesVO() {
 		this.fileName = "";
@@ -97,11 +101,19 @@ public class FilesVO {
 		this.fileList = fileList;
 	}
 
+	public List<LinkVO> getLinkList() {
+		return linkList;
+	}
+
+	public void setLinkList(List<LinkVO> linkList) {
+		this.linkList = linkList;
+	}
+
 	@Override
 	public String toString() {
 		return "FilesVO [fileId=" + fileId + ", boardId=" + boardId + ", articleId=" + articleId + ", idx=" + idx
 				+ ", originFileName=" + originFileName + ", fileName=" + fileName + ", content=" + content + ", file="
-				+ file + ", fileList=" + fileList + "]";
+				+ file + ", fileList=" + fileList + ", linkList=" + linkList + "]";
 	}
 
 }

@@ -19,7 +19,6 @@
 			$("#report").show();
 		}
 		
-		var recommendCount = $(".recommendCount").text();
 		$("#recommend").click(function() {
 			$.post("/TodayzHouse/recommend/${articleVO.boardId}/${articleVO.articleId}"
 					, { token:$(".token").val() }
@@ -27,7 +26,7 @@
 						if(response.status == "ok") {
 							$("#recommend").hide();
 							$("#unrecommend").show();
-							$(".recommendCount").text(++recommendCount);
+							$(".recommendCount").text(response.recommendCount);
 						}
 					}
 			)
@@ -40,13 +39,12 @@
 						if(response.status == "ok") {
 							$("#unrecommend").hide();
 							$("#recommend").show();
-							$(".recommendCount").text(--recommendCount);
+							$(".recommendCount").text(response.recommendCount);
 						}
 					}
 			)
 		})
 		
-		var reportCount = $(".reportCount").text();
 		$("#report").click(function() {
 			$.post("/TodayzHouse/report/${articleVO.boardId}/${articleVO.articleId}"
 					, { token:$(".token").val() }
@@ -54,7 +52,7 @@
 						if(response.status == "ok") {
 							$("#report").hide();
 							$("#unreport").show();
-							$(".reportCount").text(++reportCount);
+							$(".reportCount").text(response.reportCount);
 						}
 					}
 			)
@@ -67,7 +65,7 @@
 						if(response.status == "ok") {
 							$("#unreport").hide();
 							$("#report").show();
-							$(".reportCount").text(--reportCount);
+							$(".reportCount").text(response.reportCount);
 						}
 					}
 			)
@@ -98,7 +96,7 @@
 		<c:if test="${not empty files.originFileName}">
 			<p>
 				<a href="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}">
-					<img src="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}" width="120">
+					<img src="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}" width="250">
 				</a>
 			</p>
 		</c:if>	

@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.th.files.vo.FilesVO;
+import com.th.link.vo.LinkVO;
 import com.th.member.vo.MemberVO;
 import com.th.reply.vo.ReplyVO;
 
@@ -28,7 +29,7 @@ public class ArticleVO {
 	private List<FilesVO> fileVOList;
 
 	private String token;
-	
+
 	private List<ReplyVO> replyList;
 
 	public String getArticleId() {

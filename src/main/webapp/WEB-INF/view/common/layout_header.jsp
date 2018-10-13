@@ -6,14 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>TODAYZHOUSE</title>
-<!-- <link href="/TodayzHouse/css/layout.css" rel="stylesheet" type="text/css"> -->
+<!-- <link href="/TodayzHouse/css/layout.css" rel="stylesheet" type="text/css">  -->
 <script src="/TodayzHouse/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="/TodayzHouse/js/jquery-ui.min.js" type="text/javascript"></script>
+<link href="/TodayzHouse/css/jquery-ui-themes-1.12.1/jquery-ui.theme.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 body {
   padding: 0px;
   margin: 0px;
   font-size: 9pt;
-  text-align: center;
 }
 
 nav {
@@ -52,11 +53,32 @@ nav a:hover {
 .point {
 	text-decoration: underline;
 } 
+
+#wrapper {
+	width: 100%;
+	text-align: center;
+}
+
+.inline {
+	display: inline-block;
+}
+
+header {
+  text-align: center;
+}
+
+#replyBox {
+	text-align: left;
+}
+
+.replyMoDe {
+	color: #808080;
+}
 </style>
 </head>
 <body>
 	<div id="wrapper">	<!-- html5에서 새로나온 시멘트태그이고 div를 대체하기 위해서 나온 것 -->
-		<header>
+		<header id="header">
 			<nav>
 			<ul>
 				<li><a href="/TodayzHouse/">Home</a></li>

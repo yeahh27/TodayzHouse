@@ -5,6 +5,7 @@ import java.util.List;
 import com.th.article.vo.ArticleSearchVO;
 import com.th.article.vo.ArticleVO;
 import com.th.files.vo.FilesVO;
+import com.th.link.vo.LinkVO;
 import com.th.member.vo.MemberVO;
 
 import io.github.seccoding.web.pager.explorer.PageExplorer;
@@ -25,5 +26,7 @@ public interface ArticleService {
 	public boolean isRecommend(int boardId, String articleId, String email);
 	
 	public boolean isReport(int boardId, String articleId, String email);
+	
+	public List<LinkVO> readLinkList(String fileId);
 	
 }

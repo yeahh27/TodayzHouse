@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <jsp:include page="/WEB-INF/view/common/layout_header.jsp"/>
 <script type="text/javascript">
 	$().ready(function() {
@@ -18,7 +18,6 @@
 			$("#report").show();
 		}
 		
-		var recommendCount = $(".recommendCount").text();
 		$("#recommend").click(function() {
 			$.post("/TodayzHouse/recommend/${articleVO.boardId}/${articleVO.articleId}"
 					, { token:$(".token").val() }
@@ -26,7 +25,7 @@
 						if(response.status == "ok") {
 							$("#recommend").hide();
 							$("#unrecommend").show();
-							$(".recommendCount").text(++recommendCount);
+							$(".recommendCount").text(response.recommendCount);
 						}
 					}
 			)
@@ -39,13 +38,12 @@
 						if(response.status == "ok") {
 							$("#unrecommend").hide();
 							$("#recommend").show();
-							$(".recommendCount").text(--recommendCount);
+							$(".recommendCount").text(response.recommendCount);
 						}
 					}
 			)
 		})
 		
-		var reportCount = $(".reportCount").text();
 		$("#report").click(function() {
 			$.post("/TodayzHouse/report/${articleVO.boardId}/${articleVO.articleId}"
 					, { token:$(".token").val() }
@@ -53,7 +51,7 @@
 						if(response.status == "ok") {
 							$("#report").hide();
 							$("#unreport").show();
-							$(".reportCount").text(++reportCount);
+							$(".reportCount").text(response.reportCount);
 						}
 					}
 			)
@@ -66,23 +64,80 @@
 						if(response.status == "ok") {
 							$("#unreport").hide();
 							$("#report").show();
-							$(".reportCount").text(--reportCount);
+							$(".reportCount").text(response.reportCount);
 						}
 					}
 			)
 		})
 		
-		$(".img").click(function() {
-			var x = event.offsetX;
-			var y = event.offsetY;
-			//alert("postition = " + x + " : " + y);
-			var tagPlus = $('<img src="/TodayzHouse/img/plus.png" class="overlay" width="20"/>');
-			$(this).before(tagPlus)
-			$(this).closest(".imgWrapper").find(".overlay").css({
-				"position": "absolute",
-				"margin-left": x,
-				"margin-top": y
+		if (${articleVO.email eq sessionScope._MEMBER_.email }) {
+			$(".img").click(function() {
+				var x = $(this).offsetLeft;
+				var y = $(this).offsetTop;
+				alert(x + "  " + y)
+
+				/*var x = event.offsetX;
+				var y = event.offsetY; 
+				
+				var fileId = $(this).closest(".imgWrapper").find(".fileId").val();
+				
+				var tag_html = $('<input type="hidden" class="fileId"  name="fileId" value="' + fileId + '" />'
+								+ ' <input type="hidden" class="linkX" name="linkX" value="' + x + '" />'
+						        + ' <input type="hidden" class="linkY" name="linkY" value="' + y + '" />')
+				$(".linkWrapper").prepend(tag_html)
+				
+				$("#dialog").dialog({
+					closeOnEscape: false,
+				    open: function(event, ui) {
+				        $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+				    },
+				    title: "Link +", 
+			        titleIsHtml: true , 
+			        width: "230",
+					height: "90",
+					resizable: false,
+					modal: true,
+					position: {
+						my: "left top",
+						at: "center",
+						of: $(this)
+					},
+					buttons: {
+						"확인":function() {
+							$.post(
+									"/TodayzHouse/link/write"	
+									, $(".linkData").serialize()
+									, function(response) {
+										if(response.status == 'ok') {
+											window.location.reload()
+										} 
+									}
+							)
+						}, "취소": function() {
+							$(this).dialog("close")
+						}
+					}
+				}); */
+				
+				/*
+				$(this).closest(".imgWrapper").find(".linkWrapper").css({
+					"position": "absolute",
+					"margin-left": x,
+					"margin-top": y
+				}) */
 			})
+		}
+		
+		$(".linkWrapper").on("click", ".linkBtn", function() {
+			$.post(
+					"/TodayzHouse/link/write"	
+					, $(".linkData").serialize()
+					, function(response) {
+						if(response.status == 'ok') {
+							window.location.reload()
+						} 
+					}
+			)
 		})
 	})
 </script>
@@ -110,7 +165,15 @@
 		<c:forEach items="${filesList.value}" var="files">
 			<c:if test="${not empty files.originFileName}">
 			<div style="display: inline-block;" class="imgWrapper" >
-				<img src="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}" width="200" class="img">
+				<input type="hidden" class="fileId"  name="fileId" value="${files.fileId}" />
+				<img src="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}"
+					 width="300" class="img" >
+				<c:forEach items="${files.linkList}" var="links">
+				<div>
+					<img src="/TodayzHouse/img/plus.png" width="20" value="${links.fileId}"
+					     style="position: relative; left: ${links.linkX}px; top: ${links.linkY}px;"/>
+				</div>
+			</c:forEach>
 			</div>
 			</c:if>	
 		</c:forEach>
@@ -118,6 +181,16 @@
 		${filesList.value[0].content}
 	</c:forEach>
 	
+	<div id="dialog" style="display: none;">
+	<form:form class="linkData" modelAttribute="linkVO">
+		<div class="linkWrapper" >
+			<label>제품명 : </label>
+			<input type="text" class="product" name="product"/><br/>
+			<label>&nbsp;주&nbsp;소 : </label>
+			<input type="text" class="address" name="address" />
+		</div>
+	</form:form>
+	</div>
 	<hr/>
 	
 <jsp:include page="/WEB-INF/view/common/detail_footer.jsp"/>

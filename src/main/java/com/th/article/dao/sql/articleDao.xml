@@ -175,14 +175,14 @@
   	
   	<update id="updateRecommed" parameterType="map">
   		UPDATE	ARTICLES
-  		SET		RECOMMEND = RECOMMEND + #{upDown}
+  		SET		RECOMMEND = #{count}
   		WHERE   BOARD_ID = #{boardId}
 		AND		ARTICLE_ID = #{articleId}
   	</update>
   	
   	<update id="updateReport" parameterType="map" >
   		UPDATE	ARTICLES
-  		SET		REPORT = REPORT + #{upDown}
+  		SET		REPORT = #{count}
   		WHERE   BOARD_ID = #{boardId}
 		AND		ARTICLE_ID = #{articleId}
   	</update>  	

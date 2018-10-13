@@ -9,13 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.th.common.session.Session;
 import com.th.member.vo.MemberVO;
-import com.th.recommend.vo.RecommendVO;
 import com.th.report.service.ReportService;
 import com.th.report.vo.ReportVO;
 
@@ -28,8 +27,7 @@ public class ReportController {
 	@PostMapping("/report/{boardId}/{articleId}")
 	@ResponseBody
 	public Map<String, Object> doReportAction (@PathVariable int boardId, @PathVariable String articleId
-											   , @RequestBody String token, HttpSession session, @SessionAttribute(Session.CSRF_TOKEN) String sessionToken) {
-		token = token.substring(6);
+											   , @RequestParam String token, HttpSession session, @SessionAttribute(Session.CSRF_TOKEN) String sessionToken) {
 		if(!token.equals(sessionToken)) {
 			throw new RuntimeException("잘못된 접근입니다.");
 		}
@@ -47,6 +45,8 @@ public class ReportController {
 		
 		if(isSuccess) {
 			result.put("status", "ok");
+			int reportCount = this.reportService.readReportCount(boardId, articleId);
+			result.put("reportCount", reportCount);
 		} else {
 			result.put("status", "fail");
 		}
@@ -57,8 +57,7 @@ public class ReportController {
 	@PostMapping("/unreport/{boardId}/{articleId}")
 	@ResponseBody
 	public Map<String, Object> doUnReportAction (@PathVariable int boardId, @PathVariable String articleId
-												 , @RequestBody String token, HttpSession session, @SessionAttribute(Session.CSRF_TOKEN) String sessionToken) {
-		token = token.substring(6);
+												 , @RequestParam String token, HttpSession session, @SessionAttribute(Session.CSRF_TOKEN) String sessionToken) {
 		if(!token.equals(sessionToken)) {
 			throw new RuntimeException("잘못된 접근입니다.");
 		}
@@ -76,6 +75,8 @@ public class ReportController {
 		
 		if(isSuccess) {
 			result.put("status", "ok");
+			int reportCount = this.reportService.readReportCount(boardId, articleId);
+			result.put("reportCount", reportCount);
 		} else {
 			result.put("status", "fail");
 		}
@@ -83,15 +84,4 @@ public class ReportController {
 		return result;
 	}
 	
-	@PostMapping("/report/count/{boardId}/{articleId}")
-	@ResponseBody
-	public Map<String, Object> doRecommendCountAction (@PathVariable int boardId, @PathVariable String articleId, HttpSession session) {
-		Map<String, Object> result = new HashMap<>();
-
-		int recommendCount = this.reportService.readReportCount(boardId, articleId);
-		result.put("recommendCount", recommendCount);
-		
-		return result;
-	}
-
 }

@@ -13,6 +13,7 @@
   		<typeAlias type="com.th.reply.vo.ReplyVO" alias="ReplyVO"/>
   		<typeAlias type="com.th.recommend.vo.RecommendVO" alias="RecommendVO"/>
   		<typeAlias type="com.th.report.vo.ReportVO" alias="ReportVO"/>
+  		<typeAlias type="com.th.link.vo.LinkVO" alias="LinkVO"/>
   	</typeAliases>
   	
   </configuration>

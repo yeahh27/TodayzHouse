@@ -1,5 +1,6 @@
 package com.th.article.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import com.th.article.biz.ArticleBiz;
 import com.th.article.vo.ArticleSearchVO;
 import com.th.article.vo.ArticleVO;
 import com.th.files.biz.FilesBiz;
+import com.th.link.biz.LinkBiz;
+import com.th.link.vo.LinkVO;
 import com.th.recommend.biz.RecommendBiz;
 import com.th.reply.biz.ReplyBiz;
 import com.th.report.biz.ReportBiz;
@@ -32,6 +35,9 @@ public class ArticleServiceImpl implements ArticleService {
 	
 	@Autowired
 	private ReportBiz reportBiz;
+	
+	@Autowired
+	private LinkBiz linkBiz;
 	
 	@Override
 	public boolean createArticle(ArticleVO articleVO) {
@@ -57,6 +63,7 @@ public class ArticleServiceImpl implements ArticleService {
 		ArticleVO articleVO = this.articleBiz.selectOneArticle(boardId, articleId);
 		articleVO.setReplyList(this.replyBiz.selectAllReplies(boardId, articleId));
 		articleVO.setRecommend(this.recommendBiz.selectRecommendCountByArticle(boardId, articleId));
+		articleVO.setReport(this.reportBiz.selectReportCountByArticle(boardId, articleId));
 		return articleVO;
 	}
 	
@@ -94,6 +101,11 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public boolean isReport(int boardId, String articleId, String email) {
 		return this.reportBiz.selectReportByArticle(boardId, articleId, email) > 0;
+	}
+
+	@Override
+	public List<LinkVO> readLinkList(String fileId) {
+		return this.linkBiz.selectAllLinksByArticle(fileId);
 	}
 
 }

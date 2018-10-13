@@ -7,21 +7,23 @@
 	$().ready(function() {
 		
 		$(".replyPlus").click(function() {
+			$(this).css("display","none")
 			var parentID = $(this).closest(".replyHead").children(".replyId").val();
 			var parent_html = '<form:form class="replyData" modelAttribute="replyVO"> <input type="hidden" id="parentId" class="parentId" name="parentId" value="' + parentID + '" />';
 			
-			var plus_html = parent_html + '<div id="replyWrapper">' + $("#replyWrapper").html() + '</div> </form:form>';
+			var plus_html = parent_html + '<div class="replyWrapper">' + $(".replyWrapper").html() + '<input type="button" class="cancelBtn" value="취소" /></div> </form:form>';
 			$(this).after(plus_html)
+			$(this).parent().find(".replyWrapper").css("margin-left", "30px")
 		})
 		
 		$(".replyHead").on("click", ".replyBtn", function() {
-			if($(this).closest("#replyWrapper").find(".content").val() == "") {
+			if($(this).closest(".replyWrapper").find(".content").val() == "") {
 				alert("내용을 입력하세요!");
 				$(".content").focus();
 				return;
 			}
 			
-			$(this).closest("#replyWrapper").closest(".replyData").attr( {
+			$(this).closest(".replyWrapper").closest(".replyData").attr( {
 				action: "/TodayzHouse/reply/write",
 	            method: "post",
 	            enctype: "multipart/form-data"
@@ -41,11 +43,12 @@
 		
 		$(".replyHead").on("click", ".replyModify", function() {
 			var content_data = $(this).closest(".replyMoDe").closest(".replyHead").find(".content").data("con")
-			var modify_content = $('<textarea id="content" name="content" class="content">' + content_data + '</textarea> <input type="button" class="replyModifyBtn" value="수정" />')
+			var modify_content = $('<textarea id="content" name="content" class="content">' + content_data + '</textarea> <input type="button" class="replyModifyBtn" value="수정" /><input type="button" class="cancelBtn" value="취소" />')
 			$(this).closest(".replyMoDe").closest(".replyHead").find(".content").remove()
 			$(this).closest(".replyMoDe").before(modify_content)
 			
 			$(this).closest(".replyMoDe").closest(".replyHead").wrap('<form:form class="replyData" modelAttribute="replyVO"></form:form>');
+			$(this).closest(".replyMoDe").css("display","none")
 		})
 		
 		$(".replyHead").on("click", ".replyModifyBtn", function() {
@@ -65,42 +68,45 @@
 					}
 			) 
 		}) 
+		$(".replyHead").on("click", ".cancelBtn", function() {
+			window.history.back();
+		})
 		
 	})
 </script>
-
-    <div>
-		<c:forEach items="${articleVO.replyList}" var="reply">
-		<div style="margin-left: ${(reply.level - 1) * 30}px" class="replyHead" >
-			<input type="hidden" class="replyId" value="${reply.replyId}" />
-			<input type="hidden" class="parentId" value="${reply.parentId}" />
-			<input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
-			<div>${reply.memberVO.name}   ${reply.regDate}</div>
-			<div class="content" data-con="${reply.content}">${reply.content}</div>
-			<c:if test="${reply.email eq sessionScope._MEMBER_.email }">
-				<div class="replyMoDe">
-					<a class="replyModify" >수정</a>
-					<a class="replyDelete" >삭제</a>
-				</div>
-			</c:if>
-			<input type="button" value="+" class="replyPlus" />
-		</div>
-		</c:forEach>
-	</div> 
-	
-	<form:form class="replyData" modelAttribute="replyVO">
-		<div class="replyHead">
-			<input type="hidden" id="parentId" class="parentId" name="parentId" value="0" />
-			<div id="replyWrapper">
+	<div id="replyBox">
+	    <div>
+			<c:forEach items="${articleVO.replyList}" var="reply">
+			<div style="margin-left: ${(reply.level - 1) * 30}px" class="replyHead" >
+				<input type="hidden" class="replyId" value="${reply.replyId}" />
+				<input type="hidden" class="parentId" value="${reply.parentId}" />
 				<input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
-				<input type="hidden" name="boardId" value="${articleVO.boardId}"/>
-				<input type="hidden" name="articleId" value="${articleVO.articleId}"/>
-				<textarea id="content" name="content" class="content"></textarea>
-				<input type="button" class="replyBtn" value="등록" />
+				<div>${reply.memberVO.name}   ${reply.regDate}</div>
+				<div class="content" data-con="${reply.content}">${reply.content}</div>
+				<c:if test="${reply.email eq sessionScope._MEMBER_.email }">
+					<div class="replyMoDe">
+						<a class="replyModify" >수정</a>
+						<a class="replyDelete" >삭제</a>
+					</div>
+				</c:if>
+				<input type="button" value="+" class="replyPlus" />
 			</div>
-		</div>
-	</form:form>
-    
+			</c:forEach>
+		</div> 
+	
+		<form:form class="replyData" modelAttribute="replyVO">
+			<div class="replyHead">
+				<input type="hidden" id="parentId" class="parentId" name="parentId" value="0" />
+				<div class="replyWrapper">
+					<input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
+					<input type="hidden" name="boardId" value="${articleVO.boardId}"/>
+					<input type="hidden" name="articleId" value="${articleVO.articleId}"/>
+					<textarea id="content" name="content" class="content" ></textarea>
+					<input type="button" class="replyBtn" value="등록" />
+				</div>
+			</div>
+		</form:form>
+	 </div>   
     <hr/>
 	<div>
 		<c:if test="${articleVO.email eq sessionScope._MEMBER_.email }">

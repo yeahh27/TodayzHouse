@@ -20,7 +20,7 @@ public class RecommendServiceImpl implements RecommendService {
 	public boolean createRecommend(RecommendVO recommendVO) {
 		boolean isSuccess = this.recommendBiz.insertRecommend(recommendVO) > 0;
 		if(isSuccess) {
-			this.articleBiz.updateRecommend(recommendVO.getBoardId(), recommendVO.getArticleId(), 1);
+			this.articleBiz.updateRecommend(recommendVO.getBoardId(), recommendVO.getArticleId(), this.recommendBiz.selectRecommendCountByArticle(recommendVO.getBoardId(), recommendVO.getArticleId()));
 		}
 		return isSuccess;
 	}
@@ -29,7 +29,7 @@ public class RecommendServiceImpl implements RecommendService {
 	public boolean deleteRecommend(RecommendVO recommendVO) {
 		boolean isSuccess = this.recommendBiz.deleteRecommend(recommendVO) > 0;
 		if(isSuccess) {
-			this.articleBiz.updateRecommend(recommendVO.getBoardId(), recommendVO.getArticleId(), -1);
+			this.articleBiz.updateRecommend(recommendVO.getBoardId(), recommendVO.getArticleId(), this.recommendBiz.selectRecommendCountByArticle(recommendVO.getBoardId(), recommendVO.getArticleId()));
 		}
 		return isSuccess;
 	}

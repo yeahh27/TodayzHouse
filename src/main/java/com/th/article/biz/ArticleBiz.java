@@ -23,8 +23,8 @@ public interface ArticleBiz {
 	
 	public int updateViewCount(int boardId, String articleId);
 	
-	public int updateRecommend(int boardId, String articleId, int upDown);
+	public int updateRecommend(int boardId, String articleId, int count);
 	
-	public int updateReport(int boardId, String articleId, int upDown);
+	public int updateReport(int boardId, String articleId, int count);
 	
 }
