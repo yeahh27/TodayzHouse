@@ -88,7 +88,7 @@
 	</h2>	
 	
 	<h3>작성자 :<c:choose>
-					<c:when test="${articleVO.memberVO.chatOk eq 1}">
+					<c:when test="${articleVO.memberVO.chatOk eq 1 and isWriterLogin and articleVO.email ne sessionScope._MEMBER_.email }">
 						<a id="chatBtn">${articleVO.memberVO.name}</a>
 						<img src="/TodayzHouse/img/green.png" width="10" />
 					</c:when>

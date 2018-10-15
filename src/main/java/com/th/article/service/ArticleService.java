@@ -31,4 +31,6 @@ public interface ArticleService {
 	
 	public boolean updateViewCount(int boardId, String articleId);
 	
+	public boolean isWriterLogin(String email, String name);
+	
 }

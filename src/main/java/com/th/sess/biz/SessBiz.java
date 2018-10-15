@@ -7,5 +7,7 @@ public interface SessBiz {
 	public int insertMember(SessVO sessVO);
 	
 	public int deleteMember(SessVO sessVO);
+	
+	public int selectMember(SessVO sessVO);
 
 }

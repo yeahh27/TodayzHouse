@@ -5,4 +5,28 @@
 
   <mapper namespace="SessDao">
   
+  	<insert id="insertMember" parameterType="SessVO">
+  		INSERT	INTO SESS (
+  							EMAIL
+  							, NAME
+  							, LOGIN_TIME
+  		) VALUES (
+  							#{email}
+  							, #{name}
+  							, SYSDATE
+  		)
+  	</insert>
+  
+  	<delete id="deleteMember" parameterType="SessVO">
+  		DELETE
+  		FROM	SESS
+  		WHERE	email = #{email}
+  	</delete>
+  	
+  	<select id="selectMember" parameterType="SessVO" resultType="_int">
+  		SELECT	COUNT(1)
+  		FROM	SESS
+  		WHERE	EMAIL = #{email}
+  		AND		NAME = #{name}
+  	</select>
   </mapper>

@@ -116,6 +116,13 @@ public class MemberController {
 	
 	@GetMapping("/member/logout")
 	public String doMemberLogoutAction(HttpSession session) {
+		MemberVO memberVO = (MemberVO) session.getAttribute(Session.MEMBER);
+		boolean isSuccess = this.memberService.logoutMember(memberVO);
+		
+		if(!isSuccess) {
+			
+		}
+		
 		session.invalidate();	
 		return "redirect:/member/login";
 	}

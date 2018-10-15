@@ -34,7 +34,16 @@
   		WHERE	EMAIL = #{email}
   	</select>
   	
-  	<select id="selectOneMember" parameterType="MemberVO" resultType="MemberVO">
+  	<resultMap type="MemberVO" id="memberResultMap">
+  		<id property="email" column="EMAIL"/>
+	  	<result property="name" column="NAME"/>
+	  	<result property="point" column="POINT"/>
+	  	<result property="chatOk" column="CHAT_OK"/>
+	  	<result property="deleteArtCount" column="DELETE_ART_COUNT" />
+	  	<result property="admin" column="ADMIN" />
+  	</resultMap>
+  	
+  	<select id="selectOneMember" parameterType="MemberVO" resultMap="memberResultMap">
   		SELECT	EMAIL
   				, NAME
   				, PASSWORD

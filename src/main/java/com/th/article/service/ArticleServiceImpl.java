@@ -15,6 +15,8 @@ import com.th.link.vo.LinkVO;
 import com.th.recommend.biz.RecommendBiz;
 import com.th.reply.biz.ReplyBiz;
 import com.th.report.biz.ReportBiz;
+import com.th.sess.biz.SessBiz;
+import com.th.sess.vo.SessVO;
 
 import io.github.seccoding.web.pager.explorer.PageExplorer;
 
@@ -38,6 +40,9 @@ public class ArticleServiceImpl implements ArticleService {
 	
 	@Autowired
 	private LinkBiz linkBiz;
+	
+	@Autowired
+	private SessBiz sessBiz;
 	
 	@Override
 	public boolean createArticle(ArticleVO articleVO) {
@@ -110,6 +115,11 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public boolean updateViewCount(int boardId, String articleId) {
 		return this.articleBiz.updateViewCount(boardId, articleId) > 0;
+	}
+	
+	@Override
+	public boolean isWriterLogin(String email, String name) {
+		return this.sessBiz.selectMember(new SessVO(email, name)) > 0;
 	}
 
 }

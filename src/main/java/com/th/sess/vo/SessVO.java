@@ -5,6 +5,11 @@ public class SessVO {
 	private String email;
 	private String name;
 	private String loginTime;
+	
+	public SessVO(String email, String name) {
+		this.email = email;
+		this.name = name;
+	}
 
 	public String getEmail() {
 		return email;

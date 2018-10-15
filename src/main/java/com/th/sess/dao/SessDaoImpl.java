@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.th.sess.vo.SessVO;
+
 @Repository
 public class SessDaoImpl extends SqlSessionDaoSupport implements SessDao {
 
@@ -16,5 +18,20 @@ public class SessDaoImpl extends SqlSessionDaoSupport implements SessDao {
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 		logger.debug("Initiate MyBatis");
 		super.setSqlSessionTemplate(sqlSessionTemplate);
+	}
+	
+	@Override
+	public int insertMember(SessVO sessVO) {
+		return this.getSqlSession().insert("SessDao.insertMember", sessVO);
+	}
+	
+	@Override
+	public int deleteMember(SessVO sessVO) {
+		return this.getSqlSession().delete("SessDao.deleteMember", sessVO);
+	}
+
+	@Override
+	public int selectMember(SessVO sessVO) {
+		return this.getSqlSession().selectOne("SessDao.selectMember", sessVO);
 	}
 }

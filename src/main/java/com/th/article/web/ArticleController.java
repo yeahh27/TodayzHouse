@@ -256,6 +256,9 @@ public class ArticleController {
 			
 			boolean isReport = this.articleService.isReport(boardId, articleId, memberVO.getEmail());
 			view.addObject("isReport", isReport);
+			
+			boolean isWriterLogin = this.articleService.isWriterLogin(articleVO.getMemberVO().getEmail(), articleVO.getMemberVO().getName());
+			view.addObject("isWriterLogin", isWriterLogin);
 		}
 
 		return view;

@@ -14,6 +14,8 @@ public interface MemberService {
 	public boolean loginMember(MemberVO memberVO, HttpSession session);
 	public MemberVO loginMember(MemberVO memberVO);
 	
+	public boolean logoutMember(MemberVO memberVO);
+	
 	public int updatePoint(String email, int point);
 	
 	public boolean isBlockUser(String email);
