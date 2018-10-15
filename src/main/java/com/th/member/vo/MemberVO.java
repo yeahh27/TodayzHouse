@@ -34,6 +34,7 @@ public class MemberVO {
 	private String lastLogin;
 	private int loginFailCount;
 	private int deleteArtCount;
+	private int admin;
 
 	public String getEmail() {
 		return email;
@@ -107,12 +108,19 @@ public class MemberVO {
 		this.deleteArtCount = deleteArtCount;
 	}
 
+	public int getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(int admin) {
+		this.admin = admin;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberVO [email=" + email + ", name=" + name + ", password=" + password + ", salt=" + salt + ", point="
 				+ point + ", chatOk=" + chatOk + ", lastLogin=" + lastLogin + ", loginFailCount=" + loginFailCount
-				+ ", deleteArtCount=" + deleteArtCount + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+				+ ", deleteArtCount=" + deleteArtCount + ", admin=" + admin + "]";
 	}
 
 }

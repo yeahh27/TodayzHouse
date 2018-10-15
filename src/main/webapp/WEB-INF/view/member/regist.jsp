@@ -148,8 +148,8 @@
 		</div>
 		<div>
 			<label for="chatOk">채팅 허용 여부</label>
-			<input type="radio" name="chatOk" value="true" checked="checked"/>허용
-			<input type="radio" name="chatOk" value="false" />거부		
+			<input type="radio" name="chatOk" value="1" checked="checked"/>허용
+			<input type="radio" name="chatOk" value="0" />거부		
 		</div>
 		<div>
 			<input type="button" class="regBtn" value="회원가입" />
