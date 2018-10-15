@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nhncorp.lucy.security.xss.XssFilter;
 import com.th.common.session.Session;
 import com.th.member.vo.MemberVO;
 import com.th.reply.service.ReplyService;
@@ -38,6 +39,9 @@ public class ReplyController {
 		
 		String email = memberVO.getEmail();
 		replyVO.setEmail(email);
+		
+		XssFilter filter = XssFilter.getInstance("lucy-xss-superset.xml");
+		replyVO.setContent(filter.doFilter(replyVO.getContent()));
 		
 		boolean isSuccess = this.replyService.createOneReply(replyVO);
 		
@@ -72,6 +76,9 @@ public class ReplyController {
 		}
 		
 		Map<String, Object> result = new HashMap<>();
+		
+		XssFilter filter = XssFilter.getInstance("lucy-xss-superset.xml");
+		replyVO.setContent(filter.doFilter(replyVO.getContent()));
 		
 		boolean isSuccess = this.replyService.modifyOneReply(replyVO);
 		

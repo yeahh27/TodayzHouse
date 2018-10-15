@@ -38,4 +38,14 @@ public class LinkDaoImpl extends SqlSessionDaoSupport implements LinkDao {
 	public LinkVO selectOneLink(Map<String, Object> param) {
 		return this.getSqlSession().selectOne("LinkDao.selectOneLink", param);
 	}
+
+	@Override
+	public int deleteOneLink(String linkId) {
+		return this.getSqlSession().delete("LinkDao.deleteOneLink", linkId);
+	}
+
+	@Override
+	public int updateOneLink(LinkVO linkVO) {
+		return this.getSqlSession().update("LinkDao.updateOneLink", linkVO);
+	}
 }

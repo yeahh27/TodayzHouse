@@ -29,4 +29,6 @@ public interface ArticleService {
 	
 	public List<LinkVO> readLinkList(String fileId);
 	
+	public boolean updateViewCount(int boardId, String articleId);
+	
 }

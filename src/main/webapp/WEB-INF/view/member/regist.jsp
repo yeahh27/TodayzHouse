@@ -148,7 +148,7 @@
 		</div>
 		<div>
 			<label for="chatOk">채팅 허용 여부</label>
-			<input type="radio" name="chatOk" value="true" />허용
+			<input type="radio" name="chatOk" value="true" checked="checked"/>허용
 			<input type="radio" name="chatOk" value="false" />거부		
 		</div>
 		<div>

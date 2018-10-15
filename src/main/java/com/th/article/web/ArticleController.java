@@ -53,6 +53,11 @@ public class ArticleController {
 	//@Value("${upload.path}")
 	private String uploadPath = "C:/Users/YEAH/Documents/uploadFiles";
 	
+	@GetMapping("/")
+	public String viewHomepage() {
+		return "home";
+	}
+	
 	@GetMapping("/board/{boardId}/articleWrite")
 	public String viewArticleWritePage(@PathVariable int boardId) {
 		return "article/write" + boardId;
@@ -190,6 +195,17 @@ public class ArticleController {
 	public String viewBoardListPageForInitiate(@PathVariable int boardId, HttpSession session) {
 		session.removeAttribute(Session.SEARCH);
 		return "redirect:/board/" + boardId;
+	}
+	
+	@GetMapping("/read/{boardId}/{articleId}")
+	public String goViewArticlePage (@PathVariable int boardId, @PathVariable String articleId) {
+		boolean isSuccess = this.articleService.updateViewCount(boardId, articleId);
+		
+		if(!isSuccess) {
+			return "article/list" + boardId;
+		}
+		
+		return "redirect:/board/" + boardId + "/" + articleId;
 	}
 	
 	@GetMapping("/board/{boardId}/{articleId}")

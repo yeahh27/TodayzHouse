@@ -5,13 +5,15 @@ import javax.validation.constraints.NotEmpty;
 public class LinkVO {
 
 	private String linkId;
-	private int linkX;
-	private int linkY;
-	@NotEmpty(message="사이트 주소를 입력하세요.")
+	private double linkX;
+	private double linkY;
+	@NotEmpty(message = "사이트 주소를 입력하세요.")
 	private String address;
 	private String fileId;
-	@NotEmpty(message="제품명을 입력하세요.")
+	@NotEmpty(message = "제품명을 입력하세요.")
 	private String product;
+
+	private String token;
 
 	public String getLinkId() {
 		return linkId;
@@ -21,19 +23,19 @@ public class LinkVO {
 		this.linkId = linkId;
 	}
 
-	public int getLinkX() {
+	public double getLinkX() {
 		return linkX;
 	}
 
-	public void setLinkX(int linkX) {
+	public void setLinkX(double linkX) {
 		this.linkX = linkX;
 	}
 
-	public int getLinkY() {
+	public double getLinkY() {
 		return linkY;
 	}
 
-	public void setLinkY(int linkY) {
+	public void setLinkY(double linkY) {
 		this.linkY = linkY;
 	}
 
@@ -61,10 +63,18 @@ public class LinkVO {
 		this.product = product;
 	}
 
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	@Override
 	public String toString() {
 		return "LinkVO [linkId=" + linkId + ", linkX=" + linkX + ", linkY=" + linkY + ", address=" + address
-				+ ", fileId=" + fileId + ", product=" + product + "]";
+				+ ", fileId=" + fileId + ", product=" + product + ", token=" + token + "]";
 	}
 
 }

@@ -35,4 +35,14 @@ public class LinkBIzImpl implements LinkBiz {
 		return this.linkDao.selectOneLink(param);
 	}
 
+	@Override
+	public int deleteOneLink(String linkId) {
+		return this.linkDao.deleteOneLink(linkId);
+	}
+
+	@Override
+	public int updateOneLink(LinkVO linkVO) {
+		return this.linkDao.updateOneLink(linkVO);
+	}
+
 }

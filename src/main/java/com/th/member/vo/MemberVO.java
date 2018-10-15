@@ -11,26 +11,26 @@ import com.th.member.validator.MemberValidator;
 
 public class MemberVO {
 
-	@NotEmpty(message="이메일은 필수 입력 값입니다."
-			  , groups={MemberValidator.Regist.class, MemberValidator.Login.class})
-	@Email(message="이메일형식으로 작성해주세요."
-			, groups= {MemberValidator.Regist.class, MemberValidator.Login.class})
+	@NotEmpty(message = "이메일은 필수 입력 값입니다.", groups = { MemberValidator.Regist.class, MemberValidator.Login.class })
+	@Email(message = "이메일형식으로 작성해주세요.", groups = { MemberValidator.Regist.class, MemberValidator.Login.class })
 	private String email;
 
-	@NotEmpty(message="이름은 필수 입력 값입니다.", groups= {MemberValidator.Regist.class})
+	@NotEmpty(message = "이름은 필수 입력 값입니다.", groups = { MemberValidator.Regist.class })
 	private String name;
-	
-	@NotEmpty(message="비밀번호는 필수 입력 값입니다."
-			 , groups={MemberValidator.Regist.class, MemberValidator.Login.class})
-	/*@Length(min=8, max=20, message="비밀번호는 8~20글자 사이로 입력해주세요."
-			 , groups={MemberValidator.Regist.class})				// 로그인에도 length msg를 준다면 해커에게 힌트를 주는 격
-	@Pattern(regexp="((?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{8,})"
-			 , groups={MemberValidator.Regist.class})*/
+
+	@NotEmpty(message = "비밀번호는 필수 입력 값입니다.", groups = { MemberValidator.Regist.class, MemberValidator.Login.class })
+	/*
+	 * @Length(min=8, max=20, message="비밀번호는 8~20글자 사이로 입력해주세요." ,
+	 * groups={MemberValidator.Regist.class}) // 로그인에도 length msg를 준다면 해커에게 힌트를 주는 격
+	 * 
+	 * @Pattern(regexp="((?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{8,})" ,
+	 * groups={MemberValidator.Regist.class})
+	 */
 	private String password;
 	private String salt;
-	
+
 	private int point;
-	private boolean chatOk;
+	private int chatOk;
 	private String lastLogin;
 	private int loginFailCount;
 	private int deleteArtCount;
@@ -75,11 +75,11 @@ public class MemberVO {
 		this.point = point;
 	}
 
-	public boolean isChatOk() {
+	public int getChatOk() {
 		return chatOk;
 	}
 
-	public void setChatOk(boolean chatOk) {
+	public void setChatOk(int chatOk) {
 		this.chatOk = chatOk;
 	}
 
@@ -111,8 +111,8 @@ public class MemberVO {
 	public String toString() {
 		return "MemberVO [email=" + email + ", name=" + name + ", password=" + password + ", salt=" + salt + ", point="
 				+ point + ", chatOk=" + chatOk + ", lastLogin=" + lastLogin + ", loginFailCount=" + loginFailCount
-				+ ", deleteArtCount=" + deleteArtCount + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", deleteArtCount=" + deleteArtCount + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
 
 }

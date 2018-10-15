@@ -54,4 +54,17 @@
   		WHERE	FILE_ID = #{fileId}
   		AND		LINK_ID = #{linkId}
   	</select>
+  	
+  	<delete id="deleteOneLink" parameterType="string">
+  		DELETE
+  		FROM	LINK
+  		WHERE	LINK_ID = #{linkId}
+  	</delete>
+  	
+  	<update id="updateOneLink" parameterType="LinKVO">
+  		UPDATE	LINK
+  		SET		PRODUCT = #{product}
+  				, ADDRESS = #{address}
+  		WHERE	LINK_ID = #{linkId}
+  	</update>
   </mapper>

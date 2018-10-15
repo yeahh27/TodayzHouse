@@ -53,6 +53,21 @@
 			})
 		}) 
 	
+		$("#append-tag").click(function() {
+	          var tag = $('<input type="text" class="tag" name="tags" placeholder="Tag" style="margin-right:4px;" />');
+	          $(this).before( tag );
+	          tag.focus();
+	     });
+
+	        $(".tags").on("keydown", ".tag", function(e) {
+	          if ( e.key == "," ) {
+	            if ( $(this).val() != "" ) {
+	                $("#append-tag").click();
+	            }
+	            return false;
+	          }
+	        });
+		
 	})
 </script>
 
@@ -88,6 +103,10 @@
 	<div>
 		<textarea name="fileMap['0'].content" id="content" name="content" placeholder="CONTENT">${articleVO.fileVOList[0].content}</textarea>	
 	</div>
+	<div class="tags">
+        <input type="text" class="tag" name="tags" placeholder="Tag" />
+        <input type="button" id="append-tag" value="+" />
+      </div>
 	<div>
 		<input type="button" class="sendBtn" value="Send" />
 	</div>

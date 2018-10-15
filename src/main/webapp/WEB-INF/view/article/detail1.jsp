@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <jsp:include page="/WEB-INF/view/common/layout_header.jsp"/>
 
@@ -70,23 +71,44 @@
 					}
 			)
 		})
+		
+		$("#chatBtn").click(function() {
+			var email = $("#chatData").find(".email").val();
+			var name = $("#chatData").find(".name").val();
+			
+			window.open("http://127.0.0.1:3000/chat?email="+email +"&name="+name , "new window", "width=400, height=800")
+		})
 	})
 </script>
 
 <input type="hidden" class="token" name="token" value="${sessionScope._CSRF_TOKEN_}" />
 	<h1>DETAIL1</h1>
-
 	<h2>${articleVO.title}
 		<span style="font-size: 10pt">${articleVO.articleId}</span>
 	</h2>	
 	
-	<h3>작성자 : ${articleVO.memberVO.name} (${articleVO.email})</h3>
+	<h3>작성자 :<c:choose>
+					<c:when test="${articleVO.memberVO.chatOk eq 1}">
+						<a id="chatBtn">${articleVO.memberVO.name}</a>
+						<img src="/TodayzHouse/img/green.png" width="10" />
+					</c:when>
+					<c:otherwise>
+						${articleVO.memberVO.name} <img src="/TodayzHouse/img/red.png" width="10" />
+					</c:otherwise>
+				</c:choose>
+		(${articleVO.email})
+	</h3>
+
+	<div id="chatData" name="chatData">
+		<input type="hidden" class="email" name="email" value="${sessionScope._MEMBER_.email}"/>
+		<input type="hidden" class="name" name="name" value="${sessionScope._MEMBER_.name}"/>
+	</div>	
 	
-	<a href="#" id="recommend" style="display: none;" ><img src="/TodayzHouse/img/unrecommend2.png" width="25"></a>
-	<a href="#" id="unrecommend" style="display: none;"><img src="/TodayzHouse/img/recommend2.png" width="25"></a>
+	<a id="recommend" style="display: none;" ><img src="/TodayzHouse/img/unrecommend2.png" width="25"></a>
+	<a id="unrecommend" style="display: none;"><img src="/TodayzHouse/img/recommend2.png" width="25"></a>
 	
-	<a href="#" id="report" style="display: none;" ><img src="/TodayzHouse/img/report.png" width="30"></a>
-	<a href="#" id="unreport" style="display: none;"><img src="/TodayzHouse/img/unreport.png" width="30"></a>
+	<a id="report" style="display: none;" ><img src="/TodayzHouse/img/report.png" width="30"></a>
+	<a id="unreport" style="display: none;"><img src="/TodayzHouse/img/unreport.png" width="30"></a>
 
 	조회수 : ${articleVO.viewCount}
 	추천수 : <span class="recommendCount">${articleVO.recommend}</span>
@@ -106,4 +128,5 @@
 		<h4>${articleVO.fileVOList["0"].content }</h4>
 	</div>
 	
+	<hr/>
 <jsp:include page="/WEB-INF/view/common/detail_footer.jsp"/>

@@ -51,12 +51,12 @@ a:hover {
 			<c:forEach items="${articleList}" var="article">
 			<div>
 				<div class="number box">
-					<a href="/TodayzHouse/board/${boardId}/${article.articleId}">
+					<a href="/TodayzHouse/read/${boardId}/${article.articleId}">
 						${article.articleId}
 					</a>
 				</div><!-- 
 				 --><div class="subject box">
-				 	<a href="/TodayzHouse/board/${boardId}/${article.articleId}">${article.title}</a>
+				 	<a href="/TodayzHouse/read/${boardId}/${article.articleId}">${article.title}</a>
 				 </div><!-- 
 				 --><div class="writer box">${article.memberVO.name}</div><!-- 
 				 --><div class="create-date box">${article.regDate}</div>

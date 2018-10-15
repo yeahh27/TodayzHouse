@@ -12,4 +12,8 @@ public interface LinkDao {
 	public List<LinkVO> selectAllLinksByArticle(String fileId);
 	
 	public LinkVO selectOneLink(Map<String, Object> param);
+	
+	public int deleteOneLink(String linkId);
+	
+	public int updateOneLink(LinkVO linkVO);
 }

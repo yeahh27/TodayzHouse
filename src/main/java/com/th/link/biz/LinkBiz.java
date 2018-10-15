@@ -11,4 +11,8 @@ public interface LinkBiz {
 	public List<LinkVO> selectAllLinksByArticle(String fileId);
 	
 	public LinkVO selectOneLink(String fileId, String linkId);
+	
+	public int deleteOneLink(String linkId);
+	
+	public int updateOneLink(LinkVO linkVO);
 }

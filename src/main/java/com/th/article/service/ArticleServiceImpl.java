@@ -59,7 +59,6 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public ArticleVO readOneArticle(int boardId, String articleId) {
-		this.articleBiz.updateViewCount(boardId, articleId);
 		ArticleVO articleVO = this.articleBiz.selectOneArticle(boardId, articleId);
 		articleVO.setReplyList(this.replyBiz.selectAllReplies(boardId, articleId));
 		articleVO.setRecommend(this.recommendBiz.selectRecommendCountByArticle(boardId, articleId));
@@ -106,6 +105,11 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<LinkVO> readLinkList(String fileId) {
 		return this.linkBiz.selectAllLinksByArticle(fileId);
+	}
+
+	@Override
+	public boolean updateViewCount(int boardId, String articleId) {
+		return this.articleBiz.updateViewCount(boardId, articleId) > 0;
 	}
 
 }

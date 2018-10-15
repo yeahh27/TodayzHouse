@@ -28,11 +28,6 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@GetMapping("/")
-	public String viewHomepage() {
-		return "home";
-	}
-	
 	@GetMapping("/member/regist")
 	public String viewMemberRegistPage() {
 		return "member/regist";

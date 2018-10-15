@@ -54,6 +54,7 @@
   			<id property="email" column="M_EMAIL"/>
 	  		<result property="name" column="NAME"/>
 	  		<result property="point" column="POINT"/>
+	  		<result property="chatOk" column="CHAT_OK"/>
   		</association>
   		<collection property="fileVOList" javaType="ArrayList" ofType="FilesVO" >
   			<id property="fileId" column="FILE_ID"/>
@@ -84,6 +85,7 @@
 						  				, M.EMAIL M_EMAIL
 						  				, M.NAME
 						  				, M.POINT
+						  				, M.CHAT_OK
 						  				, F.FILE_ID
 						  				, F.BOARD_ID F_BOARD_ID
 						  				, F.ARTICLE_ID F_ARTICLE_ID
@@ -131,6 +133,7 @@
 				, M.EMAIL M_EMAIL
 				, M.NAME
 				, M.POINT
+				, M.CHAT_OK
 				, F.FILE_ID
 				, F.BOARD_ID F_BOARD_ID
 				, F.ARTICLE_ID F_ARTICLE_ID
