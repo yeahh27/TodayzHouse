@@ -39,6 +39,7 @@ import com.th.files.vo.FileMapVO;
 import com.th.files.vo.FilesVO;
 import com.th.link.vo.LinkVO;
 import com.th.member.vo.MemberVO;
+import com.th.reply.vo.ReplyVO;
 
 import io.github.seccoding.web.pager.explorer.PageExplorer;
 
@@ -54,8 +55,15 @@ public class ArticleController {
 	private String uploadPath = "C:/Users/YEAH/Documents/uploadFiles";
 	
 	@GetMapping("/")
-	public String viewHomepage() {
-		return "home";
+	public ModelAndView viewHomepage() {
+		ModelAndView view = new ModelAndView("home");
+		
+		List<ArticleVO> best1Articles = this.articleService.readBestArticles(1);
+		List<ArticleVO> best2Articles = this.articleService.readBestArticles(2);
+
+		view.addObject("best1Articles", best1Articles);
+		view.addObject("best2Articles", best2Articles);
+		return view;
 	}
 	
 	@GetMapping("/board/{boardId}/articleWrite")

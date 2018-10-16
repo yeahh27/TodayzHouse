@@ -14,6 +14,7 @@ import com.th.link.biz.LinkBiz;
 import com.th.link.vo.LinkVO;
 import com.th.recommend.biz.RecommendBiz;
 import com.th.reply.biz.ReplyBiz;
+import com.th.reply.vo.ReplyVO;
 import com.th.report.biz.ReportBiz;
 import com.th.sess.biz.SessBiz;
 import com.th.sess.vo.SessVO;
@@ -59,7 +60,13 @@ public class ArticleServiceImpl implements ArticleService {
 	
 	@Override
 	public PageExplorer readAllArticles(ArticleSearchVO articleSearchVO) {
-		return this.articleBiz.selectAllArticles(articleSearchVO);
+		PageExplorer articleList = this.articleBiz.selectAllArticles(articleSearchVO);
+		for(Object article : articleList.getList()) {
+			ArticleVO articleVO = (ArticleVO) article;
+			articleVO.setReplyList(this.replyBiz.selectAllReplies(articleVO.getBoardId(), articleVO.getArticleId()));
+			articleVO.setFileVOList(this.filesBiz.selectAllFiles(articleVO.getBoardId(), articleVO.getArticleId()));
+		}
+		return articleList;
 	}
 
 	@Override
@@ -120,6 +127,11 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public boolean isWriterLogin(String email, String name) {
 		return this.sessBiz.selectMember(new SessVO(email, name)) > 0;
+	}
+
+	@Override
+	public List<ArticleVO> readBestArticles(int boardId) {
+		return this.articleBiz.selectBestArticles(boardId);
 	}
 
 }

@@ -82,51 +82,55 @@
 </script>
 
 <input type="hidden" class="token" name="token" value="${sessionScope._CSRF_TOKEN_}" />
-	<h1>DETAIL1</h1>
-	<h2>${articleVO.title}
-		<span style="font-size: 10pt">${articleVO.articleId}</span>
-	</h2>	
+	<h1>${articleVO.title}</h1>	
 	
-	<h3>작성자 :<c:choose>
-					<c:when test="${articleVO.memberVO.chatOk eq 1 and isWriterLogin and articleVO.email ne sessionScope._MEMBER_.email }">
-						<a id="chatBtn">${articleVO.memberVO.name}</a>
-						<img src="/TodayzHouse/img/green.png" width="10" />
-					</c:when>
-					<c:otherwise>
-						${articleVO.memberVO.name} <img src="/TodayzHouse/img/red.png" width="10" />
-					</c:otherwise>
-				</c:choose>
-		(${articleVO.email})
-	</h3>
+	<div style="display: inline-block;">
+		<div>
+			<h3>작성자 :<c:choose>
+							<c:when test="${articleVO.memberVO.chatOk eq 1 and isWriterLogin and articleVO.email ne sessionScope._MEMBER_.email }">
+								<a id="chatBtn">${articleVO.memberVO.name}</a>
+								<img src="/TodayzHouse/img/green.png" width="10" />
+							</c:when>
+							<c:otherwise>
+								${articleVO.memberVO.name} <img src="/TodayzHouse/img/red.png" width="10" />
+							</c:otherwise>
+						</c:choose>
+				(${articleVO.email})
+			</h3>
+		</div>	
+		<div>
+			<a id="recommend" style="display: none;" ><img src="/TodayzHouse/img/unrecommend2.png" width="25"></a>
+			<a id="unrecommend" style="display: none;"><img src="/TodayzHouse/img/recommend2.png" width="25"></a>
+			
+			<a id="report" style="display: none;" ><img src="/TodayzHouse/img/report.png" width="30"></a>
+			<a id="unreport" style="display: none;"><img src="/TodayzHouse/img/unreport.png" width="30"></a>
+		
+			조회수 : ${articleVO.viewCount}
+			추천수 : <span class="recommendCount">${articleVO.recommend}</span>
+			신고수 : <span class="reportCount">${articleVO.report}</span>
+		</div>
+	</div>
 
 	<div id="chatData" name="chatData">
 		<input type="hidden" class="email" name="email" value="${sessionScope._MEMBER_.email}"/>
 		<input type="hidden" class="name" name="name" value="${sessionScope._MEMBER_.name}"/>
 	</div>	
-	
-	<a id="recommend" style="display: none;" ><img src="/TodayzHouse/img/unrecommend2.png" width="25"></a>
-	<a id="unrecommend" style="display: none;"><img src="/TodayzHouse/img/recommend2.png" width="25"></a>
-	
-	<a id="report" style="display: none;" ><img src="/TodayzHouse/img/report.png" width="30"></a>
-	<a id="unreport" style="display: none;"><img src="/TodayzHouse/img/unreport.png" width="30"></a>
 
-	조회수 : ${articleVO.viewCount}
-	추천수 : <span class="recommendCount">${articleVO.recommend}</span>
-	신고수 : <span class="reportCount">${articleVO.report}</span>
 	
-	<c:forEach items="${articleVO.fileVOList}" var="files">
-		<c:if test="${not empty files.originFileName}">
-			<p>
-				<a href="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}">
-					<img src="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}" width="250">
-				</a>
-			</p>
-		</c:if>	
-	</c:forEach>
-
-	<div>
-		<h4>${articleVO.fileVOList["0"].content }</h4>
+	<div style="text-align: center;">
+		<c:forEach items="${articleVO.fileVOList}" var="files">
+			<c:if test="${not empty files.originFileName}">
+				<p>
+					<a href="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}">
+						<img src="/TodayzHouse/board/${articleVO.boardId}/${articleVO.articleId}/download/${files.fileId}" width="250">
+					</a>
+				</p>
+			</c:if>	
+		</c:forEach>
+	
+		<div>
+			<h4>${articleVO.fileVOList["0"].content }</h4>
+		</div>
 	</div>
-	
 	<hr/>
 <jsp:include page="/WEB-INF/view/common/detail_footer.jsp"/>

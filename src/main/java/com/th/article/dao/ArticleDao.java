@@ -27,5 +27,7 @@ public interface ArticleDao {
 	public int updateRecommed(Map<String, Object> param);
 	
 	public int updateReport(Map<String, Object> param);
+	
+	public List<ArticleVO> selectBestArticles(int boardId);
 
 }

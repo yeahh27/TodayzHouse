@@ -66,7 +66,7 @@
 	</bean>
 
 	<!-- MongoDB 연동 -->
-	<mongo:mongo-client id="mongo"
+	<!-- <mongo:mongo-client id="mongo"
 			host="localhost" port="27017" credentials="adminTest:adminTest@admin">
 		<mongo:client-options
 			connections-per-host="8" threads-allowed-to-block-for-connection-multiplier="4"
@@ -78,6 +78,6 @@
 			class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongo" />
 		<constructor-arg name="databaseName" value="foo"/>
-	</bean>
+	</bean> -->
 	
 </beans>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <jsp:include page="/WEB-INF/view/common/layout_header.jsp"/>
 <style type="text/css">
@@ -36,30 +37,36 @@ a:hover {
 }
 </style>
 <input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
-	<h1>LIST1</h1>
+	<h1>사진</h1>
 	<div style="text-align: center;">
 	
-	<div id="headerWrapper">
-		<div class="number header box">글 번호</div><!-- 
-		 --><div class="subject header box">제목</div><!-- 
-		 --><div class="writer header box">작성자</div><!-- 
-		 --><div class="create-date header box">작성일</div>
-	</div>
+	<!-- <div id="headerWrapper">
+		<div class="number header box">글 번호</div>
+		<div class="subject header box">제목</div>
+		<div class="writer header box">작성자</div>
+		<div class="create-date header box">작성일</div>
+	</div> -->
 	
 	<c:choose>
 		<c:when test="${not empty articleList}">
 			<c:forEach items="${articleList}" var="article">
-			<div>
-				<div class="number box">
+			<div style="display: inline-block; width: 30%;" >
+				<div>
+					${article.memberVO.name}
+				</div>
+				<div style="background-image: url(/TodayzHouse/img/white.JPG); position: relative; overflow: hidden;
+						    background-size:cover;background-repeat:no-repeat; width: 100%; hegith: 100%;">
 					<a href="/TodayzHouse/read/${boardId}/${article.articleId}">
-						${article.articleId}
+						<img src="/TodayzHouse/board/${article.boardId}/${article.articleId}/download/${article.fileVOList[0].fileId}"  height="200px" width="auto"
+							 style="border-radius: 10px;-moz-border-radius: 7px;-khtml-border-radius: 7px;-webkit-border-radius: 7px;" />
+						<span style="position: absolute; right: 10px; bottom: 10px;">조회수 ${article.viewCount}</span>
 					</a>
-				</div><!-- 
-				 --><div class="subject box">
-				 	<a href="/TodayzHouse/read/${boardId}/${article.articleId}">${article.title}</a>
-				 </div><!-- 
-				 --><div class="writer box">${article.memberVO.name}</div><!-- 
-				 --><div class="create-date box">${article.regDate}</div>
+				</div>
+				<div style="width: 100%; height: 100%">
+					<span><img src="/TodayzHouse/img/recommend2.png" width="9%">&nbsp;&nbsp;&nbsp;${article.recommend}</span>
+					<span><img src="/TodayzHouse/img/comment.png" width="11%">&nbsp;&nbsp;${fn:length(article.replyList)}</span>
+					<span><img src="/TodayzHouse/img/report.png" width="11%">&nbsp;&nbsp;${article.report}</span>
+				</div>
 			</div>
 			</c:forEach>
 		</c:when>
@@ -83,6 +90,6 @@ a:hover {
 	</div>
 
 	<hr>
-	<a href="/TodayzHouse/board/${boardId}/articleWrite">글쓰기1</a>
+	<a href="/TodayzHouse/board/${boardId}/articleWrite">글쓰기</a>
 
 <jsp:include page="/WEB-INF/view/common/layout_footer.jsp"/>

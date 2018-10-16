@@ -36,7 +36,7 @@ a:hover {
 }
 </style>
 <input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
-	<h1>LIST2</h1>
+	<h1>집들이</h1>
 	<div style="text-align: center;">
 	
 	<div id="headerWrapper">
@@ -83,6 +83,6 @@ a:hover {
 	</div>
 
 	<hr>
-	<a href="/TodayzHouse/board/${boardId}/articleWrite">글쓰기1</a>
+	<a href="/TodayzHouse/board/${boardId}/articleWrite">글쓰기</a>
 
 <jsp:include page="/WEB-INF/view/common/layout_footer.jsp"/>

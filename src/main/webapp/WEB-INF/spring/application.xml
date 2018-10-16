@@ -21,6 +21,7 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/board/**"/>
+			<mvc:exclude-mapping path="/board/**/**/download/**"/>
 			<bean	id="sessionInterceptor"
 					class="com.th.common.interceptor.SessionInterceptor">
 			</bean>

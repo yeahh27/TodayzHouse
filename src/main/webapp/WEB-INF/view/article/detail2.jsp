@@ -233,7 +233,7 @@
 	추천수 : <span class="recommendCount">${articleVO.recommend}</span>
 	신고수 : <span class="reportCount">${articleVO.report}</span>
 	
-	<div>
+	<div style="text-align: center;">
 	<c:forEach items="${requestScope.filesVOMap}" var="filesList" >
 		<div>
 			<div class="imgWrapper" >

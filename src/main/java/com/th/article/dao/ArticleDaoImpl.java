@@ -77,4 +77,9 @@ public class ArticleDaoImpl extends SqlSessionDaoSupport implements ArticleDao {
 		return this.getSqlSession().update("ArticleDao.updateReport", param);
 	}
 
+	@Override
+	public List<ArticleVO> selectBestArticles(int boardId) {
+		return this.getSqlSession().selectList("ArticleDao.selectBestArticles", boardId);
+	}
+
 }

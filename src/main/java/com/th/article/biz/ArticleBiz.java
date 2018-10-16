@@ -27,4 +27,6 @@ public interface ArticleBiz {
 	
 	public int updateReport(int boardId, String articleId, int count);
 	
+	public List<ArticleVO> selectBestArticles(int boardId);
+	
 }

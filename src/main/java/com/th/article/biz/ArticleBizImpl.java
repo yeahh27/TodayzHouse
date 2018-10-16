@@ -93,4 +93,9 @@ public class ArticleBizImpl implements ArticleBiz {
 		return this.articleDao.updateReport(param);
 	}
 
+	@Override
+	public List<ArticleVO> selectBestArticles(int boardId) {
+		return this.articleDao.selectBestArticles(boardId);
+	}
+
 }

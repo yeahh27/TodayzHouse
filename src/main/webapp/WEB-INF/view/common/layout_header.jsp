@@ -12,15 +12,16 @@
 <link href="/TodayzHouse/css/jquery-ui-themes-1.12.1/jquery-ui.theme.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 body {
-  padding: 0px;
-  margin: 0px;
-  font-size: 9pt;
+  margin: 0 auto;
+  padding-top: 0px;
+  font-size: 10pt;
 }
 
 nav {
   background-color: #00e6ac;
   padding: 15px;
   margin-bottom: 15px;
+  text-align: center;
 }
 
 nav ul {
@@ -28,8 +29,9 @@ nav ul {
     margin: 0px;
 }
 
-nav ul > li {
+nav ul li, nav p{
    display: inline-block;
+   padding: 0px;
    margin-left: 30px;
 }
 
@@ -54,17 +56,13 @@ nav a:hover {
 	text-decoration: underline;
 } 
 
-#wrapper {
-	width: 100%;
-	text-align: center;
-}
-
 .inline {
-	display: inline-block;
+	width: 100%;
 }
 
-header {
-  text-align: center;
+.inline > section {
+	width: 90%;	
+	margin: 0 auto;
 }
 
 #replyBox {
@@ -135,18 +133,23 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-.toggle {
-	margin:0px;
-	display:inline-block;
-	font-weight:bold;
-}
 </style>
 <script type="text/javascript">
 	$().ready(function() {
-		var check = $("input[type='checkbox']");
-		check.click(function(){
-			$(".toggle").toggle();
-		});
+		
+		/* if(${sessionScope._MEMBER_.chatOk eq 1}) {
+			$("input:checkbox").prop("checked", true);
+		}
+		
+		$("input:checkbox").click(function() {
+			var email = '${sessionScope._MEMBER_.email}';
+			var chatOk = ${sessionScope._MEMBER_.chatOk};
+			
+			$.post("/TodayzHouse/member/update/chatOk"
+					, {chatOk: chatOk,
+						email: email}
+			);
+		}) */
 	})
 </script>
 </head>
@@ -156,40 +159,35 @@ input:checked + .slider:before {
 		<header id="header">
 			<nav>
 			<ul>
-				<li><a href="/TodayzHouse/">Home</a></li>
-				<li><a href="/TodayzHouse/board/1/">List1</a></li>
-				<li><a href="/TodayzHouse/board/2/">List2</a></li>
-				<c:choose>
-					<c:when test="${empty sessionScope._MEMBER_.name}">
-						<li><a href="/TodayzHouse/member/login">Login</a></li>
-						<li><a href="/TodayzHouse/member/regist">Regist</a></li>
-					</c:when>
-					<c:otherwise>
-						<li><a href="/TodayzHouse/member/logout">Logout</a></li>
-						<li class="point">${sessionScope._MEMBER_.name} (${sessionScope._MEMBER_.point})</li>
-						<li>
-						<label class="switch">
-						  <input type="checkbox">
-						  <span class="slider round"></span>
-						</label>
-						<p class="toggle">OFF</p>
-						<p class="toggle" style="display:none;">ON</p>
-						<c:choose>
-							<c:when test="${sessionScope._MEMBER_.chatOk eq 1}">
-								<p class="toggle">ON</p>
-								허용
-							</c:when>
-							<c:otherwise>
-								<p class="toggle">OFF</p>
-								거부
-							</c:otherwise>
-						</c:choose>
-						<c:if test="${sessionScope._MEMBER_.admin eq 1}">
-							<li><a href="">관리자</a></li>
-						</c:if>
-						</li>
-					</c:otherwise>
-				</c:choose>
+				<p style="text-align: left;">
+					<li><a href="/TodayzHouse/">Home</a></li>
+					<li><a href="/TodayzHouse/board/1/">사진</a></li>
+					<li><a href="/TodayzHouse/board/2/">집들이</a></li>
+				</p>
+				
+				<p style="text-align: right;">
+					<c:choose>
+						<c:when test="${empty sessionScope._MEMBER_.name}">
+							<li><a href="/TodayzHouse/member/login">Login</a></li>
+							<li><a href="/TodayzHouse/member/regist">Regist</a></li>
+						</c:when>
+						<c:otherwise>
+							<li><a href="/TodayzHouse/member/logout">Logout</a></li>
+							<li class="point">${sessionScope._MEMBER_.name} (${sessionScope._MEMBER_.point})</li>
+							<li>
+								<label class="switch">
+								  <input type="checkbox">
+								  <span class="slider round"></span>
+								</label>
+							</li>
+							
+							<c:if test="${sessionScope._MEMBER_.admin eq 1}">
+								<li><a href="">관리자</a></li>
+							</c:if>
+						</c:otherwise>
+					</c:choose>
+				</p>
+				
 			</ul>
 			</nav>
 		</header>

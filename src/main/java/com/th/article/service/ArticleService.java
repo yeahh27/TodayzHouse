@@ -7,6 +7,7 @@ import com.th.article.vo.ArticleVO;
 import com.th.files.vo.FilesVO;
 import com.th.link.vo.LinkVO;
 import com.th.member.vo.MemberVO;
+import com.th.reply.vo.ReplyVO;
 
 import io.github.seccoding.web.pager.explorer.PageExplorer;
 
@@ -32,5 +33,7 @@ public interface ArticleService {
 	public boolean updateViewCount(int boardId, String articleId);
 	
 	public boolean isWriterLogin(String email, String name);
+	
+	public List<ArticleVO> readBestArticles(int boardId);
 	
 }
