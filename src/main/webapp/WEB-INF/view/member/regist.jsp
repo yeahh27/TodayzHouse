@@ -113,47 +113,43 @@
 		})
 	})
 </script>
-
-	<h1>REGIST</h1>
-	<form:form id="regData" modelAttribute="memberVO" >
-		<%-- <div class="errors">
-			<ul>
-				<li><form:errors path="email" /></li>
-				<li><form:errors path="name" /></li>
-				<li><form:errors path="password" /></li>
-			</ul>
-		</div> --%>
-		<div>
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email" placeholder="EMAIL" value=""/>
-			<input type="button" value="중복확인" class="dupBtn" />
-			<div id="email-error" style="display: none;" data-email="false">
-				이 이메일은 사용할 수 없습니다.
+<div style="text-align: center;">
+	<div style="display: inline-block; width: 60%; text-align: center; margin-bottom: 20px; border: 1px solid gray;">
+		<h1>REGIST</h1>
+		<form:form id="regData" modelAttribute="memberVO" >
+			<div style="padding-left: 15px; padding-top: 15px;">
+				<label for="email">Email</label>
+				<input type="email" name="email" id="email" placeholder="EMAIL" value=""/>
+				<input type="button" value="중복확인" class="dupBtn" />
+				<div id="email-error" style="display: none;" data-email="false">
+					이 이메일은 사용할 수 없습니다.
+				</div>
 			</div>
-		</div>
-		<div>
-			<label for="name">Name</label>
-			<input type="text" name="name" id="name" placeholder="NAME" value="" />
-		</div>
-		<div>
-			<label for="password">Password</label>
-			<input type="password" name="password" id="password" placeholder="PASSWORD" value=""/>
-		</div>
-		<div>
-			<label for="password2">Password Confirm</label>
-			<input type="password" name="password2" id="password2" placeholder="PASSWORD CONFIRM" />
-			<div id="password-error" style="display: none;" data-password="false">
-				비밀번호가 일치하지 않습니다.
+			<div style="padding-left: 15px; padding-top: 15px;">
+				<label for="name">Name</label>
+				<input type="text" name="name" id="name" placeholder="NAME" value="" />
 			</div>
-		</div>
-		<div>
-			<label for="chatOk">채팅 허용 여부</label>
-			<input type="radio" name="chatOk" value="1" checked="checked"/>허용
-			<input type="radio" name="chatOk" value="0" />거부		
-		</div>
-		<div>
-			<input type="button" class="regBtn" value="회원가입" />
-		</div>
-	</form:form>
+			<div style="padding-left: 15px; padding-top: 15px;">
+				<label for="password">Password</label>
+				<input type="password" name="password" id="password" placeholder="PASSWORD" value=""/>
+			</div>
+			<div style="padding-left: 15px; padding-top: 15px;">
+				<label for="password2">Password Confirm</label>
+				<input type="password" name="password2" id="password2" placeholder="PASSWORD CONFIRM" />
+				<div id="password-error" style="display: none;" data-password="false">
+					비밀번호가 일치하지 않습니다.
+				</div>
+			</div>
+			<div style="padding-left: 15px; padding-top: 15px;">
+				<label for="chatOk">채팅 허용 여부</label>
+				<input type="radio" name="chatOk" value="1" checked="checked"/>허용
+				<input type="radio" name="chatOk" value="0" />거부		
+			</div>
+			<div style="padding: 15px">
+				<input type="button" class="regBtn" value="회원가입" />
+			</div>
+		</form:form>
+	</div>
+</div>
 
 <jsp:include page="/WEB-INF/view/common/layout_footer.jsp"/>

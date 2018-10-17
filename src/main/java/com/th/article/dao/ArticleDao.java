@@ -29,5 +29,6 @@ public interface ArticleDao {
 	public int updateReport(Map<String, Object> param);
 	
 	public List<ArticleVO> selectBestArticles(int boardId);
-
+	
+	public List<ArticleVO> selectAllArticlesByEmail(String email);
 }

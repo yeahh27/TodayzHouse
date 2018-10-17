@@ -1,5 +1,7 @@
 package com.th.recommend.biz;
 
+import java.util.List;
+
 import com.th.recommend.vo.RecommendVO;
 
 public interface RecommendBiz {
@@ -13,4 +15,6 @@ public interface RecommendBiz {
 	public int deleteAllRecommendsByArticle(int boardId, String articleId);
 	
 	public int selectRecommendCountByArticle(int boardId, String articleId);
+	
+	public List<RecommendVO> selectRecommendByEmail(String email);
 }

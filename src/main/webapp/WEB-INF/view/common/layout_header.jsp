@@ -60,8 +60,15 @@ nav a:hover {
 	width: 100%;
 }
 
+footer {
+	width: 80%;
+	margin: 0 auto;
+	padding-bottom: 50px
+}
+
 .inline > section {
-	width: 90%;	
+	width: 80%;	
+	min-height: 500px;
 	margin: 0 auto;
 }
 
@@ -137,19 +144,25 @@ input:checked + .slider:before {
 <script type="text/javascript">
 	$().ready(function() {
 		
-		/* if(${sessionScope._MEMBER_.chatOk eq 1}) {
+		if(${sessionScope._MEMBER_.chatOk eq 1}) {
 			$("input:checkbox").prop("checked", true);
 		}
 		
 		$("input:checkbox").click(function() {
 			var email = '${sessionScope._MEMBER_.email}';
-			var chatOk = ${sessionScope._MEMBER_.chatOk};
+			var chatOk = $("input:checkbox").is(":checked");
+			
+			if(chatOk) {
+				chatOk = 1;
+			} else {
+				chatOk = 0;
+			}
 			
 			$.post("/TodayzHouse/member/update/chatOk"
 					, {chatOk: chatOk,
 						email: email}
 			);
-		}) */
+		}) 
 	})
 </script>
 </head>
@@ -173,8 +186,8 @@ input:checked + .slider:before {
 						</c:when>
 						<c:otherwise>
 							<li><a href="/TodayzHouse/member/logout">Logout</a></li>
-							<li class="point">${sessionScope._MEMBER_.name} (${sessionScope._MEMBER_.point})</li>
-							<li>
+							<li class="point"><a href="/TodayzHouse/member/my/1">${sessionScope._MEMBER_.name} (${sessionScope._MEMBER_.point})</a></li>
+							<li>채팅
 								<label class="switch">
 								  <input type="checkbox">
 								  <span class="slider round"></span>

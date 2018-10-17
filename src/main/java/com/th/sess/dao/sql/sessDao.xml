@@ -29,4 +29,10 @@
   		WHERE	EMAIL = #{email}
   		AND		NAME = #{name}
   	</select>
+  	
+  	<update id="updateMember" parameterType="MemberVO">
+  		UPDATE	SESS
+  		SET		NAME = #{name}
+  		WHERE	EMAIL = #{email}
+  	</update>
   </mapper>

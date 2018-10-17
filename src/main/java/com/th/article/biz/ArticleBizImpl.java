@@ -98,4 +98,9 @@ public class ArticleBizImpl implements ArticleBiz {
 		return this.articleDao.selectBestArticles(boardId);
 	}
 
+	@Override
+	public List<ArticleVO> selectAllArticlesByEmail(String email) {
+		return this.articleDao.selectAllArticlesByEmail(email);
+	}
+
 }

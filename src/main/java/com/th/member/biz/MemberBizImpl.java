@@ -97,4 +97,18 @@ public class MemberBizImpl implements MemberBiz {
 	public boolean increaseLoginFailCount(String email) {
 		return this.memberDao.increaseLoginFailCount(email);
 	}
+
+	@Override
+	public int updateMember(MemberVO memberVO) {
+		return this.memberDao.updateMember(memberVO);
+	}
+	
+	@Override
+	public int updateChatOk(String email, int chatOk) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("email", email);
+		param.put("chatOk", chatOk);
+		
+		return this.memberDao.updateChatOk(param);
+	}
 }

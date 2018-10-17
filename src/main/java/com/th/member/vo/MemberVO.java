@@ -1,5 +1,7 @@
 package com.th.member.vo;
 
+import java.util.List;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -8,6 +10,8 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.th.member.validator.MemberValidator;
+import com.th.recommend.vo.RecommendVO;
+import com.th.report.vo.ReportVO;
 
 public class MemberVO {
 
@@ -35,6 +39,9 @@ public class MemberVO {
 	private int loginFailCount;
 	private int deleteArtCount;
 	private int admin;
+
+	private List<RecommendVO> recommendList;
+	private List<ReportVO> reportList;
 
 	public String getEmail() {
 		return email;
@@ -116,11 +123,28 @@ public class MemberVO {
 		this.admin = admin;
 	}
 
+	public List<RecommendVO> getRecommendList() {
+		return recommendList;
+	}
+
+	public void setRecommendList(List<RecommendVO> recommendList) {
+		this.recommendList = recommendList;
+	}
+
+	public List<ReportVO> getReportList() {
+		return reportList;
+	}
+
+	public void setReportList(List<ReportVO> reportList) {
+		this.reportList = reportList;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberVO [email=" + email + ", name=" + name + ", password=" + password + ", salt=" + salt + ", point="
 				+ point + ", chatOk=" + chatOk + ", lastLogin=" + lastLogin + ", loginFailCount=" + loginFailCount
-				+ ", deleteArtCount=" + deleteArtCount + ", admin=" + admin + "]";
+				+ ", deleteArtCount=" + deleteArtCount + ", admin=" + admin + ", recommendList=" + recommendList
+				+ ", reportList=" + reportList + "]";
 	}
 
 }

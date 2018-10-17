@@ -82,4 +82,9 @@ public class ArticleDaoImpl extends SqlSessionDaoSupport implements ArticleDao {
 		return this.getSqlSession().selectList("ArticleDao.selectBestArticles", boardId);
 	}
 
+	@Override
+	public List<ArticleVO> selectAllArticlesByEmail(String email) {
+		return this.getSqlSession().selectList("ArticleDao.selectAllArticlesByEmail", email);
+	}
+
 }

@@ -40,33 +40,28 @@ a:hover {
 	<h1>사진</h1>
 	<div style="text-align: center;">
 	
-	<!-- <div id="headerWrapper">
-		<div class="number header box">글 번호</div>
-		<div class="subject header box">제목</div>
-		<div class="writer header box">작성자</div>
-		<div class="create-date header box">작성일</div>
-	</div> -->
-	
 	<c:choose>
 		<c:when test="${not empty articleList}">
 			<c:forEach items="${articleList}" var="article">
-			<div style="display: inline-block; width: 30%;" >
-				<div>
-					${article.memberVO.name}
+			<div style="display: inline-block; width: 20%; margin-bottom: 15px; margin-left: 15px" >
+				<div style="font-size: 18px; margin-bottom: 8px; text-align: left; padding-left: 10%;" >
+					<img src="/TodayzHouse/img/user.png" height="23px" style="padding-right: 9px;" />
+					<span style="vertical-align: top;">${article.memberVO.name}</span>
 				</div>
-				<div style="background-image: url(/TodayzHouse/img/white.JPG); position: relative; overflow: hidden;
-						    background-size:cover;background-repeat:no-repeat; width: 100%; hegith: 100%;">
+				<div style="border: 1px solid #DCDCDC; border-radius: 10px;-moz-border-radius: 7px;-khtml-border-radius: 7px;
+							-webkit-border-radius: 7px; margin-bottom: 8px; position: relative; height: 200px; width: auto;">
 					<a href="/TodayzHouse/read/${boardId}/${article.articleId}">
-						<img src="/TodayzHouse/board/${article.boardId}/${article.articleId}/download/${article.fileVOList[0].fileId}"  height="200px" width="auto"
-							 style="border-radius: 10px;-moz-border-radius: 7px;-khtml-border-radius: 7px;-webkit-border-radius: 7px;" />
-						<span style="position: absolute; right: 10px; bottom: 10px;">조회수 ${article.viewCount}</span>
+						<img src="/TodayzHouse/board/${article.boardId}/${article.articleId}/download/${article.fileVOList[0].fileId}" 
+							 style="vertical-align: middle; max-height: 100%; max-width: 100%"/>
+						<div style="position: absolute; right: 10px; bottom: 10px; background-color: gray; opacity: 0.5; color: white;">조회수 ${article.viewCount}</div>
 					</a>
 				</div>
-				<div style="width: 100%; height: 100%">
-					<span><img src="/TodayzHouse/img/recommend2.png" width="9%">&nbsp;&nbsp;&nbsp;${article.recommend}</span>
-					<span><img src="/TodayzHouse/img/comment.png" width="11%">&nbsp;&nbsp;${fn:length(article.replyList)}</span>
-					<span><img src="/TodayzHouse/img/report.png" width="11%">&nbsp;&nbsp;${article.report}</span>
+				<div>
+					<span style="padding: 8%"><img src="/TodayzHouse/img/recommend2.png" width="7%" style="padding-right: 9px;">${article.recommend}</span>
+					<span style="padding: 8%"><img src="/TodayzHouse/img/comment.png" width="9%" style="padding-right: 9px;">${fn:length(article.replyList)}</span>
+					<span style="padding: 8%"><img src="/TodayzHouse/img/report.png" width="9%" style="padding-right: 9px;">${article.report}</span>
 				</div>
+				<div style="margin: 10px;">${article.title}</div>
 			</div>
 			</c:forEach>
 		</c:when>

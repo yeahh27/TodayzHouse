@@ -6,15 +6,20 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.th.common.session.Session;
+import com.th.member.dao.MemberDao;
 import com.th.member.vo.MemberVO;
-
 
 public class SessionInterceptor extends HandlerInterceptorAdapter {
 	
 	private Logger logger = LoggerFactory.getLogger(SessionInterceptor.class);
+	
+	@Autowired
+	private MemberDao memberDao;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)	// handler ==> Controller
@@ -29,6 +34,22 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		return true;
+	}
+	
+	@Override // (09.19.수) postHandle은 "Controller한 이후" 이다.
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		
+		HttpSession session = request.getSession();
+		
+		// 세션이 있으면 계속 갱신되어라!
+		MemberVO sessionMemberVO = (MemberVO) session.getAttribute(Session.MEMBER);
+		
+		if( sessionMemberVO != null) {
+			MemberVO memberVO = memberDao.selectOneMember(sessionMemberVO);
+			session.setAttribute(Session.MEMBER, memberVO);
+		}
+		
 	}
 	
 }

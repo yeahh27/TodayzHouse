@@ -25,14 +25,15 @@
 
 	<h2><a href="/TodayzHouse/board/1/">사진</a>BEST3</h2>
 	
-	<div>
+	<div style="">
 		<c:forEach items="${best1Articles}" var="articles" varStatus="a">
-			<div class="home__slider" >
+			<div class="home__slider">
 				<c:if test="${a.index eq 0}" >
 					<div class="bxslider" >
 						<c:forEach items="${articles.fileVOList}" var="files">
-							<div class="">
+							<div class="" style="position: relative;">
 								<img src="/TodayzHouse/board/${files.boardId}/${files.articleId}/download/${files.fileId}" >
+								<span style="position: absolute; right: 5px; bottom: 5px; color: white;">조회수 ${articles.viewCount}</span>
 							</div>
 						</c:forEach>
 					</div>
@@ -41,8 +42,9 @@
 				<c:if test="${a.index eq 1}" >
 					<div class="bxslider">
 						<c:forEach items="${articles.fileVOList}" var="files">
-							<div class="">
+							<div class="" style="position: relative;">
 								<img src="/TodayzHouse/board/${files.boardId}/${files.articleId}/download/${files.fileId}" >
+								<span style="position: absolute; right: 5px; bottom: 5px; color: white;">조회수 ${articles.viewCount}</span>
 							</div>
 						</c:forEach>
 					</div>
@@ -51,8 +53,9 @@
 				<c:if test="${a.index eq 2}" >
 					<div class="bxslider">
 						<c:forEach items="${articles.fileVOList}" var="files">
-							<div class="">
+							<div class="" style="position: relative;">
 								<img src="/TodayzHouse/board/${files.boardId}/${files.articleId}/download/${files.fileId}" >
+								<span style="position: absolute; right: 5px; bottom: 5px; color: white;">조회수 ${articles.viewCount}</span>
 							</div>
 						</c:forEach>
 					</div>
@@ -69,8 +72,9 @@
 				<c:if test="${a.index eq 0}" >
 					<div class="bxslider" >
 						<c:forEach items="${articles.fileVOList}" var="files">
-							<div class="">
+							<div class="" style="position: relative;">
 								<img src="/TodayzHouse/board/${files.boardId}/${files.articleId}/download/${files.fileId}" >
+								<span style="position: absolute; right: 5px; bottom: 5px; color: white;">조회수 ${articles.viewCount}</span>
 							</div>
 						</c:forEach>
 					</div>
@@ -79,8 +83,9 @@
 				<c:if test="${a.index eq 1}" >
 					<div class="bxslider">
 						<c:forEach items="${articles.fileVOList}" var="files">
-							<div class="">
+							<div class="" style="position: relative;">
 								<img src="/TodayzHouse/board/${files.boardId}/${files.articleId}/download/${files.fileId}" >
+								<span style="position: absolute; right: 5px; bottom: 5px; color: white;">조회수 ${articles.viewCount}</span>
 							</div>
 						</c:forEach>
 					</div>
@@ -89,8 +94,9 @@
 				<c:if test="${a.index eq 2}" >
 					<div class="bxslider">
 						<c:forEach items="${articles.fileVOList}" var="files">
-							<div class="">
+							<div class="" style="position: relative;">
 								<img src="/TodayzHouse/board/${files.boardId}/${files.articleId}/download/${files.fileId}" >
+								<span style="position: absolute; right: 5px; bottom: 5px; color: white;">조회수 ${articles.viewCount}</span>
 							</div>
 						</c:forEach>
 					</div>

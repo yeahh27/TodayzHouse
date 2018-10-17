@@ -1,5 +1,8 @@
 package com.th.member.service;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import com.th.member.vo.MemberVO;
@@ -22,4 +25,10 @@ public interface MemberService {
 	public boolean unblockUser(String email);
 	public boolean blockUser(String email);
 	public boolean increaseLoginFailCount(String email);
+	
+	public Map<String, List> readArticles(String email);
+	
+	public boolean updateMember(MemberVO memberVO);
+	
+	public boolean updateChatOk(String email, int chatOk);
 }

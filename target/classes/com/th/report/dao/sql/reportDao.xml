@@ -48,4 +48,20 @@
   		WHERE	BOARD_ID = #{boardId} 
   		AND 	ARTICLE_ID = #{articleId}
   	</select>
+  	
+  	<resultMap type="ReportVO" id="reportResultMap">
+  		<id property="reportId" column="REPORT_ID" />
+  		<result property="boardId" column="BOARD_ID" />
+  		<result property="articleId" column="ARTICLE_ID" />
+  		<result property="email" column="EMAIL" />
+  	</resultMap>
+  	
+  	<select id="selectReportByEmail" parameterType="string" resultMap="reportResultMap">
+  		SELECT	REPORT_ID
+  				, BOARD_ID
+  				, ARTICLE_ID
+  				, EMAIL
+  		FROM	REPORT
+  		WHERE	EMAIL = #{email}
+  	</select>
   </mapper>

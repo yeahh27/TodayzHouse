@@ -29,4 +29,6 @@ public interface ArticleBiz {
 	
 	public List<ArticleVO> selectBestArticles(int boardId);
 	
+	public List<ArticleVO> selectAllArticlesByEmail(String email);
+	
 }

@@ -1,5 +1,6 @@
 package com.th.recommend.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.th.recommend.vo.RecommendVO;
@@ -15,4 +16,6 @@ public interface RecommendDao {
 	public int deleteAllRecommendsByArticle(Map<String, Object> param);
 	
 	public int selectRecommendCountByArticle(Map<String, Object> param);
+	
+	public List<RecommendVO> selectRecommendByEmail(String email);
 }

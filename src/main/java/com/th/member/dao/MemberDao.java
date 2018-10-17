@@ -20,4 +20,8 @@ public interface MemberDao {
 	public boolean unblockUser(String email);
 	public boolean blockUser(String email);
 	public boolean increaseLoginFailCount(String email);
+	
+	public int updateMember(MemberVO memberVO);
+	
+	public int updateChatOk(Map<String, Object> param);
 }

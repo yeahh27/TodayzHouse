@@ -1,5 +1,6 @@
 package com.th.recommend.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -46,6 +47,11 @@ public class RecommendDaoImpl extends SqlSessionDaoSupport implements RecommendD
 	@Override
 	public int selectRecommendCountByArticle(Map<String, Object> param) {
 		return this.getSqlSession().selectOne("RecommendDao.selectRecommendCountByArticle", param);
+	}
+
+	@Override
+	public List<RecommendVO> selectRecommendByEmail(String email) {
+		return this.getSqlSession().selectList("RecommendDao.selectRecommendByEmail", email);
 	}
 
 }

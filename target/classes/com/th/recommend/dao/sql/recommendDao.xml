@@ -48,4 +48,20 @@
   		WHERE	BOARD_ID = #{boardId} 
   		AND 	ARTICLE_ID = #{articleId}
   	</select>
+  	
+  	<resultMap type="RecommendVO" id="recommendResultMap">
+  		<id property="recommendId" column="RECOMMEND_ID" />
+  		<result property="boardId" column="BOARD_ID" />
+  		<result property="articleId" column="ARTICLE_ID" />
+  		<result property="email" column="EMAIL" />
+  	</resultMap>
+  	
+  	<select id="selectRecommendByEmail" parameterType="string" resultMap="recommendResultMap">
+  		SELECT	RECOMMEND_ID
+  				, BOARD_ID
+  				, ARTICLE_ID
+  				, EMAIL
+  		FROM	RECOMMEND
+  		WHERE	EMAIL = #{email}
+  	</select>
   </mapper>

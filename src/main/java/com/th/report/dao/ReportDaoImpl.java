@@ -1,5 +1,6 @@
 package com.th.report.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -46,6 +47,11 @@ public class ReportDaoImpl extends SqlSessionDaoSupport implements ReportDao {
 	@Override
 	public int selectReportCountByArticle(Map<String, Object> param) {
 		return this.getSqlSession().selectOne("ReportDao.selectReportCountByArticle", param);
+	}
+
+	@Override
+	public List<ReportVO> selectReportByEmail(String email) {
+		return this.getSqlSession().selectList("ReportDao.selectReportByEmail", email);
 	}
 
 

@@ -74,7 +74,9 @@
 		
 	})
 </script>
-	<div id="replyBox">
+
+	<div id="replyBox" style=" margin-left: 10%; margin-right: 10%;">
+		<hr/>
 	    <div>
 			<c:forEach items="${articleVO.replyList}" var="reply">
 			<div style="margin-left: ${(reply.level - 1) * 30}px" class="replyHead" >
@@ -95,13 +97,13 @@
 		</div> 
 	
 		<form:form class="replyData" modelAttribute="replyVO">
-			<div class="replyHead">
+			<div class="replyHead" style="margin-top: 10px">
 				<input type="hidden" id="parentId" class="parentId" name="parentId" value="0" />
-				<div class="replyWrapper">
+				<div class="replyWrapper" >
 					<input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
 					<input type="hidden" name="boardId" value="${articleVO.boardId}"/>
 					<input type="hidden" name="articleId" value="${articleVO.articleId}"/>
-					<textarea id="content" name="content" class="content" ></textarea>
+					<textarea id="content" name="content" class="content" style="width: 85%;"></textarea>
 					<input type="button" class="replyBtn" value="등록" />
 				</div>
 			</div>

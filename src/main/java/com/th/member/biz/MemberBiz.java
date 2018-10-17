@@ -20,4 +20,8 @@ public interface MemberBiz {
 	public boolean unblockUser(String email);
 	public boolean blockUser(String email);
 	public boolean increaseLoginFailCount(String email);
+	
+	public int updateMember(MemberVO memberVO);
+	
+	public int updateChatOk(String email, int chatOk);
 }

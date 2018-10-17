@@ -1,6 +1,7 @@
 package com.th.recommend.biz;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,11 @@ public class RecommendBizImpl implements RecommendBiz {
 		param.put("articleId", articleId);
 		
 		return this.recommendDao.selectRecommendCountByArticle(param);
+	}
+
+	@Override
+	public List<RecommendVO> selectRecommendByEmail(String email) {
+		return this.recommendDao.selectRecommendByEmail(email);
 	}
 
 }

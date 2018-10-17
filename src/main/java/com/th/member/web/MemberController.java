@@ -1,6 +1,7 @@
 package com.th.member.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -17,11 +18,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.th.common.session.Session;
 import com.th.member.service.MemberService;
 import com.th.member.validator.MemberValidator;
 import com.th.member.vo.MemberVO;
+import com.th.recommend.vo.RecommendVO;
 
 @Controller
 public class MemberController {
@@ -127,4 +131,38 @@ public class MemberController {
 		session.invalidate();	
 		return "redirect:/member/login";
 	}
+	
+	@GetMapping("/member/my/{no}")
+	public ModelAndView viewMemberPage(@PathVariable int no, @SessionAttribute(Session.MEMBER) MemberVO memberVO) {
+		ModelAndView view = new ModelAndView("member/detail" + no);
+		
+		view.addObject("memberVO", memberVO);
+		
+		Map<String, List> articles = this.memberService.readArticles(memberVO.getEmail());
+		view.addObject("articles", articles);
+		
+		return view;
+	}
+	
+	@PostMapping("/member/modify")
+	@ResponseBody
+	public Map<String, Object> doModifyMemberAction(@ModelAttribute MemberVO memberVO) {
+		Map<String, Object> result = new HashMap<>();
+		
+		boolean isSuccess = this.memberService.updateMember(memberVO);
+		
+		if(isSuccess) {
+			result.put("status", true);
+		} else {
+			result.put("status", false);
+		}
+		
+		return result;
+	}
+	
+	@PostMapping("/member/update/chatOk")
+	public void doChangeChatOkAction(@RequestParam String email, @RequestParam int chatOk) {
+		this.memberService.updateChatOk(email, chatOk);
+	}
+	
 }

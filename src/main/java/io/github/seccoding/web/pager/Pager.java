@@ -40,7 +40,7 @@ public abstract class Pager {
 	 * 로 기본 설정됨.
 	 */
 	public Pager() {
-		this.printArticle = 10;
+		this.printArticle = 12;
 		this.printPage = 10;
 	}
 	

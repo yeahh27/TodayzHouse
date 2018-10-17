@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.th.member.vo.MemberVO;
 import com.th.sess.vo.SessVO;
 
 @Repository
@@ -33,5 +34,10 @@ public class SessDaoImpl extends SqlSessionDaoSupport implements SessDao {
 	@Override
 	public int selectMember(SessVO sessVO) {
 		return this.getSqlSession().selectOne("SessDao.selectMember", sessVO);
+	}
+
+	@Override
+	public int updateMember(MemberVO memberVO) {
+		return this.getSqlSession().update("SessDao.updateMember", memberVO);
 	}
 }

@@ -39,24 +39,23 @@
 		})
 	})
 </script>
-
-	<h1>LOGIN</h1>
-	<form:form id="loginData" modelAttribute="memberVO" >
-	<div class="errors">
-			<ul>
-				<li><form:errors path="email" /></li>
-				<li><form:errors path="password" /></li>
-			</ul>
+<div style="text-align: center; vertical-align: middle;">
+	<div style="display: inline-block; width: 60%; text-align: center; margin-bottom: 20px; border: 1px solid gray;">
+		<h1>LOGIN</h1>
+		<form:form id="loginData" modelAttribute="memberVO" >
+		<div style="padding-left: 15px; padding-top: 15px;">
+			<label>이메일 </label>
+			<input type="email" name="email" id="email" placeholder="EMAIL" value="" style="width: 30%; height: 20px;" />
 		</div>
-	<div>
-		<input type="email" name="email" id="email" placeholder="EMAIL" value="" />
+		<div style="padding-left: 15px; padding-top: 15px;">
+			<label>비밀번호 </label>
+			<input type="password" name="password" id="password" placeholder="PASSWORD" value="" style="width: 30%; height: 20px;" />
+		</div>
+		<div style="padding: 15px">
+			<input type="button" class="loginBtn" value="로그인" />
+		</div>
+		</form:form>
 	</div>
-	<div>
-		<input type="password" name="password" id="password" placeholder="PASSWORD" value="" />
-	</div>
-	<div>
-		<input type="button" class="loginBtn" value="로그인" />
-	</div>
-	</form:form>
+</div>
 
 <jsp:include page="/WEB-INF/view/common/layout_footer.jsp"/>
