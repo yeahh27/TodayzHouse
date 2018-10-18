@@ -44,6 +44,11 @@ public class ReplyDaoImpl extends SqlSessionDaoSupport implements ReplyDao {
 	public int deleteOneReply(Map<String, Object> param) {
 		return this.getSqlSession().delete("ReplyDao.deleteOneReply", param);
 	}
+	
+	@Override
+	public int updateDeleteYn(Map<String, Object> param) {
+		return this.getSqlSession().update("ReplyDao.updateDeleteYn", param);
+	}
 
 	@Override
 	public int updateOneReply(ReplyVO replyVO) {

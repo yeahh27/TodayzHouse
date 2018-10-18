@@ -54,7 +54,9 @@ public class ReplyController {
 									   , @PathVariable String replyId, @ModelAttribute ReplyVO reply) {
 		Map<String, Object> result = new HashMap<>();
 		
-		boolean isSuccess = this.replyService.deleteOneReply(boardId, articleId, replyId);
+		//boolean isSuccess = this.replyService.deleteOneReply(boardId, articleId, replyId);
+		boolean isSuccess = this.replyService.updateDeleteYn(boardId, articleId, replyId);
+		
 		if(isSuccess) {
 			result.put("status", "ok");
 		} else {

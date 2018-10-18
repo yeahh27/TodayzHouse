@@ -1,5 +1,6 @@
 package com.th.member.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -76,5 +77,22 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 	public int updateChatOk(Map<String, Object> param) {
 		return this.getSqlSession().update("MemberDao.updateChatOk", param);
 	}
+
+	@Override
+	public List<MemberVO> selectMembersByAdmin() {
+		return this.getSqlSession().selectList("MemberDao.selectMembersByAdmin");
+	}
+
+	@Override
+	public int deleteMemberByAdmin(String email) {
+		return this.getSqlSession().delete("MemberDao.deleteMemberByAdmin", email);
+	}
+
+	@Override
+	public int updateDeleteArtCount(String email) {
+		return this.getSqlSession().update("MemberDao.updateDeleteArtCount", email);
+	}
+
+
 
 }

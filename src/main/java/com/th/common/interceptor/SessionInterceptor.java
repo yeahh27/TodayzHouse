@@ -1,5 +1,7 @@
 package com.th.common.interceptor;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.th.common.session.Session;
 import com.th.member.dao.MemberDao;
 import com.th.member.vo.MemberVO;
+import com.th.message.dao.MessageDao;
+import com.th.message.vo.MessageVO;
 
 public class SessionInterceptor extends HandlerInterceptorAdapter {
 	
@@ -20,6 +24,9 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 	
 	@Autowired
 	private MemberDao memberDao;
+	
+	@Autowired
+	private MessageDao messageDao;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)	// handler ==> Controller
@@ -44,10 +51,16 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 		
 		// 세션이 있으면 계속 갱신되어라!
 		MemberVO sessionMemberVO = (MemberVO) session.getAttribute(Session.MEMBER);
+		List<MessageVO> messageList = (List<MessageVO>) session.getAttribute(Session.MESSAGE);
 		
 		if( sessionMemberVO != null) {
 			MemberVO memberVO = memberDao.selectOneMember(sessionMemberVO);
 			session.setAttribute(Session.MEMBER, memberVO);
+			
+			if(messageList != null) {
+				List<MessageVO> messageVOList = messageDao.selectMessageList(memberVO.getEmail());
+				session.setAttribute(Session.MESSAGE, messageVOList);
+			}
 		}
 		
 	}

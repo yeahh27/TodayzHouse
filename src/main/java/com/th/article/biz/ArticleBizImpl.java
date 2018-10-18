@@ -65,6 +65,15 @@ public class ArticleBizImpl implements ArticleBiz {
 	}
 
 	@Override
+	public int updateDeleteYN(int boardId, String articleId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("boardId", boardId);
+		param.put("articleId", articleId);
+		
+		return this.articleDao.updateDeleteYN(param);
+	}
+	
+	@Override
 	public int updateViewCount(int boardId, String articleId) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("boardId", boardId);
@@ -103,4 +112,17 @@ public class ArticleBizImpl implements ArticleBiz {
 		return this.articleDao.selectAllArticlesByEmail(email);
 	}
 
+	@Override
+	public List<ArticleVO> selectArticlesByAdmin() {
+		return this.articleDao.selectArticlesByAdmin();
+	}
+
+	@Override
+	public int deleteArticleByAdmin(int boardId, String articleId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("boardId", boardId);
+		param.put("articleId", articleId);
+		
+		return this.articleDao.deleteArticleByAdmin(param);
+	}
 }

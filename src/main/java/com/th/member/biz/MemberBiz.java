@@ -1,5 +1,7 @@
 package com.th.member.biz;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import com.th.member.vo.MemberVO;
@@ -24,4 +26,10 @@ public interface MemberBiz {
 	public int updateMember(MemberVO memberVO);
 	
 	public int updateChatOk(String email, int chatOk);
+	
+	public List<MemberVO> selectMembersByAdmin();
+	
+	public int deleteMemberByAdmin(String email);
+	
+	public int updateDeleteArtCount(String email);
 }

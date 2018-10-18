@@ -1,5 +1,6 @@
 package com.th.member.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.th.member.vo.MemberVO;
@@ -24,4 +25,10 @@ public interface MemberDao {
 	public int updateMember(MemberVO memberVO);
 	
 	public int updateChatOk(Map<String, Object> param);
+	
+	public List<MemberVO> selectMembersByAdmin();
+	
+	public int deleteMemberByAdmin(String email);
+	
+	public int updateDeleteArtCount(String email);
 }

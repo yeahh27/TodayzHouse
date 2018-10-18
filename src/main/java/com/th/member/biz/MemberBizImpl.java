@@ -1,6 +1,7 @@
 package com.th.member.biz;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -110,5 +111,20 @@ public class MemberBizImpl implements MemberBiz {
 		param.put("chatOk", chatOk);
 		
 		return this.memberDao.updateChatOk(param);
+	}
+
+	@Override
+	public List<MemberVO> selectMembersByAdmin() {
+		return this.memberDao.selectMembersByAdmin();
+	}
+
+	@Override
+	public int deleteMemberByAdmin(String email) {
+		return this.memberDao.deleteMemberByAdmin(email);
+	}
+
+	@Override
+	public int updateDeleteArtCount(String email) {
+		return this.memberDao.updateDeleteArtCount(email);
 	}
 }

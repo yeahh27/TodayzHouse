@@ -102,4 +102,27 @@
   		SET		CHAT_OK = #{chatOk}
   		WHERE	EMAIL = #{email}
   	</update>
+  	
+  	<select id="selectMembersByAdmin" resultMap="memberResultMap">
+  		SELECT	EMAIL
+  				, NAME
+  				, POINT
+  				, CHAT_OK
+  				, DELETE_ART_COUNT
+  				, ADMIN
+  		FROM	MEMBERS
+  		WHERE	DELETE_ART_COUNT > 10
+  	</select>
+  	
+  	<delete id="deleteMemberByAdmin" parameterType="string">
+  		DELETE
+  		FROM	MEMBERS
+  		WHERE	EMAIL = #{email}
+  	</delete>
+  	
+  	<update id="updateDeleteArtCount" parameterType="string">
+  		UPDATE	MEMBERS
+  		SET		DELETE_ART_COUNT = DELETE_ART_COUNT + 1
+  		WHERE	EMAIL = #{email}
+  	</update>
   </mapper>

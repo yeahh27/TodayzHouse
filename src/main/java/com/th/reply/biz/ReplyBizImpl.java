@@ -48,6 +48,16 @@ public class ReplyBizImpl implements ReplyBiz {
 		
 		return this.replyDao.deleteOneReply(param);
 	}
+	
+	@Override
+	public int updateDeleteYn(int boardId, String articleId, String replyId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("boardId", boardId);
+		param.put("articleId", articleId);
+		param.put("replyId", replyId);
+		
+		return this.replyDao.updateDeleteYn(param);
+	}
 
 	@Override
 	public int updateOneReply(ReplyVO replyVO) {

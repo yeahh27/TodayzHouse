@@ -105,6 +105,11 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
+	public boolean updateDeleteYN(int boardId, String articleId) {
+		return this.articleBiz.updateDeleteYN(boardId, articleId) > 0;
+	}
+
+	@Override
 	public boolean isRecommend(int boardId, String articleId, String email) {
 		return this.recommendBiz.selectRecommendByArticle(boardId, articleId, email) > 0;
 	}
@@ -133,5 +138,4 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<ArticleVO> readBestArticles(int boardId) {
 		return this.articleBiz.selectBestArticles(boardId);
 	}
-
 }

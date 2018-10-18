@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +23,8 @@ nav {
   padding: 15px;
   margin-bottom: 15px;
   text-align: center;
+  width: 100%;
+  height: 35px;
 }
 
 nav ul {
@@ -42,6 +45,7 @@ nav ul > li:first-child {
 a, a:visited {
    text-decoration: none;
    color: #333;
+   cursor: pointer;
 }
 
 a:active {
@@ -51,10 +55,10 @@ a:active {
 nav a:hover {
    color: #ffffff;
 }
- 
-.point {
-	text-decoration: underline;
-} 
+
+.point > .hide {
+	display: none;
+}
 
 .inline {
 	width: 100%;
@@ -141,6 +145,7 @@ input:checked + .slider:before {
 }
 
 </style>
+
 <script type="text/javascript">
 	$().ready(function() {
 		
@@ -159,10 +164,36 @@ input:checked + .slider:before {
 			}
 			
 			$.post("/TodayzHouse/member/update/chatOk"
-					, {chatOk: chatOk,
-						email: email}
+					, {
+						chatOk: chatOk
+						, email: email
+					}
+					, function(response) {
+						window.location.reload()	
+					}
 			);
-		}) 
+		});
+		
+		$(".point").mouseenter(function() {
+			$(this).find(".hide").stop().slideDown();
+		}).mouseleave(function() {
+			$(this).find(".hide").stop().slideUp();
+		});
+		
+		$(".chatBtn").click(function() {
+			var from_email = $(this).find(".from").val();
+			var to_email = "${sessionScope._MEMBER_.email}";
+			var room_name = from_email + ":" + to_email;
+			
+			window.open("http://192.168.43.254:3000/chat?email="+to_email +"&rm="+room_name, "new window", "width=400, height=800");
+			
+			var messageId = $(this).find(".messageId").val();
+			$.post("/TodayzHouse/message/delete/" + messageId
+					, function(response) {
+						window.location.reload()	
+					});
+		});
+		
 	})
 </script>
 </head>
@@ -185,8 +216,21 @@ input:checked + .slider:before {
 							<li><a href="/TodayzHouse/member/regist">Regist</a></li>
 						</c:when>
 						<c:otherwise>
-							<li><a href="/TodayzHouse/member/logout">Logout</a></li>
-							<li class="point"><a href="/TodayzHouse/member/my/1">${sessionScope._MEMBER_.name} (${sessionScope._MEMBER_.point})</a></li>
+							<li class="point">
+								MESSAGE <span style="background-color: red; width: 5px; height: 5px; color: white;">&nbsp;${fn:length(sessionScope._MESSAGE_)}&nbsp;</span>
+								<ul class="hide">
+									<c:forEach items="${sessionScope._MESSAGE_}" var="mess">
+										<li>
+											<a class="chatBtn">
+												${mess.fromEmail}
+												<input type="hidden" class="from" value="${mess.fromEmail}" />
+												<input type="hidden" class="messageId" value="${mess.messageId}" />
+											</a>
+										</li>
+									</c:forEach>
+								</ul>	
+							</li>
+							
 							<li>채팅
 								<label class="switch">
 								  <input type="checkbox">
@@ -194,8 +238,16 @@ input:checked + .slider:before {
 								</label>
 							</li>
 							
+							<li class="point">
+								<a href="/TodayzHouse/member/my/1">${sessionScope._MEMBER_.name} (${sessionScope._MEMBER_.point})</a>
+								<ul class="hide" >
+									<li><a href="/TodayzHouse/member/my/1">내 정보</a></li>
+									<li><a href="/TodayzHouse/member/logout">Logout</a></li>
+								</ul>	
+							</li>
+							
 							<c:if test="${sessionScope._MEMBER_.admin eq 1}">
-								<li><a href="">관리자</a></li>
+								<li><a href="/TodayzHouse/admin/1">관리자</a></li>
 							</c:if>
 						</c:otherwise>
 					</c:choose>

@@ -15,6 +15,7 @@ import com.th.article.vo.ArticleVO;
 import com.th.common.session.Session;
 import com.th.member.biz.MemberBiz;
 import com.th.member.vo.MemberVO;
+import com.th.message.biz.MessageBiz;
 import com.th.recommend.biz.RecommendBiz;
 import com.th.recommend.vo.RecommendVO;
 import com.th.report.biz.ReportBiz;
@@ -39,6 +40,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Autowired
 	private ReportBiz reportBiz;
+	
+	@Autowired
+	private MessageBiz messageBiz;
 
 	@Override
 	public boolean registMember(MemberVO memberVO) {
@@ -57,6 +61,8 @@ public class MemberServiceImpl implements MemberService {
 		if(isLogin) {
 			MemberVO loginMemberVO = (MemberVO) session.getAttribute(Session.MEMBER);
 			this.sessBiz.insertMember(new SessVO(loginMemberVO.getEmail(), loginMemberVO.getName()));
+			
+			session.setAttribute(Session.MESSAGE, this.messageBiz.selectMessageList(loginMemberVO.getEmail()));
 		}
 		return isLogin;
 	}

@@ -20,6 +20,7 @@ public interface ArticleBiz {
 	public int updateArticle(ArticleVO articleVO);
 	
 	public int deleteOneArticle(int boardId, String articleId);
+	public int updateDeleteYN(int boardId, String articleId);
 	
 	public int updateViewCount(int boardId, String articleId);
 	
@@ -30,5 +31,9 @@ public interface ArticleBiz {
 	public List<ArticleVO> selectBestArticles(int boardId);
 	
 	public List<ArticleVO> selectAllArticlesByEmail(String email);
+	
+	public List<ArticleVO> selectArticlesByAdmin();
+	
+	public int deleteArticleByAdmin(int boardId, String articleId);
 	
 }

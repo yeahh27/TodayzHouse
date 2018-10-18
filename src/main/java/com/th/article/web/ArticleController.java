@@ -356,7 +356,8 @@ public class ArticleController {
 			return "redirect:/board/" + boardId;
 		}
 		
-		boolean isDeleteSuccess = this.articleService.deleteArticle(boardId, articleId);
+		//boolean isDeleteSuccess = this.articleService.deleteArticle(boardId, articleId);
+		boolean isDeleteSuccess = this.articleService.updateDeleteYN(boardId, articleId);
 		
 		return "redirect:/board/" + boardId;
 	}

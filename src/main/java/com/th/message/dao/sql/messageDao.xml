@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="MessageDao">
+  
+  	<insert id="insertMessage" parameterType="MessageVO">
+  		INSERT INTO MESSAGE (
+							   MESSAGE_ID
+							   , TO_EMAIL
+							   , FROM_EMAIL
+							   , REG_DATE
+		) VALUES ( 
+							   'MS-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(MESSAGE_ID_SEQ.NEXTVAL, 6, '0')
+							   , #{toEmail}
+							   , #{fromEmail}
+							   , SYSDATE
+		)
+  	</insert>
+  	
+  	<resultMap type="MessageVO" id="messageResultMap">
+  		<id property="messageId" column="MESSAGE_ID" />
+  		<result property="toEmail" column="TO_EMAIL" />
+  		<result property="fromEmail" column="FROM_EMAIL" />
+  		<result property="regDate" column="REG_DATE" />
+  	</resultMap>
+  	
+  	<select id="selectMessageList" parameterType="string" resultMap="messageResultMap">
+  		SELECT	MESSAGE_ID
+  				, TO_EMAIL
+  				, FROM_EMAIL
+  				, REG_DATE
+  		FROM	MESSAGE
+  		WHERE	TO_EMAIL = #{toEmail}
+  	</select>
+  	
+  	<delete id="deleteMessage" parameterType="string">
+  		DELETE	
+  		FROM	MESSAGE
+  		WHERE	MESSAGE_ID = #{messageId}
+  	</delete>
+  </mapper>

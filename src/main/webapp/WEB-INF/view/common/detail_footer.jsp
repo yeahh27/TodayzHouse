@@ -79,20 +79,30 @@
 		<hr/>
 	    <div>
 			<c:forEach items="${articleVO.replyList}" var="reply">
-			<div style="margin-left: ${(reply.level - 1) * 30}px" class="replyHead" >
-				<input type="hidden" class="replyId" value="${reply.replyId}" />
-				<input type="hidden" class="parentId" value="${reply.parentId}" />
-				<input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
-				<div>${reply.memberVO.name}   ${reply.regDate}</div>
-				<div class="content" data-con="${reply.content}">${reply.content}</div>
-				<c:if test="${reply.email eq sessionScope._MEMBER_.email }">
-					<div class="replyMoDe">
-						<a class="replyModify" >수정</a>
-						<a class="replyDelete" >삭제</a>
-					</div>
-				</c:if>
-				<input type="button" value="+" class="replyPlus" />
-			</div>
+				<c:choose>
+					<c:when test="${reply.deleteYn eq 'Y'}">
+						<div style="border: 1px solid #DCDCDC; padding: 2.5px;">
+							<img src="/TodayzHouse/img/warn.png" width="3%" /> 삭제된 댓글 입니다.
+						</div>
+					</c:when>
+					
+					<c:otherwise>
+						<div style="margin-left: ${(reply.level - 1) * 30}px" class="replyHead" >
+							<input type="hidden" class="replyId" value="${reply.replyId}" />
+							<input type="hidden" class="parentId" value="${reply.parentId}" />
+							<input type="hidden" name="token" value="${sessionScope._CSRF_TOKEN_}" />
+							<div>${reply.memberVO.name}   ${reply.regDate}</div>
+							<div class="content" data-con="${reply.content}">${reply.content}</div>
+							<c:if test="${reply.email eq sessionScope._MEMBER_.email }">
+								<div class="replyMoDe">
+									<a class="replyModify" >수정</a>
+									<a class="replyDelete" >삭제</a>
+								</div>
+							</c:if>
+							<input type="button" value="+" class="replyPlus" />
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</c:forEach>
 		</div> 
 	
@@ -111,7 +121,7 @@
 	 </div>   
     <hr/>
 	<div>
-		<c:if test="${articleVO.email eq sessionScope._MEMBER_.email }">
+		<c:if test="${articleVO.email eq sessionScope._MEMBER_.email or sessionScope._MEMBER_.admin eq 1}">
 			<a href="/TodayzHouse/board/${articleVO.boardId}/articleModify/${articleVO.articleId}">수정</a>
 			<a href="/TodayzHouse/board/${articleVO.boardId}/articleDelete/${articleVO.articleId}">삭제</a>
 		</c:if>

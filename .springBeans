@@ -13,6 +13,7 @@
 		<config>src/main/java/com/th/report/dao/sql/reportDao.xml</config>
 		<config>src/main/java/com/th/link/dao/sql/linkDao.xml</config>
 		<config>src/main/java/com/th/sess/dao/sql/sessDao.xml</config>
+		<config>src/main/java/com/th/message/dao/sql/messageDao.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/commonContext.xml</config>

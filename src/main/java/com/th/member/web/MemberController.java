@@ -161,8 +161,9 @@ public class MemberController {
 	}
 	
 	@PostMapping("/member/update/chatOk")
-	public void doChangeChatOkAction(@RequestParam String email, @RequestParam int chatOk) {
-		this.memberService.updateChatOk(email, chatOk);
+	@ResponseBody
+	public boolean doChangeChatOkAction(@RequestParam String email, @RequestParam int chatOk) {
+		return this.memberService.updateChatOk(email, chatOk);
 	}
 	
 }

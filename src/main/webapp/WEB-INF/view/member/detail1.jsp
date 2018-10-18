@@ -16,8 +16,15 @@
 			<label>포인트</label>
 			<span>${memberVO.point}</span>
 			|
-			<label>채팅 허용</label>
-			<span>${memberVO.chatOk}</span>
+			<label>채팅</label>
+			<c:choose>
+				<c:when test="${memberVO.chatOk eq 1}">
+					<span>OK</span>
+				</c:when>
+				<c:otherwise>
+					<span>NO</span>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 </div>

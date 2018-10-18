@@ -36,6 +36,7 @@
   		<result property="regDate" column="REG_DATE" />
   		<result property="recommend" column="RECOMMEND" />
   		<result property="parentId" column="PARENT_ID" />
+  		<result property="deleteYn" column="DELETE_YN" />
   		<association property="memberVO" javaType="MemberVO">
   			<id property="email" column="M_EMAIL"/>
 	  		<result property="name" column="NAME"/>
@@ -52,6 +53,7 @@
   				, R.CONTENT
   				, R.REG_DATE
   				, R.PARENT_ID
+  				, R.DELETE_YN
   				, M.EMAIL M_EMAIL
   				, M.NAME
   				, M.POINT
@@ -81,6 +83,14 @@
 		                     START		WITH REPLY_ID = #{replyId}
 		                     CONNECT	BY PRIOR REPLY_ID = PARENT_ID)
   	</delete>
+  	
+  	<update id="updateDeleteYn" parameterType="map">
+  		UPDATE	REPLY
+  		SET		DELETE_YN = 'Y'
+  		WHERE	BOARD_ID = #{boardId}
+  		AND		ARTICLE_ID = #{articleId}
+  		AND		REPLY_ID = #{replyId}
+  	</update>
 
   	<update id="updateOneReply" parameterType="ReplyVO">
   		UPDATE	REPLY

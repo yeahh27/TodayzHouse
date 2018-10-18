@@ -23,6 +23,7 @@ public interface ArticleService {
 	public ArticleVO readOneArticle(int boardId, String articleId);
 	
 	public boolean deleteArticle(int boardId, String articleId);
+	public boolean updateDeleteYN(int boardId, String articleId);
 	
 	public boolean isRecommend(int boardId, String articleId, String email);
 	

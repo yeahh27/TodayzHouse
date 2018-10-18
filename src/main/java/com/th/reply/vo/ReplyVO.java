@@ -13,16 +13,17 @@ public class ReplyVO {
 	private int boardId;
 	private String articleId;
 	private String email;
-	@NotEmpty(message="내용을 입력하세요.")
+	@NotEmpty(message = "내용을 입력하세요.")
 	private String content;
 	private int recommend;
 	private String regDate;
 	private String parentId;
+	private String deleteYn;
 
 	private MemberVO memberVO;
-	
+
 	private String token;
-	
+
 	public int getLevel() {
 		return level;
 	}
@@ -95,6 +96,14 @@ public class ReplyVO {
 		this.parentId = parentId;
 	}
 
+	public String getDeleteYn() {
+		return deleteYn;
+	}
+
+	public void setDeleteYn(String deleteYn) {
+		this.deleteYn = deleteYn;
+	}
+
 	public MemberVO getMemberVO() {
 		return memberVO;
 	}
@@ -102,7 +111,7 @@ public class ReplyVO {
 	public void setMemberVO(MemberVO memberVO) {
 		this.memberVO = memberVO;
 	}
-	
+
 	public String getToken() {
 		return token;
 	}
@@ -115,7 +124,8 @@ public class ReplyVO {
 	public String toString() {
 		return "ReplyVO [level=" + level + ", replyId=" + replyId + ", boardId=" + boardId + ", articleId=" + articleId
 				+ ", email=" + email + ", content=" + content + ", recommend=" + recommend + ", regDate=" + regDate
-				+ ", parentId=" + parentId + ", memberVO=" + memberVO + ", token=" + token + "]";
+				+ ", parentId=" + parentId + ", deleteYn=" + deleteYn + ", memberVO=" + memberVO + ", token=" + token
+				+ "]";
 	}
 
 }

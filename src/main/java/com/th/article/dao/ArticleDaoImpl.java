@@ -61,6 +61,11 @@ public class ArticleDaoImpl extends SqlSessionDaoSupport implements ArticleDao {
 	public int deleteOneArticle(Map<String, Object> param) {
 		return getSqlSession().delete("ArticleDao.deleteOneArticle", param);
 	}
+	
+	@Override
+	public int updateDeleteYN(Map<String, Object> param) {
+		return this.getSqlSession().update("ArticleDao.updateDeleteYN", param);
+	}
 
 	@Override
 	public int updateViewCount(Map<String, Object> param) {
@@ -85,6 +90,16 @@ public class ArticleDaoImpl extends SqlSessionDaoSupport implements ArticleDao {
 	@Override
 	public List<ArticleVO> selectAllArticlesByEmail(String email) {
 		return this.getSqlSession().selectList("ArticleDao.selectAllArticlesByEmail", email);
+	}
+
+	@Override
+	public List<ArticleVO> selectArticlesByAdmin() {
+		return this.getSqlSession().selectList("ArticleDao.selectArticlesByAdmin");
+	}
+
+	@Override
+	public int deleteArticleByAdmin(Map<String, Object> param) {
+		return this.getSqlSession().delete("", param);
 	}
 
 }

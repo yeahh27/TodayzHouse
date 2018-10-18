@@ -50,6 +50,7 @@
   		<result property="viewCount" column="VIEW_COUNT"/>
   		<result property="recommend" column="RECOMMEND"/>
   		<result property="report" column="REPORT"/>
+  		<result property="deleteYn" column="DELETE_YN" />
   		<association property="memberVO" javaType="MemberVO">
   			<id property="email" column="M_EMAIL"/>
 	  		<result property="name" column="NAME"/>
@@ -82,6 +83,7 @@
 						  				, A.VIEW_COUNT
 						  				, A.RECOMMEND
 						  				, A.REPORT
+						  				, A.DELETE_YN
 						  				, M.EMAIL M_EMAIL
 						  				, M.NAME
 						  				, M.POINT
@@ -121,6 +123,7 @@
 				, A.VIEW_COUNT
 				, A.RECOMMEND
 				, A.REPORT
+				, A.DELETE_YN
 				, M.EMAIL M_EMAIL
 				, M.NAME
 				, M.POINT
@@ -160,6 +163,16 @@
   		AND		ARTICLE_ID = #{articleId}
   	</delete>
   	
+  	<update id="updateDeleteYN" parameterType="map">
+  		UPDATE	ARTICLES
+  		SET		DELETE_YN = 'Y'
+  				, VIEW_COUNT = 0
+  				, RECOMMEND = 0
+  				, REPORT = 0
+  		WHERE	BOARD_ID = #{boardId}
+  		AND		ARTICLE_ID = #{articleId}
+  	</update>
+  	
   	<update id="updateViewCount" parameterType="map">
   		UPDATE	ARTICLES
   		SET		VIEW_COUNT = VIEW_COUNT + 1
@@ -191,6 +204,7 @@
 				, A.VIEW_COUNT
 				, A.RECOMMEND
 				, A.REPORT
+				, A.DELETE_YN
 				, M.EMAIL M_EMAIL
 				, M.NAME
 				, M.POINT
@@ -227,6 +241,7 @@
 				, A.VIEW_COUNT
 				, A.RECOMMEND
 				, A.REPORT
+				, A.DELETE_YN
 				, M.EMAIL M_EMAIL
 				, M.NAME
 				, M.POINT
@@ -245,5 +260,35 @@
 		AND		A.ARTICLE_ID = F.ARTICLE_ID
 		AND		A.EMAIL = #{email}
    		ORDER	BY F.FILE_ID ASC
+  	</select>
+  	
+  	<select id="selectArticlesByAdmin" resultMap="articleResultMap">
+  		SELECT	A.BOARD_ID A_BOARD_ID
+				, A.ARTICLE_ID A_ARTICLE_ID
+				, A.TITLE
+				, A.EMAIL A_EMAIL
+				, A.REG_DATE
+				, A.MODIFY_DATE
+				, A.VIEW_COUNT
+				, A.RECOMMEND
+				, A.REPORT
+				, A.DELETE_YN
+				, M.EMAIL M_EMAIL
+				, M.NAME
+				, M.POINT
+				, M.CHAT_OK
+				, F.FILE_ID
+				, F.BOARD_ID F_BOARD_ID
+				, F.ARTICLE_ID F_ARTICLE_ID
+				, F.ORIGIN_FILE_NAME
+				, F.FILE_NAME
+				, F.CONTENT
+				, F.IDX
+		FROM	ARTICLES A
+				, MEMBERS M
+				, FILES	F
+		WHERE	A.EMAIL = M.EMAIL
+		AND		A.ARTICLE_ID = F.ARTICLE_ID
+		AND		A.REPORT >= 50
   	</select>
   </mapper>
