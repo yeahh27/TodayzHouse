@@ -21,7 +21,9 @@ public class MessageController {
 	@PostMapping("/message/send")
 	public String doSendMessageAction (@ModelAttribute MessageVO messageVO, HttpServletRequest request) {
 		
-		this.messageService.registMessage(messageVO);
+		if(!this.messageService.findMessage(messageVO)) {
+			this.messageService.registMessage(messageVO);
+		}
 		
 		return "redirect:" + request.getHeader("Referer");
 	}

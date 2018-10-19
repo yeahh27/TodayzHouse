@@ -11,4 +11,6 @@ public interface MessageDao {
 	public int deleteMessage(String messageId);
 	
 	public List<MessageVO> selectMessageList(String toEmail);
+	
+	public int selectMessage(MessageVO messageVO);
 }

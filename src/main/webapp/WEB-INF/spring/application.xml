@@ -28,6 +28,7 @@
 			<mvc:exclude-mapping path="/member/login"/>
 			<mvc:exclude-mapping path="/member/logout"/>
 			<mvc:exclude-mapping path="/member/regist"/>
+			<mvc:exclude-mapping path="/"/>
 			<bean	id="sessionInterceptor"
 					class="com.th.common.interceptor.SessionInterceptor">
 			</bean>

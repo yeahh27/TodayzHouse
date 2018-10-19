@@ -214,7 +214,7 @@
 	            method: "post"
 			} ).submit();
 			
-			window.open("http://192.168.43.254:3000/chat?email="+from_email +"&rm="+room_name, "new window", "width=400, height=800")
+			window.open("http://127.0.0.1:3000/chat?email="+from_email +"&rm="+room_name, "new window", "width=400, height=800")
 		})
 	})
 </script>
@@ -222,7 +222,7 @@
 <input type="hidden" class="token" name="token" value="${sessionScope._CSRF_TOKEN_}" />
 <h1>집들이</h1>
 
-<c:catch>
+<c:choose>
 	<c:when test="${articleVO.deleteYn eq 'Y'}">
 		<div style="border: 2px solid black; width: 100%; text-align: center;">
 			<img src="/TodayzHouse/img/warn.png" width="8%" style="padding-top: 20px;" />
@@ -338,7 +338,7 @@
 				</div>
 			</div>
 	</c:otherwise>
-</c:catch>
+</c:choose>
 
 
 <jsp:include page="/WEB-INF/view/common/detail_footer.jsp"/>

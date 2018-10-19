@@ -102,14 +102,14 @@
 		$("#password2").keyup(function() {
 			var password1 = $("#password").val();
 			var password2 = $("#password2").val();
-			$("#password-error").hide(80);
+			$("#password-error").stop().hide(80);
 			if(password1 == password2) {
 				$("#password-error").text("비밀번호가 일치합니다.");
 				$("#password-error").data("password", "true")
 			} else {
 				$("#password-error").text("비밀번호가 일치하지 않습니다.");
 			}
-			$("#password-error").slideDown(100);
+			$("#password-error").stop().slideDown(100);
 		})
 	})
 </script>

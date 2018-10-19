@@ -40,4 +40,11 @@
   		FROM	MESSAGE
   		WHERE	MESSAGE_ID = #{messageId}
   	</delete>
+  	
+  	<select id="selectMessage" parameterType="MessageVO" resultType="_int">
+  		SELECT	COUNT(1)
+  		FROM	MESSAGE
+  		WHERE	TO_EMAIL = #{toEmail}
+  		AND		FROM_EMAIL = #{fromEmail}
+  	</select>
   </mapper>

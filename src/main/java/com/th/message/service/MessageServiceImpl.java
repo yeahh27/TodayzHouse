@@ -21,6 +21,11 @@ public class MessageServiceImpl implements MessageService {
 	public boolean deleteMessage(String messageId) {
 		return this.messageBiz.deleteMessage(messageId) > 0;
 	}
+
+	@Override
+	public boolean findMessage(MessageVO messageVO) {
+		return this.messageBiz.selectMessage(messageVO) > 0;
+	}
 	
 	
 

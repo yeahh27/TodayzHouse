@@ -38,4 +38,9 @@ public class MessageDaoImpl extends SqlSessionDaoSupport implements MessageDao {
 		return this.getSqlSession().selectList("MessageDao.selectMessageList", toEmail);
 	}
 
+	@Override
+	public int selectMessage(MessageVO messageVO) {
+		return this.getSqlSession().selectOne("MessageDao.selectMessage", messageVO);
+	}
+
 }

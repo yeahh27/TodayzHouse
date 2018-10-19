@@ -28,6 +28,11 @@ public class MessageBizImpl implements MessageBiz {
 	public List<MessageVO> selectMessageList(String toEmail) {
 		return this.messageDao.selectMessageList(toEmail);
 	}
+
+	@Override
+	public int selectMessage(MessageVO messageVO) {
+		return this.messageDao.selectMessage(messageVO);
+	}
 	
 	
 

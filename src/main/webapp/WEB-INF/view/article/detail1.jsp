@@ -212,7 +212,7 @@
 	            method: "post"
 			} ).submit();
 			
-			window.open("http://192.168.43.254:3000/chat?email="+from_email +"&rm="+room_name, "new window", "width=400, height=800")
+			window.open("http://127.0.0.1:3000/chat?email="+from_email +"&rm="+room_name, "new window", "width=400, height=800")
 		})
 	})
 </script>

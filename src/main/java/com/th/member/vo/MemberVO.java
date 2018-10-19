@@ -23,13 +23,10 @@ public class MemberVO {
 	private String name;
 
 	@NotEmpty(message = "비밀번호는 필수 입력 값입니다.", groups = { MemberValidator.Regist.class, MemberValidator.Login.class })
-	/*
-	 * @Length(min=8, max=20, message="비밀번호는 8~20글자 사이로 입력해주세요." ,
-	 * groups={MemberValidator.Regist.class}) // 로그인에도 length msg를 준다면 해커에게 힌트를 주는 격
-	 * 
-	 * @Pattern(regexp="((?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{8,})" ,
-	 * groups={MemberValidator.Regist.class})
-	 */
+	@Length(min=8, max=20, message="비밀번호는 8~20글자 사이로 입력해주세요." ,
+			groups={MemberValidator.Regist.class}) // 로그인에도 length msg를 준다면 해커에게 힌트를 주는 격
+	@Pattern(regexp="((?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{8,})" ,
+			groups={MemberValidator.Regist.class})
 	private String password;
 	private String salt;
 

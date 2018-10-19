@@ -42,26 +42,52 @@ a:hover {
 	
 	<c:choose>
 		<c:when test="${not empty articleList}">
+		
 			<c:forEach items="${articleList}" var="article">
-			<div style="display: inline-block; width: 33%; margin-bottom: 15px; margin-left: 15px" >
-				<div style="position: relative; height: 200px; width: auto;">
-					<a href="/TodayzHouse/read/${boardId}/${article.articleId}">
-						<img src="/TodayzHouse/board/${article.boardId}/${article.articleId}/download/${article.fileVOList[0].fileId}" 
-							 style="vertical-align: middle; max-height: 100%; max-width: 100%"/>
-						<img src="/TodayzHouse/img/heart.png" width="14%" style="position: absolute; left: 10px; bottom: 9px" >
-						<span style="position: absolute; left: 15px; bottom: 9px; color: black;">${article.recommend}</span>
-						<%-- <span style="position: absolute; left: 20px; bottom: 10px; color: black;"><img src="" width="9%" style="padding-right: 9px;">${fn:length(article.replyList)}</span>
-						<span style="position: absolute; left: 30px; bottom: 10px; color: black;"><img src="" width="9%" style="padding-right: 9px;">${article.report}</span> --%>
-						<span style="position: absolute; right: 10px; bottom: 10px; color: black;">조회수 ${article.viewCount}</span>
-					</a>
-				</div>
-				<div style="margin: 10px;">${article.title}</div>
-				<div style="font-size: 15px; margin-bottom: 8px; text-align: left; padding-left: 10%;" >
-					<img src="/TodayzHouse/img/user.png" height="20px" style="padding-right: 9px;" />
-					<span style="vertical-align: top;">${article.memberVO.name}</span>
-				</div>
-			</div>
+				<c:choose>
+					<c:when test="${article.deleteYn eq 'Y'}">
+						<div style="display: inline-block; width: 30%; margin-bottom: 15px;" >
+							<div style="position: relative; height: 200px; width: auto;">
+								<a href="/TodayzHouse/read/${boardId}/${article.articleId}">
+									<img src="/TodayzHouse/img/warn.png" 
+										 style="vertical-align: middle; max-height: 100%; max-width: 100%"/>
+									<%-- <img src="/TodayzHouse/img/heart.png" width="14%" style="position: absolute; left: 10px; bottom: 9px" >
+									<span style="position: absolute; left: 15px; bottom: 9px; color: black;">${article.recommend}</span> --%>
+									<%-- <span style="position: absolute; left: 20px; bottom: 10px; color: black;"><img src="" width="9%" style="padding-right: 9px;">${fn:length(article.replyList)}</span>
+									<span style="position: absolute; left: 30px; bottom: 10px; color: black;"><img src="" width="9%" style="padding-right: 9px;">${article.report}</span> --%>
+									<span style="position: absolute; right: 10px; bottom: 10px; color: black;">조회수 ---</span>
+								</a>
+							</div>
+							<div style="margin: 10px;">삭제된 게시글 입니다.</div>
+							<div style="font-size: 15px; margin-bottom: 8px; text-align: left; padding-left: 10%;" >
+								<img src="/TodayzHouse/img/user.png" height="20px" style="padding-right: 9px;" />
+								<span style="vertical-align: top;">----------</span>
+							</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div style="display: inline-block; width: 33%; margin-bottom: 15px; margin-left: 15px" >
+							<div style="position: relative; height: 200px; width: auto;">
+								<a href="/TodayzHouse/read/${boardId}/${article.articleId}">
+									<img src="/TodayzHouse/board/${article.boardId}/${article.articleId}/download/${article.fileVOList[0].fileId}" 
+										 style="vertical-align: middle; max-height: 100%; max-width: 100%"/>
+									<%-- <img src="/TodayzHouse/img/heart.png" width="14%" style="position: absolute; left: 10px; bottom: 9px" >
+									<span style="position: absolute; left: 15px; bottom: 9px; color: black;">${article.recommend}</span> --%>
+									<%-- <span style="position: absolute; left: 20px; bottom: 10px; color: black;"><img src="" width="9%" style="padding-right: 9px;">${fn:length(article.replyList)}</span>
+									<span style="position: absolute; left: 30px; bottom: 10px; color: black;"><img src="" width="9%" style="padding-right: 9px;">${article.report}</span> --%>
+									<span style="position: absolute; right: 10px; bottom: 10px; color: black;">조회수 ${article.viewCount}</span>
+								</a>
+							</div>
+							<div style="margin: 10px;">${article.title}</div>
+							<div style="font-size: 15px; margin-bottom: 8px; text-align: left; padding-left: 10%;" >
+								<img src="/TodayzHouse/img/user.png" height="20px" style="padding-right: 9px;" />
+								<span style="vertical-align: top;">${article.memberVO.name}</span>
+							</div>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</c:forEach>
+			
 		</c:when>
 		<c:otherwise>
 			<div>

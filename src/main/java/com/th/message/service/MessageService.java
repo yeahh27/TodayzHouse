@@ -8,4 +8,6 @@ public interface MessageService {
 	
 	public boolean deleteMessage(String messageId);
 	
+	public boolean findMessage(MessageVO messageVO);
+	
 }

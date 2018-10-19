@@ -24,7 +24,6 @@ nav {
   margin-bottom: 15px;
   text-align: center;
   width: 100%;
-  height: 35px;
 }
 
 nav ul {
@@ -185,7 +184,7 @@ input:checked + .slider:before {
 			var to_email = "${sessionScope._MEMBER_.email}";
 			var room_name = from_email + ":" + to_email;
 			
-			window.open("http://192.168.43.254:3000/chat?email="+to_email +"&rm="+room_name, "new window", "width=400, height=800");
+			window.open("http://127.0.0.1:3000/chat?email="+to_email +"&rm="+room_name, "new window", "width=400, height=800");
 			
 			var messageId = $(this).find(".messageId").val();
 			$.post("/TodayzHouse/message/delete/" + messageId
@@ -220,13 +219,13 @@ input:checked + .slider:before {
 								MESSAGE <span style="background-color: red; width: 5px; height: 5px; color: white;">&nbsp;${fn:length(sessionScope._MESSAGE_)}&nbsp;</span>
 								<ul class="hide">
 									<c:forEach items="${sessionScope._MESSAGE_}" var="mess">
-										<li>
+										<div>
 											<a class="chatBtn">
 												${mess.fromEmail}
 												<input type="hidden" class="from" value="${mess.fromEmail}" />
 												<input type="hidden" class="messageId" value="${mess.messageId}" />
 											</a>
-										</li>
+										</div>
 									</c:forEach>
 								</ul>	
 							</li>
@@ -241,8 +240,8 @@ input:checked + .slider:before {
 							<li class="point">
 								<a href="/TodayzHouse/member/my/1">${sessionScope._MEMBER_.name} (${sessionScope._MEMBER_.point})</a>
 								<ul class="hide" >
-									<li><a href="/TodayzHouse/member/my/1">내 정보</a></li>
-									<li><a href="/TodayzHouse/member/logout">Logout</a></li>
+									<div><a href="/TodayzHouse/member/my/1">내 정보</a></div>
+									<div><a href="/TodayzHouse/member/logout">Logout</a></div>
 								</ul>	
 							</li>
 							
