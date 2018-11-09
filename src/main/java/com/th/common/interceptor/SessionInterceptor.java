@@ -20,8 +20,6 @@ import com.th.message.vo.MessageVO;
 
 public class SessionInterceptor extends HandlerInterceptorAdapter {
 	
-	private Logger logger = LoggerFactory.getLogger(SessionInterceptor.class);
-	
 	@Autowired
 	private MemberDao memberDao;
 	
@@ -46,7 +44,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 	@Override // (09.19.수) postHandle은 "Controller한 이후" 이다.
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		
+
 		HttpSession session = request.getSession();
 		
 		// 세션이 있으면 계속 갱신되어라!

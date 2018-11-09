@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="ReportDao">
+  
+  	<insert id="insertReport" parameterType="ReportVO">
+  		INSERT	INTO REPORT (
+  									REPORT_ID
+  									, BOARD_ID
+  									, ARTICLE_ID
+  									, EMAIL
+  		) VALUES (
+  									'RP' || #{boardId} || '-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(REPORT_ID_SEQ.NEXTVAL, 6, '0')
+									, #{boardId}
+									, #{articleId}
+									, #{email}
+  		)
+  	</insert>
+  	
+  	<select id="selectReportByArticle" parameterType="map" resultType="_int">
+  		SELECT	COUNT(1)
+  		FROM	REPORT
+  		WHERE	BOARD_ID = #{boardId} 
+  		AND 	ARTICLE_ID = #{articleId}
+  		AND		EMAIL = #{email}
+  	</select>
+  	
+  	<delete id="deleteReport" parameterType="ReportVO">
+  		DELETE
+  		FROM	REPORT
+  		WHERE	BOARD_ID = #{boardId} 
+  		AND 	ARTICLE_ID = #{articleId}
+  		AND		EMAIL = #{email}
+  	</delete>
+  	
+  	<delete id="deleteAllReportsByArticle" parameterType="map">
+  		DELETE
+  		FROM	REPORT
+  		WHERE	BOARD_ID = #{boardId} 
+  		AND 	ARTICLE_ID = #{articleId}
+  	</delete>
+  	
+  	<select id="selectReportCountByArticle" parameterType="map" resultType="_int">
+  		SELECT	COUNT(1)
+  		FROM	REPORT
+  		WHERE	BOARD_ID = #{boardId} 
+  		AND 	ARTICLE_ID = #{articleId}
+  	</select>
+  	
+  	<resultMap type="ReportVO" id="reportResultMap">
+  		<id property="reportId" column="REPORT_ID" />
+  		<result property="boardId" column="BOARD_ID" />
+  		<result property="articleId" column="ARTICLE_ID" />
+  		<result property="email" column="EMAIL" />
+  	</resultMap>
+  	
+  	<select id="selectReportByEmail" parameterType="string" resultMap="reportResultMap">
+  		SELECT	REPORT_ID
+  				, BOARD_ID
+  				, ARTICLE_ID
+  				, EMAIL
+  		FROM	REPORT
+  		WHERE	EMAIL = #{email}
+  	</select>
+  </mapper>

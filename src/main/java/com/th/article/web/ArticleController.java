@@ -361,5 +361,5 @@ public class ArticleController {
 		
 		return "redirect:/board/" + boardId;
 	}
-
+	
 }

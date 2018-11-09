@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="ArticleDao">
+
+  	<insert id="insertArticle" parameterType="ArticleVO">
+  		 <selectKey keyProperty="articleId" resultType="string" order="BEFORE">
+			SELECT	<choose>
+						<when test="boardId == 1">
+						'AT1-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(ARTICLE1_ID_SEQ.NEXTVAL, 6, '0') articleId	
+						</when>
+						<otherwise>
+						'AT2-' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24') || '-' || LPAD(ARTICLE2_ID_SEQ.NEXTVAL, 6, '0') articleId	
+						</otherwise>
+					</choose>
+			FROM	DUAL
+		</selectKey>
+  		INSERT INTO ARTICLES (
+  								 BOARD_ID
+  								 , ARTICLE_ID
+							     , TITLE
+							     , EMAIL
+							     , REG_DATE
+							     , MODIFY_DATE
+							     , VIEW_COUNT
+							     , RECOMMEND
+							     , REPORT
+		) VALUES (
+								 #{boardId}
+								 , #{articleId}
+								 , #{title}
+								 , #{email}
+								 , SYSDATE
+								 , SYSDATE
+								 , 0
+								 , 0
+								 , 0
+		)
+  	</insert>
+  	
+  	<resultMap type="ArticleVO" id="articleResultMap">
+  		<id property="articleId" column="A_ARTICLE_ID"/>
+  		<result property="boardId" column="A_BOARD_ID"/>
+  		<result property="title" column="TITLE"/>
+  		<result property="email" column="A_EMAIL"/>
+  		<result property="regDate" column="REG_DATE"/>
+  		<result property="modifyDate" column="MODIFY_DATE"/>
+  		<result property="viewCount" column="VIEW_COUNT"/>
+  		<result property="recommend" column="RECOMMEND"/>
+  		<result property="report" column="REPORT"/>
+  		<result property="deleteYn" column="DELETE_YN" />
+  		<association property="memberVO" javaType="MemberVO">
+  			<id property="email" column="M_EMAIL"/>
+	  		<result property="name" column="NAME"/>
+	  		<result property="point" column="POINT"/>
+	  		<result property="chatOk" column="CHAT_OK"/>
+  		</association>
+  		<collection property="fileVOList" javaType="ArrayList" ofType="FilesVO" >
+  			<id property="fileId" column="FILE_ID"/>
+	  		<result property="boardId" column="F_BOARD_ID"/>
+	  		<result property="articleId" column="F_ARTICLE_ID"/>
+	  		<result property="originFileName" column="ORIGIN_FILE_NAME"/>
+	  		<result property="fileName" column="FILE_NAME"/>
+	  		<result property="content" column="CONTENT"/>
+	  		<result property="idx" column="IDX" />
+  		</collection>
+  	</resultMap>
+  	
+  	<select id="selectAllArticles" parameterType="ArticleSearchVO" resultMap="articleResultMap">
+  		SELECT	*
+  		FROM	(
+  					SELECT	A.*
+  							, ROWNUM RNUM
+  					FROM	(
+  								SELECT	A.BOARD_ID A_BOARD_ID
+						  				, A.ARTICLE_ID A_ARTICLE_ID
+						  				, A.TITLE
+						  				, A.EMAIL A_EMAIL
+						  				, A.REG_DATE
+						  				, A.MODIFY_DATE
+						  				, A.VIEW_COUNT
+						  				, A.RECOMMEND
+						  				, A.REPORT
+						  				, A.DELETE_YN
+						  				, M.EMAIL M_EMAIL
+						  				, M.NAME
+						  				, M.POINT
+						  				, M.CHAT_OK
+						  		FROM	ARTICLES A
+						  				, MEMBERS M
+						  		WHERE	A.EMAIL = M.EMAIL
+						  		AND 	A.BOARD_ID = #{boardId}
+						  		<if test="searchKeyword != null and searchKeyword != ''" >
+								AND		A.TITLE LIKE '%' || #{searchKeyword} || '%'
+								</if>
+								ORDER	BY A.ARTICLE_ID DESC
+  							) A
+  					WHERE	ROWNUM <![CDATA[<=]]> #{endRow} 
+  				)
+  		WHERE	RNUM >= #{startRow}
+  	</select>
+  	
+  	<select id="selectAllArticlesCount" parameterType="ArticleSearchVO" resultType="_int">
+  		SELECT	COUNT(1)
+  		FROM	ARTICLES A
+  				, MEMBERS M
+  		WHERE	A.EMAIL = M.EMAIL
+  		AND		A.BOARD_ID = #{boardId}
+  		<if test="searchKeyword != null and searchKeyword != ''">
+  		AND		TITLE LIKE '%' || #{searchKeyword} || '%'
+  		</if>
+  	</select>
+  	
+  	<select id="selectOneArticle" parameterType="map" resultMap="articleResultMap">
+  		SELECT	A.BOARD_ID A_BOARD_ID
+				, A.ARTICLE_ID A_ARTICLE_ID
+				, A.TITLE
+				, A.EMAIL A_EMAIL
+				, A.REG_DATE
+				, A.MODIFY_DATE
+				, A.VIEW_COUNT
+				, A.RECOMMEND
+				, A.REPORT
+				, A.DELETE_YN
+				, M.EMAIL M_EMAIL
+				, M.NAME
+				, M.POINT
+				, M.CHAT_OK
+				, F.FILE_ID
+				, F.BOARD_ID F_BOARD_ID
+				, F.ARTICLE_ID F_ARTICLE_ID
+				, F.ORIGIN_FILE_NAME
+				, F.FILE_NAME
+				, F.CONTENT
+				, F.IDX
+		FROM	ARTICLES A
+				, MEMBERS M
+				, FILES	F
+		WHERE	A.EMAIL = M.EMAIL
+		AND		A.ARTICLE_ID = F.ARTICLE_ID
+		AND 	A.BOARD_ID = #{boardId}
+   		AND		A.ARTICLE_ID = #{articleId}
+   		ORDER	BY F.FILE_ID ASC
+  	</select>
+  	
+  	<update id="updateArticle" parameterType="ArticleVO">
+  		UPDATE	ARTICLES
+		SET     TITLE = #{title}
+		        , CONTENT = #{content}
+		        , ORIGIN_FILE_NAME = #{originFileName}
+		        , FILE_NAME = #{fileName}
+		        , MODIFY_DATE = SYSDATE
+		WHERE   BOARD_ID = #{boardId}
+		AND		ARTICLE_ID = #{articleId}
+  	</update>
+  	
+  	<delete id="deleteOneArticle" parameterType="map">
+  		DELETE	
+  		FROM	ARTICLES
+  		WHERE	BOARD_ID = #{boardId}
+  		AND		ARTICLE_ID = #{articleId}
+  	</delete>
+  	
+  	<update id="updateDeleteYN" parameterType="map">
+  		UPDATE	ARTICLES
+  		SET		DELETE_YN = 'Y'
+  				, VIEW_COUNT = 0
+  				, RECOMMEND = 0
+  				, REPORT = 0
+  		WHERE	BOARD_ID = #{boardId}
+  		AND		ARTICLE_ID = #{articleId}
+  	</update>
+  	
+  	<update id="updateViewCount" parameterType="map">
+  		UPDATE	ARTICLES
+  		SET		VIEW_COUNT = VIEW_COUNT + 1
+		WHERE   BOARD_ID = #{boardId}
+		AND		ARTICLE_ID = #{articleId}
+  	</update>
+  	
+  	<update id="updateRecommed" parameterType="map">
+  		UPDATE	ARTICLES
+  		SET		RECOMMEND = #{count}
+  		WHERE   BOARD_ID = #{boardId}
+		AND		ARTICLE_ID = #{articleId}
+  	</update>
+  	
+  	<update id="updateReport" parameterType="map" >
+  		UPDATE	ARTICLES
+  		SET		REPORT = #{count}
+  		WHERE   BOARD_ID = #{boardId}
+		AND		ARTICLE_ID = #{articleId}
+  	</update>  	
+  	
+  	<select id="selectBestArticles" parameterType="_int" resultMap="articleResultMap">
+  		 SELECT A.BOARD_ID A_BOARD_ID
+				, A.ARTICLE_ID A_ARTICLE_ID
+				, A.TITLE
+				, A.EMAIL A_EMAIL
+				, A.REG_DATE
+				, A.MODIFY_DATE
+				, A.VIEW_COUNT
+				, A.RECOMMEND
+				, A.REPORT
+				, A.DELETE_YN
+				, M.EMAIL M_EMAIL
+				, M.NAME
+				, M.POINT
+				, M.CHAT_OK
+				, F.FILE_ID
+				, F.BOARD_ID F_BOARD_ID
+				, F.ARTICLE_ID F_ARTICLE_ID
+				, F.ORIGIN_FILE_NAME
+				, F.FILE_NAME
+				, F.CONTENT
+				, F.IDX
+		FROM	ARTICLES A
+				, MEMBERS M
+				, FILES	F
+		WHERE	A.EMAIL = M.EMAIL
+		AND		A.ARTICLE_ID = F.ARTICLE_ID
+		AND     A.ARTICLE_ID IN ( SELECT B.*
+		                          FROM   ( SELECT ARTICLE_ID
+		                                   FROM   ARTICLES
+		                                   WHERE  BOARD_ID = #{boardId}
+		                                   ORDER  BY VIEW_COUNT DESC
+		                                  ) B
+		                           WHERE  ROWNUM <![CDATA[<=]]> 3
+		                         )
+  	</select>
+  	
+  	<select id="selectAllArticlesByEmail" parameterType="string" resultMap="articleResultMap">
+  		SELECT	A.BOARD_ID A_BOARD_ID
+				, A.ARTICLE_ID A_ARTICLE_ID
+				, A.TITLE
+				, A.EMAIL A_EMAIL
+				, A.REG_DATE
+				, A.MODIFY_DATE
+				, A.VIEW_COUNT
+				, A.RECOMMEND
+				, A.REPORT
+				, A.DELETE_YN
+				, M.EMAIL M_EMAIL
+				, M.NAME
+				, M.POINT
+				, M.CHAT_OK
+				, F.FILE_ID
+				, F.BOARD_ID F_BOARD_ID
+				, F.ARTICLE_ID F_ARTICLE_ID
+				, F.ORIGIN_FILE_NAME
+				, F.FILE_NAME
+				, F.CONTENT
+				, F.IDX
+		FROM	ARTICLES A
+				, MEMBERS M
+				, FILES	F
+		WHERE	A.EMAIL = M.EMAIL
+		AND		A.ARTICLE_ID = F.ARTICLE_ID
+		AND		A.EMAIL = #{email}
+   		ORDER	BY F.FILE_ID ASC
+  	</select>
+  	
+  	<select id="selectArticlesByAdmin" resultMap="articleResultMap">
+  		SELECT	A.BOARD_ID A_BOARD_ID
+				, A.ARTICLE_ID A_ARTICLE_ID
+				, A.TITLE
+				, A.EMAIL A_EMAIL
+				, A.REG_DATE
+				, A.MODIFY_DATE
+				, A.VIEW_COUNT
+				, A.RECOMMEND
+				, A.REPORT
+				, A.DELETE_YN
+				, M.EMAIL M_EMAIL
+				, M.NAME
+				, M.POINT
+				, M.CHAT_OK
+				, F.FILE_ID
+				, F.BOARD_ID F_BOARD_ID
+				, F.ARTICLE_ID F_ARTICLE_ID
+				, F.ORIGIN_FILE_NAME
+				, F.FILE_NAME
+				, F.CONTENT
+				, F.IDX
+		FROM	ARTICLES A
+				, MEMBERS M
+				, FILES	F
+		WHERE	A.EMAIL = M.EMAIL
+		AND		A.ARTICLE_ID = F.ARTICLE_ID
+		AND		A.REPORT >= 50
+  	</select>
+  </mapper>

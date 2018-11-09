@@ -41,6 +41,25 @@
     </encoder>
   </appender>
 
+  <appender name="QoS" class="ch.qos.logback.core.FileAppender">
+  	<file>C:/logs/QoS.log</file>
+    <encoder>
+      <pattern>#%d{yyyy:MM:dd:HH:mm:ss}%msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="QoS_Timebase" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>C:/logs/QoS_Timebase.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>C:/logs/QoS_Timebase.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+    
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss}%msg%n</pattern>
+    </encoder>
+  </appender>
+
   <!-- <appender name="statistics" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>Statistics : DateTime : %d{HH:mm:ss.SSS}, %msg%n</pattern>
@@ -59,6 +78,14 @@
   
   <logger level="info" name="list.statistics">
   	<appender-ref ref="statistics" />
+  </logger>
+  
+  <logger level="debug" name="qos">
+  	<appender-ref ref="QoS" />
+  </logger>
+  
+  <logger level="debug" name="qos.timebase">
+  	<appender-ref ref="QoS_Timebase" />
   </logger>
   
   <!-- <logger level="debug" name="org.springframework">

@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -17,7 +19,7 @@ import com.th.message.dao.MessageDao;
 import com.th.message.vo.MessageVO;
 
 public class PreventSessionInterceptor extends HandlerInterceptorAdapter {
-	
+
 	@Autowired
 	private MemberDao memberDao;
 	
@@ -27,14 +29,14 @@ public class PreventSessionInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		
+
 		return true;
 	}
 	
 	@Override // (09.19.수) postHandle은 "Controller한 이후" 이다.
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		
+
 		HttpSession session = request.getSession();
 		
 		// 세션이 있으면 계속 갱신되어라!

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="MemberDao">
+  	<insert id="insertMember" parameterType="MemberVO">
+  		INSERT INTO MEMBERS (
+				    			EMAIL
+				    			, PASSWORD
+				    			, NAME
+				    			, SALT
+				    			, POINT
+				    			, CHAT_OK
+				    			, LOGIN_FAIL_COUNT
+				    			, DELETE_ART_COUNT
+				    			, ADMIN
+		) VALUES ( 
+								#{email}
+								, #{password}
+								, #{name}
+								, #{salt}
+								, 100
+								, #{chatOk}
+								, 0
+								, #{deleteArtCount}
+								, 0
+		)
+  	</insert>
+  	
+  	<select id="isDuplicateEmail" parameterType="string" resultType="_int">
+  		SELECT	COUNT(1)
+  		FROM	MEMBERS
+  		WHERE	EMAIL = #{email}
+  	</select>
+  	
+  	<resultMap type="MemberVO" id="memberResultMap">
+  		<id property="email" column="EMAIL"/>
+	  	<result property="name" column="NAME"/>
+	  	<result property="point" column="POINT"/>
+	  	<result property="chatOk" column="CHAT_OK"/>
+	  	<result property="deleteArtCount" column="DELETE_ART_COUNT" />
+	  	<result property="admin" column="ADMIN" />
+  	</resultMap>
+  	
+  	<select id="selectOneMember" parameterType="MemberVO" resultMap="memberResultMap">
+  		SELECT	EMAIL 
+		  		, NAME
+		  		, PASSWORD
+		  		, POINT
+		  		, CHAT_OK
+		  		, DELETE_ART_COUNT
+		  		, ADMIN
+		FROM	MEMBERS 
+		WHERE	EMAIL = #{email}
+		AND		PASSWORD = #{password}
+  	</select>
+  	
+  	<select id="getSaltById" parameterType="string" resultType="string">
+  		SELECT	SALT
+  		FROM	MEMBERS
+  		WHERE	EMAIL = #{email}
+  	</select>
+  	
+  	<select id="isBlockUser" parameterType="string" resultType="_int">
+  		SELECT	COUNT(1)
+		FROM	MEMBERS
+		WHERE	EMAIL = #{email}
+		AND     SYSDATE <![CDATA[<]]> LAST_LOGIN + (1/24/60) 
+		AND     LOGIN_FAIL_COUNT >= 3
+  	</select>
+  	
+  	<update id="unblockUser" parameterType="string">
+  		UPDATE	MEMBERS
+  		SET		LOGIN_FAIL_COUNT = 0
+  		WHERE	EMAIL = #{email}
+  	</update>
+  	
+  	<update id="blockUser" parameterType="string">
+  		UPDATE	MEMBERS 
+  		SET		LOGIN_FAIL_COUNT = LOGIN_FAIL_COUNT + 1
+  				, LAST_LOGIN = SYSDATE
+ 		WHERE   EMAIL = #{email}
+  	</update>
+  	
+  	<update id="increaseLoginFailCount" parameterType="string">
+  		UPDATE	MEMBERS 
+  		SET		LOGIN_FAIL_COUNT = LOGIN_FAIL_COUNT + 1
+  				, LAST_LOGIN = SYSDATE 
+ 		WHERE   EMAIL = #{email}
+  	</update>
+  	
+  	<update id="updateMember" parameterType="MemberVO">
+  		UPDATE	MEMBERS
+  		SET		NAME = #{name}
+  				, CHAT_OK = #{chatOk}
+  		WHERE	EMAIL = #{email}
+  	</update>
+  	
+  	<update id="updateChatOk" parameterType="map">
+  		UPDATE	MEMBERS
+  		SET		CHAT_OK = #{chatOk}
+  		WHERE	EMAIL = #{email}
+  	</update>
+  	
+  	<select id="selectMembersByAdmin" resultMap="memberResultMap">
+  		SELECT	EMAIL
+  				, NAME
+  				, POINT
+  				, CHAT_OK
+  				, DELETE_ART_COUNT
+  				, ADMIN
+  		FROM	MEMBERS
+  		WHERE	DELETE_ART_COUNT > 10
+  	</select>
+  	
+  	<delete id="deleteMemberByAdmin" parameterType="string">
+  		DELETE
+  		FROM	MEMBERS
+  		WHERE	EMAIL = #{email}
+  	</delete>
+  	
+  	<update id="updateDeleteArtCount" parameterType="string">
+  		UPDATE	MEMBERS
+  		SET		DELETE_ART_COUNT = DELETE_ART_COUNT + 1
+  		WHERE	EMAIL = #{email}
+  	</update>
+  </mapper>
